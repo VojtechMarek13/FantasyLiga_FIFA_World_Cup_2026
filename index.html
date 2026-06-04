@@ -39,18 +39,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
               repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,.015) 40px),
               repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255,255,255,.015) 40px);}
 
-/* ─── BROWSER CHROME ─── */
-.browser-chrome{background:#1a1a2e;border-bottom:1px solid rgba(255,255,255,.08);position:sticky;top:0;z-index:500}
-.bc-bar{display:flex;align-items:center;gap:10px;padding:8px 16px}
-.bc-dots{display:flex;gap:5px}
-.bc-dots span{width:11px;height:11px;border-radius:50%;display:block}
-.bc-dots .d-r{background:#ff5f57}.bc-dots .d-y{background:#febc2e}.bc-dots .d-g{background:#28c840}
-.bc-url{flex:1;background:rgba(255,255,255,.07);border-radius:6px;padding:5px 12px;display:flex;align-items:center;gap:8px;color:rgba(255,255,255,.5);font-size:12px;font-family:var(--font-body)}
-.bc-url .lock{color:#28c840;font-size:11px}
-.bc-url .url{color:rgba(255,255,255,.7)}
-.bc-tabs{display:flex;gap:2px;padding:0 16px}
-.bc-tab{background:rgba(255,255,255,.06);color:rgba(255,255,255,.5);padding:6px 16px;border-radius:6px 6px 0 0;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:6px;font-family:var(--font-body)}
-.bc-tab.active{background:var(--wc-navy);color:var(--wc-white)}
+/* browser chrome removed */
 
 /* ─── LAYOUT ─── */
 .app{max-width:1120px;margin:0 auto;padding:20px 16px;position:relative;z-index:1}
@@ -318,17 +307,7 @@ select.wc-select:focus{border-color:var(--wc-bright)}
 </head>
 <body>
 
-<!-- BROWSER CHROME -->
-<div class="browser-chrome">
-  <div class="bc-bar">
-    <div class="bc-dots"><span class="d-r"></span><span class="d-y"></span><span class="d-g"></span></div>
-    <div class="bc-url"><span class="lock">🔒</span><span class="url">fantasy-liga-ms2026.github.io &nbsp;·&nbsp; FIFA World Cup 2026</span></div>
-  </div>
-  <div class="bc-tabs">
-    <div class="bc-tab active">⚽ Fantasy Liga — MS 2026</div>
-    <div class="bc-tab" style="font-size:11px;opacity:.5">+</div>
-  </div>
-</div>
+
 
 <div class="app">
 
@@ -2018,7 +1997,7 @@ async function addBQ(ri){ROUNDS[ri].bonus.push('');await saveRoundsConfig();rend
 async function saveRoundsConfig(){
   await sbUpsert('app_config',{key:'rounds', value: ROUNDS});
 }
-async async function setActiveRoundDirect(i){
+async function setActiveRoundDirect(i){
   state.activeRound=i;
   await sbUpsert('app_config',{key:'active_round', value: i});
   renderRoundsAdmin();renderTeamPage();
@@ -2034,7 +2013,7 @@ function updateManagerSelect(){
     mgrs.map(m=>`<option value="${m.name}"${m.name===cur?' selected':''}>${m.name}${m.team_name?' ('+m.team_name+')':''}</option>`).join('');
 }
 
-async async function addManager(){
+async function addManager(){
   const n=document.getElementById('newManagerName').value.trim();
   const tn=document.getElementById('newTeamName').value.trim();
   if(!n){alert('Zadej jméno!');return;}
