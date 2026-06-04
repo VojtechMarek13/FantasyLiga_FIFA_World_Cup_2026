@@ -2123,27 +2123,43 @@ async function awardBonusPoints(ri, qi, managerName){
   // Save rounds config (includes bonus_pts)
   await sbUpsert('app_config',{key:'rounds',value:ROUNDS});
 
-  // Recalculate total bonus for this manager in this round
-  // Sum all bonus_pts[managerName][qi] for this round
+  // Sum ALL bonus points for this manager in this round
   let totalBonus = 0;
-  Object.values(r.bonus_pts[managerName]||{}).forEach(p=>totalBonus+=parseInt(p)||0);
+  Object.values(r.bonus_pts[managerName]).forEach(p=>totalBonus+=parseInt(p)||0);
 
-  // Load current score for this manager in this round
+  // Load current score row
   const existingScore = await sbGet('scores',`manager_name=eq.${encodeURIComponent(managerName)}&round=eq.${ri}&select=*`);
-  const baseScore = (existingScore&&existingScore.length>0) ? (existingScore[0].base_points||existingScore[0].points||0) : 0;
+  let baseScore = 0;
+  if(existingScore && existingScore.length > 0){
+    const row = existingScore[0];
+    // base_points = hráčské body (bez bonusu)
+    // If base_points column exists and > 0, use it. Otherwise use points as base.
+    if(row.base_points && row.base_points > 0){
+      baseScore = row.base_points;
+    } else {
+      // Old row without base_points — current points IS the base, save it
+      baseScore = row.points || 0;
+    }
+  }
 
-  // Upsert score with base + bonus
+  const totalPoints = baseScore + totalBonus;
+
+  // Update score in Supabase
   await sbUpsert('scores',{
     manager_name: managerName,
     round: ri,
-    points: baseScore + totalBonus,
+    points: totalPoints,
     base_points: baseScore,
     bonus_points: totalBonus
   });
 
-  // Refresh the eval UI
+  // Update local state
+  if(!state.scores[managerName]) state.scores[managerName] = {};
+  state.scores[managerName][ri] = totalPoints;
+
+  // Refresh UI
   renderBonusEvaluation(ri);
-  alert(`✅ ${managerName}: ${pts}b za otázku ${qi+1} (celkem bonus: +${totalBonus}b)`);
+  alert(`✅ ${managerName}: +${pts}b za bonus otázku ${qi+1}\nCelkem bonus toto kolo: +${totalBonus}b\nCelkové skóre kola: ${totalPoints}b`);
 }
 
 function renderRoundsAdmin(){
@@ -2562,6 +2578,10 @@ async function initApp(){
       scores.forEach(s=>{
         if(!state.scores[s.manager_name])state.scores[s.manager_name]={};
         state.scores[s.manager_name][s.round]=s.points;
+        // Also store base_points for bonus calculation
+        if(!state.baseScores)state.baseScores={};
+        if(!state.baseScores[s.manager_name])state.baseScores[s.manager_name]={};
+        state.baseScores[s.manager_name][s.round]=s.base_points||s.points||0;
       });
     }
 
