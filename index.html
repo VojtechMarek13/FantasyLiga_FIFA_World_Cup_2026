@@ -1960,9 +1960,9 @@ function shirtSVG(country, pos, isCap, price, name) {
   <defs>
     <clipPath id="shirt-clip-${pos}-${name.length}">
       <path d="M8,4 L0,20 L12,24 L12,64 L52,64 L52,24 L64,20 L56,4 L44,10 C42,14 22,14 20,10 Z"/>
-    </clipPath>
-    ${isCap ? `<filter id="glow-cap"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>` : ''}
-  </defs>
+    <\/clipPath>
+    ${isCap ? `<filter id="glow-cap"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/><\/feMerge><\/filter>` : ''}
+  <\/defs>
   
   <!-- Shadow -->
   <ellipse cx="32" cy="68" rx="20" ry="3" fill="rgba(0,0,0,0.4)"/>
@@ -1975,7 +1975,7 @@ function shirtSVG(country, pos, isCap, price, name) {
   <!-- Pattern overlay clipped to shirt -->
   <g clip-path="url(#shirt-clip-${pos}-${name.length})">
     ${pattern}
-  </g>
+  <\/g>
   
   <!-- Collar -->
   <path d="M24,10 C24,17 40,17 40,10" fill="none" stroke="${c2}" stroke-width="2.5"/>
@@ -1988,16 +1988,16 @@ function shirtSVG(country, pos, isCap, price, name) {
   <!-- Shirt number / position badge -->
   <rect x="22" y="32" width="20" height="16" rx="3" fill="rgba(0,0,0,0.25)"/>
   <text x="32" y="44" text-anchor="middle" font-family="'Barlow Condensed',Arial Black,sans-serif"
-        font-size="11" font-weight="900" fill="${textCol}" opacity="0.9">${pos}</text>
+        font-size="11" font-weight="900" fill="${textCol}" opacity="0.9">${pos}<\/text>
   
   <!-- Player surname on shirt -->
   <rect x="10" y="52" width="44" height="10" rx="2" fill="rgba(0,0,0,0.2)"/>
   <text x="32" y="60" text-anchor="middle" font-family="'Barlow Condensed',Arial Black,sans-serif"
-        font-size="7" font-weight="800" fill="${textCol}" opacity="0.85" letter-spacing="0.5">${lastName.slice(0,9)}</text>
+        font-size="7" font-weight="800" fill="${textCol}" opacity="0.85" letter-spacing="0.5">${lastName.slice(0,9)}<\/text>
   
   <!-- Flag emoji -->
-  <text x="32" y="22" text-anchor="middle" font-size="9">${k.flag}</text>
-</svg>`;
+  <text x="32" y="22" text-anchor="middle" font-size="9">${k.flag}<\/text>
+<\/svg>`;
 }
 
 const ROUNDS=[
@@ -2053,9 +2053,9 @@ function setLoading(on, msg='Načítám...') {
     el = document.createElement('div');
     el.id = 'loadingOverlay';
     el.style.cssText = 'position:fixed;inset:0;background:rgba(10,22,40,.85);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;backdrop-filter:blur(4px)';
-    el.innerHTML = `<div style="font-size:40px;margin-bottom:16px;animation:spin 1s linear infinite">⚽</div>
-      <div id="loadingMsg" style="font-family:var(--font-head);font-size:20px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--wc-white)"></div>
-      <style>@keyframes spin{to{transform:rotate(360deg)}}</style>`;
+    el.innerHTML = `<div style="font-size:40px;margin-bottom:16px;animation:spin 1s linear infinite">⚽<\/div>
+      <div id="loadingMsg" style="font-family:var(--font-head);font-size:20px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--wc-white)"><\/div>
+      <style>@keyframes spin{to{transform:rotate(360deg)}}<\/style>`;
     document.body.appendChild(el);
   }
   document.getElementById('loadingMsg').textContent = msg;
@@ -2557,15 +2557,15 @@ function newFact() {
   }, 260);
   // Update dots
   const dots = document.getElementById('factDots');
-  if(dots) dots.innerHTML = FACTS.slice(0,8).map((_,i)=>`<div style="width:6px;height:6px;border-radius:50%;background:${i===idx%8?'var(--wc-gold2)':'rgba(255,255,255,.15)'}"></div>`).join('');
+  if(dots) dots.innerHTML = FACTS.slice(0,8).map((_,i)=>`<div style="width:6px;height:6px;border-radius:50%;background:${i===idx%8?'var(--wc-gold2)':'rgba(255,255,255,.15)'}"><\/div>`).join('');
 }
 
 function populateCountrySelects(){
   const countries=[...new Set(state.players.map(p=>p.country))].sort();
-  const opts=countries.map(c=>`<option value="${c}">${c}</option>`).join('');
+  const opts=countries.map(c=>`<option value="${c}">${c}<\/option>`).join('');
   ['countryFilter','countryFilterPage'].forEach(id=>{
     const el=document.getElementById(id);
-    if(el)el.innerHTML='<option value="">🌍 Všechny země</option>'+opts;
+    if(el)el.innerHTML='<option value="">🌍 Všechny země<\/option>'+opts;
   });
 }
 
