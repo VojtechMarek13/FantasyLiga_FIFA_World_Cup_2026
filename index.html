@@ -597,6 +597,75 @@ select.wc-select:focus{border-color:var(--wc-bright)}
     <div id="bonusForm"></div>
     <button class="btn btn-sm btn-gold" onclick="saveBonusAnswers()">Uložit odpovědi</button>
   </div>
+
+  <!-- ═══ PRIZES + FACTS ROW ═══ -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px">
+
+    <!-- PRIZES -->
+    <div class="card" style="padding:0;overflow:hidden">
+      <div style="background:linear-gradient(135deg,#1a3060,#0d1e40);padding:14px 18px 10px;border-bottom:1px solid var(--wc-border)">
+        <div style="font-family:var(--font-head);font-size:17px;font-weight:900;text-transform:uppercase;letter-spacing:.06em;color:var(--wc-white);display:flex;align-items:center;gap:8px">
+          🏅 Ceny &amp; vstupné
+        </div>
+        <div style="font-size:12px;color:var(--wc-mid);margin-top:3px">Vstup do turnaje: <strong style="color:var(--wc-gold2)">100 Kč / hráč</strong></div>
+      </div>
+      <div style="padding:14px 18px;display:flex;flex-direction:column;gap:10px">
+
+        <!-- 1st place -->
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:linear-gradient(135deg,rgba(201,168,44,.15),rgba(201,168,44,.05));border:1px solid rgba(201,168,44,.35);border-radius:10px">
+          <div style="width:38px;height:38px;background:linear-gradient(135deg,var(--wc-gold),var(--wc-gold2));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;box-shadow:0 3px 10px rgba(201,168,44,.5)">🥇</div>
+          <div>
+            <div style="font-family:var(--font-head);font-size:14px;font-weight:800;color:var(--wc-gold2);text-transform:uppercase;letter-spacing:.04em">1. místo</div>
+            <div style="font-size:13px;color:var(--wc-white);font-weight:600">⚽ Mini míč Adidas Trionda</div>
+            <div style="font-size:11px;color:var(--wc-mid)">Oficiální replika míče MS 2026</div>
+          </div>
+        </div>
+
+        <!-- 2nd place -->
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:rgba(180,190,210,.07);border:1px solid rgba(180,190,210,.2);border-radius:10px">
+          <div style="width:38px;height:38px;background:linear-gradient(135deg,#b0b8c8,#8090a8);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">🥈</div>
+          <div>
+            <div style="font-family:var(--font-head);font-size:14px;font-weight:800;color:#c0cce0;text-transform:uppercase;letter-spacing:.04em">2. místo</div>
+            <div style="font-size:13px;color:var(--wc-white);font-weight:600">🥤 4× Coca-Cola FIFA World Cup 2026</div>
+            <div style="font-size:11px;color:var(--wc-mid)">Limitovaná edice plechovek s tématikou MS</div>
+          </div>
+        </div>
+
+        <!-- 3rd place -->
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:rgba(139,80,45,.08);border:1px solid rgba(139,80,45,.25);border-radius:10px">
+          <div style="width:38px;height:38px;background:linear-gradient(135deg,#d4895a,#a0603a);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">🥉</div>
+          <div>
+            <div style="font-family:var(--font-head);font-size:14px;font-weight:800;color:#d4895a;text-transform:uppercase;letter-spacing:.04em">3. místo</div>
+            <div style="font-size:13px;color:var(--wc-white);font-weight:600">🃏 Sada fotbalových karet MS 2026</div>
+            <div style="font-size:11px;color:var(--wc-mid)">Panini kolekce — hráči světového šampionátu</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- FOOTBALL FACTS -->
+    <div class="card" style="padding:0;overflow:hidden;cursor:pointer" onclick="newFact()" title="Klikni pro novou zajímavost">
+      <div style="background:linear-gradient(135deg,#0d3d1a,#071a0d);padding:14px 18px 10px;border-bottom:1px solid rgba(255,255,255,.08)">
+        <div style="font-family:var(--font-head);font-size:17px;font-weight:900;text-transform:uppercase;letter-spacing:.06em;color:var(--wc-white);display:flex;align-items:center;gap:8px">
+          📖 Věděl jsi, že...
+          <span style="margin-left:auto;font-size:11px;font-weight:600;color:rgba(255,255,255,.3);font-family:var(--font-body);text-transform:none">klikni pro další ↻</span>
+        </div>
+        <div style="font-size:12px;color:rgba(255,255,255,.4);margin-top:3px">Zajímavosti o Mistrovství světa ve fotbale</div>
+      </div>
+      <div style="padding:20px 18px;min-height:180px;display:flex;flex-direction:column;justify-content:center">
+        <div id="factEmoji" style="font-size:36px;margin-bottom:12px;text-align:center"></div>
+        <div id="factText" style="font-size:14px;color:var(--wc-white);line-height:1.7;font-weight:500;text-align:center"></div>
+        <div id="factSource" style="font-size:11px;color:var(--wc-mid);margin-top:12px;text-align:center;font-style:italic"></div>
+        <div style="margin-top:16px;text-align:center">
+          <div id="factDots" style="display:flex;gap:6px;justify-content:center"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!-- END PRIZES + FACTS -->
+
 </div>
 
 <!-- ════════════════ PAGE: PLAYERS ════════════════ -->
@@ -2108,6 +2177,62 @@ function renderAdminHeader(){
   });
 }
 
+
+// ═══════════════ FOOTBALL FACTS ═══════════════
+const FACTS = [
+  {e:'🏆',t:'MS 2026 je historicky první turnaj se 48 týmy a 104 zápasy. Předchozí formát měl 32 týmů a 64 zápasů.',s:'FIFA, 2022'},
+  {e:'🌍',t:'MS 2026 se koná ve třech zemích najednou — USA, Kanadě a Mexiku. Je to poprvé v historii, kdy turnaj hostí tři státy.',s:'FIFA World Cup 2026'},
+  {e:'⚽',t:'Brazílie je rekordním šampionem s 5 tituly (1958, 1962, 1970, 1994, 2002). Jako jediná země se zúčastnila VŠECH 23 dosavadních MS.',s:'FIFA'},
+  {e:'👟',t:'Legendární Pelé vyhrál MS jako 17letý v roce 1958. Je stále nejmladším střelcem ve finále MS v historii.',s:'FIFA Archives'},
+  {e:'🥅',t:'Nejvyšší výsledek v historii MS: Maďarsko porazilo El Salvador 10:1 na MS 1982 ve Španělsku.',s:'FIFA, 1982'},
+  {e:'🌟',t:'Ronaldo (Brazílie) drží rekord v počtu vstřelených gólů na jednom MS — 8 gólů na Francii 1998.',s:'FIFA Records'},
+  {e:'🇩🇪',t:'Německo a Brazílie jsou jediné země, které se zúčastnily všech MS od roku 1954. Oba týmy mají dohromady 9 titulů.',s:'FIFA'},
+  {e:'🎯',t:'Just Fontaine (Francie) vstřelil 13 gólů na jednom MS (1958) — rekord, který stojí dodnes přes 65 let.',s:'FIFA, 1958'},
+  {e:'🤿',t:'MS 1950 v Brazílii jako jediné hrálo bez finálového zápasu — vítěz byl určen skupinou 4 týmů. Uruguay překvapila Brazílii 2:1.',s:'FIFA, 1950'},
+  {e:'📺',t:'MS 2022 v Kataru sledovalo celkem 5 miliard diváků po celém světě. Finále Argentina vs Francie bylo nejsledovanějším zápasem v historii.',s:'FIFA, 2022'},
+  {e:'🔴',t:'Nejrychlejší červená karta v historii MS: José Batista (Uruguay) byl vyloučen po 56 sekundách zápasu proti Skotsku v roce 1986.',s:'FIFA, 1986'},
+  {e:'🇦🇷',t:'Lionel Messi na MS 2026 bude hrát svůj 6. světový šampionát. Je to rekord společně s Lothar Matthäusem a Antoniem Cabrini.',s:'FIFA'},
+  {e:'🏟️',t:'MetLife Stadium v New Jersey bude hostit finále MS 2026. Kapacita 82 500 diváků z něj dělá největší stadion v historii finále MS.',s:'FIFA World Cup 2026'},
+  {e:'💛',t:'Rekord v počtu žlutých karet na jednom MS drží Německo — 12 karet na MS 2006 ve vlastní zemi, přesto skončili 3. místo.',s:'FIFA, 2006'},
+  {e:'🇫🇷',t:'Francie 1998: Zinedine Zidane dal dva góly hlavou ve finále proti Brazílii (3:0). Byl zvolen nejlepším hráčem turnaje.',s:'FIFA, 1998'},
+  {e:'⏱️',t:'Nejdelší penaltový rozstřel v historii MS: Argentina vs Nizozemsko na MS 2022 skončil 4:3 na penalty po 22 pokusech.',s:'FIFA, 2022'},
+  {e:'🌐',t:'Na MS 2026 se poprvé představí 48 národních týmů — mimo jiné debut zemí jako Guinea, Cabo Verde nebo Uzbekistán.',s:'FIFA, 2026'},
+  {e:'👶',t:'Nejmladším hráčem v historii MS je Souleyman Mamam z Toga — hrál ve věku 13 let a 310 dní na MS 2001 (mládežnický).',s:'FIFA Records'},
+  {e:'🥇',t:'Uruguay je první šampion MS v historii — vyhráli na domácím turnaji v roce 1930. Hrálo tehdy pouze 13 týmů.',s:'FIFA, 1930'},
+  {e:'🎪',t:'MS 2026 nabídne 16 skupin po 3 týmech — zcela nový formát. Každý tým odehraje 2 zápasy ve skupině a postoupí 32 celků.',s:'FIFA World Cup 2026'},
+  {e:'💰',t:'FIFA vyplatí na MS 2026 rekordní prémie — celkem 1 miliarda dolarů. Vítěz obdrží 100 milionů dolarů.',s:'FIFA, 2025'},
+  {e:'🇵🇹',t:'Cristiano Ronaldo bude na MS 2026 hrát svůj 6. světový šampionát ve věku 41 let. Pokud nastoupí, stane se druhým nejstarším hráčem MS.',s:'FIFA'},
+  {e:'🏅',t:'Eusébio (Portugalsko) byl nejlepším střelcem MS 1966 s 9 góly. Portugalci tehdy skončili překvapivě třetí.',s:'FIFA, 1966'},
+  {e:'🌊',t:'Adidas Trionda je oficiální míč MS 2026. Jeho design inspirovaly vlajky tří hostitelských zemí — USA, Kanady a Mexika.',s:'Adidas, 2026'},
+  {e:'🦁',t:'Anglie vyhrála jediný titul v roce 1966 na domácí půdě. Gól Geoffa Hursta ve finále (4:2 vs Německo) je dodnes diskutovaný — byl nebo nebyl za čárou?',s:'FIFA, 1966'},
+  {e:'🔢',t:'Na MS 2026 odehrají hráči celkem 104 zápasů. Na každý zápas připadá průměrně 2.6 gólu — historický průměr MS.',s:'FIFA Statistics'},
+  {e:'🎵',t:'Oficíální píseň MS 2026 je "Counting Stars (We Are One)" od Jennifer Lopez, Bad Bunny a Shakiry — tria reprezentující všechny tři hostitelské země.',s:'FIFA, 2026'},
+  {e:'📊',t:'Česko se na MS 2026 představuje poprvé jako samostatná republika. Předchůdce Československo hrálo MS naposledy v roce 1990.',s:'FIFA'},
+];
+
+let currentFactIdx = -1;
+function newFact() {
+  let idx;
+  do { idx = Math.floor(Math.random() * FACTS.length); } while(idx === currentFactIdx);
+  currentFactIdx = idx;
+  const f = FACTS[idx];
+  const el = document.getElementById('factEmoji');
+  const tl = document.getElementById('factText');
+  const sl = document.getElementById('factSource');
+  if(!el) return;
+  // Fade out
+  [el,tl,sl].forEach(e=>{ if(e){e.style.opacity='0';e.style.transition='opacity .25s';} });
+  setTimeout(()=>{
+    el.textContent = f.e;
+    tl.textContent = f.t;
+    sl.textContent = '— ' + f.s;
+    [el,tl,sl].forEach(e=>{ if(e){e.style.opacity='1';} });
+  }, 260);
+  // Update dots
+  const dots = document.getElementById('factDots');
+  if(dots) dots.innerHTML = FACTS.slice(0,8).map((_,i)=>`<div style="width:6px;height:6px;border-radius:50%;background:${i===idx%8?'var(--wc-gold2)':'rgba(255,255,255,.15)'}"></div>`).join('');
+}
+
 function populateCountrySelects(){
   const countries=[...new Set(state.players.map(p=>p.country))].sort();
   const opts=countries.map(c=>`<option value="${c}">${c}</option>`).join('');
@@ -2189,6 +2314,7 @@ async function initApp(){
   buildFormationBar();
   setFormation(currentFormation,null);
   renderTeamPage();
+  newFact(); // show random fact on load
 }
 
 initApp();
