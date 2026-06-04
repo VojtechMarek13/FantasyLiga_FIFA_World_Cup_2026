@@ -988,10 +988,10 @@ function shirtSVG(country, pos, isCap, price, name) {
 }
 
 const ROUNDS=[
-  {name:"Základní skupiny",       bonus:[], deadline:null},
-  {name:"1/32 + Osmifinále",      bonus:[], deadline:null},
-  {name:"Čtvrtfinále",            bonus:[], deadline:null},
-  {name:"Semifinále + Finále",    bonus:[], deadline:null},
+  {name:"Základní skupiny",       bonus:[], deadline:null, bonus_pts:{}},
+  {name:"1/32 + Osmifinále",      bonus:[], deadline:null, bonus_pts:{}},
+  {name:"Čtvrtfinále",            bonus:[], deadline:null, bonus_pts:{}},
+  {name:"Semifinále + Finále",    bonus:[], deadline:null, bonus_pts:{}},
 ];
 function isDeadlinePassed(){
   const dl=ROUNDS[state.activeRound].deadline;
@@ -1968,7 +1968,7 @@ async function calculateRoundExec(){
     for(const team of allTeams){
       let pts=0;
       team.players.forEach(pid=>{let pp=calcPts(pid);if(pid===team.captain)pp*=2;pts+=pp;});
-      scoreArr.push({manager_name: team.manager_name, round: ri, points: pts});
+      scoreArr.push({manager_name: team.manager_name, round: ri, points: pts, base_points: pts, bonus_points: 0});
       if(!state.scores[team.manager_name])state.scores[team.manager_name]={};
       state.scores[team.manager_name][ri]=pts;
     }
@@ -2066,6 +2066,86 @@ async function renderLeaderboard(){
 
 
 // ═══════════════ ROUNDS ADMIN ═══════════════
+// ══ BONUS EVALUATION ══
+async function renderBonusEvaluation(ri){
+  const container = document.getElementById('bonusEval_'+ri);
+  if(!container) return;
+  container.innerHTML = '<div style="color:var(--wc-mid);font-size:12px;padding:8px">Načítám odpovědi...</div>';
+
+  const answers = await sbGet('bonus_answers', `round=eq.${ri}&select=*`);
+  if(!answers||answers.length===0){
+    container.innerHTML='<div style="color:var(--wc-mid);font-size:12px;padding:8px">⚠️ Žádné odpovědi zatím nejsou uloženy.</div>';
+    return;
+  }
+
+  const r = ROUNDS[ri];
+  if(!r.bonus||r.bonus.length===0){
+    container.innerHTML='<div style="color:var(--wc-mid);font-size:12px;padding:8px">Nejsou nastaveny žádné otázky.</div>';
+    return;
+  }
+
+  const bonusPts = r.bonus_pts || {};
+
+  let html='';
+  r.bonus.forEach((q,qi)=>{
+    html+=`<div style="margin-bottom:14px;padding:12px;background:rgba(255,255,255,.04);border-radius:8px;border:1px solid var(--wc-border2)">`;
+    html+=`<div style="font-family:var(--font-head);font-size:13px;font-weight:800;color:var(--wc-gold2);margin-bottom:8px">❓ ${qi+1}. ${q}</div>`;
+    html+=`<div style="display:flex;flex-direction:column;gap:4px">`;
+    answers.forEach(a=>{
+      const ans = a.answers&&a.answers[qi] ? a.answers[qi] : '—';
+      const pts = bonusPts[a.manager_name]?.[qi] || 0;
+      const hasPoints = pts > 0;
+      html+=`<div style="display:flex;align-items:center;gap:10px;padding:6px 10px;background:${hasPoints?'rgba(11,122,62,.15)':'rgba(255,255,255,.03)'};border-radius:6px;border:1px solid ${hasPoints?'rgba(11,122,62,.3)':'transparent'}">
+        <span style="font-size:13px;font-weight:600;min-width:80px">${a.manager_name}</span>
+        <span style="flex:1;font-size:12px;color:var(--wc-mid)">${ans}</span>
+        <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+          <input type="number" min="0" max="20" value="${pts}" style="width:52px;padding:4px 6px;border:1.5px solid var(--wc-border);border-radius:6px;background:var(--wc-surface);color:var(--wc-white);text-align:center;font-size:13px" id="bpts_${ri}_${qi}_${a.manager_name.replace(/[^a-zA-Z0-9]/g,'_')}">
+          <button class="btn btn-sm btn-green" style="font-size:11px;padding:4px 10px" onclick="awardBonusPoints(${ri},${qi},'${a.manager_name.replace(/'/g,"\\'")}')">Přidělit</button>
+          ${hasPoints?`<span style="font-size:11px;color:#6ddc8a;font-weight:800">+${pts}b</span>`:''}
+        </div>
+      </div>`;
+    });
+    html+='</div></div>';
+  });
+  container.innerHTML = html;
+}
+
+async function awardBonusPoints(ri, qi, managerName){
+  const safeId = managerName.replace(/[^a-zA-Z0-9]/g,'_');
+  const input = document.getElementById(`bpts_${ri}_${qi}_${safeId}`);
+  const pts = parseInt(input?.value)||0;
+
+  const r = ROUNDS[ri];
+  if(!r.bonus_pts) r.bonus_pts = {};
+  if(!r.bonus_pts[managerName]) r.bonus_pts[managerName] = {};
+  r.bonus_pts[managerName][qi] = pts;
+
+  // Save rounds config (includes bonus_pts)
+  await sbUpsert('app_config',{key:'rounds',value:ROUNDS});
+
+  // Recalculate total bonus for this manager in this round
+  // Sum all bonus_pts[managerName][qi] for this round
+  let totalBonus = 0;
+  Object.values(r.bonus_pts[managerName]||{}).forEach(p=>totalBonus+=parseInt(p)||0);
+
+  // Load current score for this manager in this round
+  const existingScore = await sbGet('scores',`manager_name=eq.${encodeURIComponent(managerName)}&round=eq.${ri}&select=*`);
+  const baseScore = (existingScore&&existingScore.length>0) ? (existingScore[0].base_points||existingScore[0].points||0) : 0;
+
+  // Upsert score with base + bonus
+  await sbUpsert('scores',{
+    manager_name: managerName,
+    round: ri,
+    points: baseScore + totalBonus,
+    base_points: baseScore,
+    bonus_points: totalBonus
+  });
+
+  // Refresh the eval UI
+  renderBonusEvaluation(ri);
+  alert(`✅ ${managerName}: ${pts}b za otázku ${qi+1} (celkem bonus: +${totalBonus}b)`);
+}
+
 function renderRoundsAdmin(){
   document.getElementById('roundsAdmin').innerHTML=ROUNDS.map((r,i)=>`
     <div class="round-admin-card${state.activeRound===i?' active-round':''}">
@@ -2091,6 +2171,13 @@ function renderRoundsAdmin(){
           <button class="btn btn-sm btn-danger" style="font-size:11px" onclick="deleteBQ(${i},${j})">×</button>
         </div>`).join('')}
       <button class="btn btn-sm" style="margin-top:8px;font-size:11px" onclick="addBQ(${i})">+ Přidat otázku</button>
+      <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--wc-border2)">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+          <span style="font-family:var(--font-head);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--wc-mid)">🏅 Vyhodnocení bonus otázek</span>
+          <button class="btn btn-sm btn-gold" style="font-size:11px" onclick="renderBonusEvaluation(${i})">Načíst odpovědi</button>
+        </div>
+        <div id="bonusEval_${i}"></div>
+      </div>
     </div>`).join('');
 }
 async function saveDeadline(ri){
@@ -2459,7 +2546,7 @@ async function initApp(){
         if(c.key==='active_round') state.activeRound = parseInt(c.value)||0;
         if(c.key==='rounds') {
           const rounds = c.value;
-          if(Array.isArray(rounds)) rounds.forEach((r,i)=>{ if(ROUNDS[i]) ROUNDS[i].bonus = r.bonus||[]; });
+          if(Array.isArray(rounds)) rounds.forEach((r,i)=>{ if(ROUNDS[i]){ ROUNDS[i].bonus=r.bonus||[]; ROUNDS[i].deadline=r.deadline||null; ROUNDS[i].bonus_pts=r.bonus_pts||{}; }});
         }
       });
     }
