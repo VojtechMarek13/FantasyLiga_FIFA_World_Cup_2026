@@ -336,6 +336,7 @@ select.wc-select:focus{border-color:var(--wc-bright)}
   <div id="teamNameDisplay" class="team-name-display" style="display:none"></div>
   <button class="btn btn-sm btn-primary" onclick="openModal('addManagerModal')">+ Přidat manažera</button>
     <button class="btn btn-sm btn-gold" id="myTeamBtn" onclick="switchToMyTeam()" style="display:none">⭐ Moje sestava</button>
+    <button class="btn btn-sm btn-outline" id="logoutBtn" onclick="logoutManager()" style="display:none" title="Odhlásit se">🚪</button>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
     <label style="font-size:11px;font-weight:700;color:var(--wc-mid);text-transform:uppercase;letter-spacing:.08em;white-space:nowrap">Admin — kolo:</label>
     <select id="activeRoundSelect" class="wc-select" style="max-width:200px;font-size:12px" onchange="setActiveRound()">
@@ -669,6 +670,23 @@ select.wc-select:focus{border-color:var(--wc-bright)}
 
 </div>
 
+
+<!-- LOGIN MODAL -->
+<div class="modal-overlay" id="loginModal" style="display:none">
+  <div class="modal">
+    <div class="modal-title">🔑 Přihlásit se</div>
+    <div class="modal-sub">Zadej svůj PIN pro přístup k sestavě.</div>
+    <div id="loginManagerName" style="font-family:var(--font-head);font-size:20px;font-weight:900;color:var(--wc-gold2);margin-bottom:12px;text-align:center"></div>
+    <label class="form-label">PIN</label>
+    <input type="password" id="loginPin" class="form-input" placeholder="Zadej PIN..." maxlength="6" inputmode="numeric" onkeydown="if(event.key==='Enter')loginManager()">
+    <div id="loginError" style="color:var(--wc-red);font-size:12px;margin-top:4px;display:none">❌ Nesprávný PIN</div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
+      <button class="btn btn-sm" onclick="closeModal('loginModal');document.getElementById('managerSelect').value=state.currentManager||''">Zrušit</button>
+      <button class="btn btn-sm btn-primary" onclick="loginManager()">Přihlásit</button>
+    </div>
+  </div>
+</div>
+
 <!-- ════════════════ PAGE: PLAYERS ════════════════ -->
 <div id="page-players" class="page">
   <div class="card">
@@ -792,6 +810,8 @@ select.wc-select:focus{border-color:var(--wc-bright)}
     <input type="text" id="newManagerName" class="form-input" placeholder="Jméno..." onkeydown="if(event.key==='Enter')addManager()">
     <label class="form-label">Název týmu</label>
     <input type="text" id="newTeamName" class="form-input" placeholder="Název týmu..." onkeydown="if(event.key==='Enter')addManager()">
+    <label class="form-label">🔑 PIN (4–6 číslic) <span style="font-size:11px;color:var(--wc-mid);font-family:var(--font-body);font-weight:400">— použiješ pro přihlášení příště</span></label>
+    <input type="password" id="newManagerPin" class="form-input" placeholder="Např. 1234" maxlength="6" inputmode="numeric" onkeydown="if(event.key==='Enter')addManager()">
     <div style="display:flex;gap:8px;justify-content:flex-end">
       <button class="btn btn-sm" onclick="closeModal('addManagerModal')">Zrušit</button>
       <button class="btn btn-sm btn-primary" onclick="addManager()">Přidat</button>
@@ -1580,7 +1600,7 @@ function renderTeamPage(){
   if(state.currentManager&&!isMyTeam){
     vb.style.display='block';
     const tn=state.teamNames&&state.teamNames[state.currentManager]?' ('+state.teamNames[state.currentManager]+')':'';
-    vb.textContent='👁️ Sestava hráče: '+state.currentManager+tn+' — pouze pro čtení';
+    vb.innerHTML='👁️ Sestava hráče: '+state.currentManager+tn+' — pouze pro čtení &nbsp;<button class="btn btn-sm btn-gold" style="padding:2px 8px;font-size:10px" onclick="openLoginModal(\''+state.currentManager+'\')">🔑 Toto je můj účet</button>';
   } else {vb.style.display='none';}
   document.getElementById('metaRound').textContent=(state.activeRound+1)+' — '+ROUNDS[state.activeRound].name;
   document.getElementById('activeBadge').textContent='⚡ Kolo '+(state.activeRound+1)+' — '+ROUNDS[state.activeRound].name;
@@ -2006,6 +2026,15 @@ async function setActiveRoundDirect(i){
 }
 
 // ═══════════════ MANAGERS ═══════════════
+function logoutManager(){
+  if(!confirm('Odhlásit se z účtu '+state.myManager+'?'))return;
+  state.myManager=null;
+  state.currentManager=null;
+  saveLocal();
+  selTeam=[];captainId=null;
+  document.getElementById('managerSelect').value='';
+  buildFormationBar();renderTeamPage();updateManagerSelect();
+}
 function updateManagerSelect(){
   const sel=document.getElementById('managerSelect');
   const cur=state.currentManager||sel.value;
@@ -2018,6 +2047,8 @@ function updateManagerSelect(){
     }).join('');
   const myBtn=document.getElementById('myTeamBtn');
   if(myBtn)myBtn.style.display=(state.myManager&&state.currentManager!==state.myManager)?'inline-flex':'none';
+  const logoutBtn=document.getElementById('logoutBtn');
+  if(logoutBtn)logoutBtn.style.display=state.myManager?'inline-flex':'none';
 }
 async function switchToMyTeam(){
   if(!state.myManager)return;
@@ -2035,42 +2066,106 @@ async function switchToMyTeam(){
 async function addManager(){
   const n=document.getElementById('newManagerName').value.trim();
   const tn=document.getElementById('newTeamName').value.trim();
+  const pin=document.getElementById('newManagerPin').value.trim();
   if(!n){alert('Zadej jméno!');return;}
-  if(state.managers.find(m=>m.name===n)){alert('Manažer již existuje');return;}
+  if(!pin||pin.length<4){alert('Zadej PIN (min. 4 číslice)!');return;}
+  if(!/^\d+$/.test(pin)){alert('PIN musí obsahovat pouze číslice!');return;}
+  if(state.managers.find(m=>m===n||m.name===n)){alert('Manažer již existuje');return;}
   setLoading(true,'Přidávám manažera...');
-  const res = await sbUpsert('managers', {name:n, team_name:tn||null});
+  const res=await sbUpsert('managers',{name:n,team_name:tn||null,pin_hash:simpleHash(pin)});
   setLoading(false);
-  if(!res){alert('Chyba při ukládání — zkontroluj připojení.');return;}
-  state.managers.push({name:n, team_name:tn||null});
+  if(!res){alert('Chyba připojení k databázi!');return;}
+  state.managers.push(n);
+  if(tn){if(!state.teamNames)state.teamNames={};state.teamNames[n]=tn;}
   state.currentManager=n;
   state.myManager=n;
-  selTeam=[];captainId=null;
   saveLocal();
   updateManagerSelect();
   document.getElementById('managerSelect').value=n;
   closeModal('addManagerModal');
   document.getElementById('newManagerName').value='';
   document.getElementById('newTeamName').value='';
+  document.getElementById('newManagerPin').value='';
   renderTeamPage();
 }
 
 async function switchManager(){
   const v=document.getElementById('managerSelect').value;
-  state.currentManager=v||null;
-  saveLocal();
-  if(v){
+  if(!v){state.currentManager=null;saveLocal();selTeam=[];captainId=null;buildFormationBar();renderTeamPage();updateManagerSelect();return;}
+
+  // If selecting own manager → load editable
+  if(v===state.myManager){
+    state.currentManager=v;saveLocal();
     setLoading(true,'Načítám sestavu...');
-    const teams = await sbGet('teams', `manager_name=eq.${encodeURIComponent(v)}&round=eq.${state.activeRound}&select=*`);
+    const teams=await sbGet('teams',`manager_name=eq.${encodeURIComponent(v)}&round=eq.${state.activeRound}&select=*`);
     setLoading(false);
-    if(teams&&teams.length>0){
-      const t=teams[0];
-      selTeam=[...t.players];
-      captainId=t.captain;
-      currentFormation=t.formation||'1-2-2';
-    } else {selTeam=[];captainId=null;currentFormation=state.formation||'1-2-2';}
-  } else{selTeam=[];captainId=null;}
-  buildFormationBar();renderTeamPage();
+    if(teams&&teams.length>0){const t=teams[0];selTeam=[...t.players];captainId=t.captain;currentFormation=t.formation||'1-2-2';}
+    else{selTeam=[];captainId=null;currentFormation=state.formation||'1-2-2';}
+    buildFormationBar();renderTeamPage();updateManagerSelect();
+    return;
+  }
+
+  // Selecting different manager → load read-only (no PIN needed for viewing)
+  state.currentManager=v;
+  setLoading(true,'Načítám sestavu...');
+  const teams=await sbGet('teams',`manager_name=eq.${encodeURIComponent(v)}&round=eq.${state.activeRound}&select=*`);
+  setLoading(false);
+  if(teams&&teams.length>0){const t=teams[0];selTeam=[...t.players];captainId=t.captain;currentFormation=t.formation||'1-2-2';}
+  else{selTeam=[];captainId=null;currentFormation=state.formation||'1-2-2';}
+  buildFormationBar();renderTeamPage();updateManagerSelect();
 }
+
+function openLoginModal(managerName){
+  document.getElementById('loginManagerName').textContent=managerName;
+  document.getElementById('loginPin').value='';
+  document.getElementById('loginError').style.display='none';
+  document.getElementById('loginModal').style.display='flex';
+  setTimeout(()=>document.getElementById('loginPin').focus(),100);
+}
+
+
+async function loginManager(){
+  const pin=document.getElementById('loginPin').value.trim();
+  const name=document.getElementById('loginManagerName').textContent;
+  if(!pin){document.getElementById('loginError').style.display='block';document.getElementById('loginError').textContent='❌ Zadej PIN';return;}
+
+  // Verify PIN against Supabase
+  setLoading(true,'Ověřuji PIN...');
+  const res=await sbGet('managers',`name=eq.${encodeURIComponent(name)}&select=name,pin_hash`);
+  setLoading(false);
+
+  if(!res||res.length===0){document.getElementById('loginError').style.display='block';document.getElementById('loginError').textContent='❌ Manažer nenalezen';return;}
+
+  const mgr=res[0];
+  // Simple hash compare (we store hashed PIN)
+  const inputHash=simpleHash(pin);
+  if(mgr.pin_hash!==inputHash){
+    document.getElementById('loginError').style.display='block';
+    document.getElementById('loginError').textContent='❌ Nesprávný PIN';
+    return;
+  }
+
+  // Success — log in as this manager
+  closeModal('loginModal');
+  state.currentManager=name;
+  state.myManager=name;
+  saveLocal();
+
+  setLoading(true,'Načítám sestavu...');
+  const teams=await sbGet('teams',`manager_name=eq.${encodeURIComponent(name)}&round=eq.${state.activeRound}&select=*`);
+  setLoading(false);
+  if(teams&&teams.length>0){const t=teams[0];selTeam=[...t.players];captainId=t.captain;currentFormation=t.formation||'1-2-2';}
+  else{selTeam=[];captainId=null;currentFormation=state.formation||'1-2-2';}
+  buildFormationBar();renderTeamPage();updateManagerSelect();
+}
+
+// Simple hash for PIN storage (not cryptographic, just obfuscation)
+function simpleHash(str){
+  let h=5381;
+  for(let i=0;i<str.length;i++){h=((h<<5)+h)+str.charCodeAt(i);}
+  return (h>>>0).toString(36);
+}
+
 
 async function setActiveRound(){
   const newRound=parseInt(document.getElementById('activeRoundSelect').value);
