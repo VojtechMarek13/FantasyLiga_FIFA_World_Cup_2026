@@ -1878,6 +1878,72 @@ function calcPts(pid){
 
 
 
+async function renderResultsForm(){
+  const ri=parseInt(document.getElementById('resultRoundSelect').value);
+  const container=document.getElementById('resultsForm');
+  if(!container)return;
+
+  // Load teams for this round to know which players are actually selected
+  setLoading(true,'Načítám sestavy...');
+  const allTeams=await sbGet('teams',`round=eq.${ri}&select=*`);
+  // Load existing stats
+  const statsData=await sbGet('player_stats','select=*');
+  setLoading(false);
+
+  // Build set of player IDs used in this round
+  const usedIds=new Set();
+  if(allTeams){allTeams.forEach(t=>{if(t.players)t.players.forEach(id=>usedIds.add(id));});}
+
+  // Build stats map
+  const statsMap={};
+  if(statsData){statsData.forEach(s=>{statsMap[s.player_id]={goals:s.goals||0,assists:s.assists||0,cs:s.cs||0,yellow:s.yellow||0,red:s.red||0};});}
+
+  // Group players by country, only those used in this round
+  const players = usedIds.size > 0
+    ? state.players.filter(p=>usedIds.has(p.id))
+    : state.players; // fallback: show all if no teams yet
+
+  // Sort by country then name
+  const sorted=[...players].sort((a,b)=>a.country.localeCompare(b.country)||a.name.localeCompare(b.name));
+
+  // Group by country
+  const byCountry={};
+  sorted.forEach(p=>{
+    if(!byCountry[p.country])byCountry[p.country]=[];
+    byCountry[p.country].push(p);
+  });
+
+  let html='';
+  // Count indicator
+  html+=`<div style="font-size:12px;color:var(--wc-mid);margin-bottom:12px;font-family:var(--font-head);font-weight:700">${players.length} hráčů v sestavách kola ${ri+1}</div>`;
+
+  Object.keys(byCountry).sort().forEach(country=>{
+    const kit=typeof getKit==='function'?getKit(country):{flag:'🏳️'};
+    html+=`<div style="font-family:var(--font-head);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--wc-mid);padding:8px 0 4px;border-bottom:1px solid var(--wc-border2);margin-bottom:4px">${kit.flag} ${country}</div>`;
+    byCountry[country].forEach(p=>{
+      const s=statsMap[p.id]||{goals:0,assists:0,cs:0,yellow:0,red:0};
+      const posColor={'GK':'#FF9800','OBR':'#4CAF50','ZAL':'#2196F3','UTO':'#F44336'}[p.pos]||'#888';
+      html+=`<div class="admin-player-row">
+        <div style="display:flex;align-items:center;gap:8px;min-width:0">
+          <span style="font-family:var(--font-head);font-size:10px;font-weight:800;padding:1px 5px;border-radius:4px;background:${posColor}22;color:${posColor};flex-shrink:0">${p.pos}</span>
+          <span style="font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.name}</span>
+        </div>
+        <input class="admin-input" id="st_${p.id}_goals"   type="number" min="0" max="20" value="${s.goals}"  placeholder="0" title="Góly">
+        <input class="admin-input" id="st_${p.id}_assists" type="number" min="0" max="20" value="${s.assists}" placeholder="0" title="Asistence">
+        <input class="admin-input" id="st_${p.id}_cs"      type="number" min="0" max="1"  value="${s.cs}"      placeholder="0" title="Čistá konta">
+        <input class="admin-input" id="st_${p.id}_yellow"  type="number" min="0" max="2"  value="${s.yellow}"  placeholder="0" title="Žluté karty">
+        <input class="admin-input" id="st_${p.id}_red"     type="number" min="0" max="1"  value="${s.red}"     placeholder="0" title="Červené karty">
+      </div>`;
+    });
+  });
+
+  if(players.length===0){
+    html='<div style="text-align:center;color:var(--wc-mid);padding:24px;font-size:14px">⚠️ Žádné sestavy pro toto kolo nejsou uloženy.<br><span style="font-size:12px">Hráči musí nejprve uložit své sestavy.</span></div>';
+  }
+
+  container.innerHTML=html;
+}
+
 async function calculateRoundExec(){
   const ri=parseInt(document.getElementById('resultRoundSelect').value);
   setLoading(true,'Ukládám statistiky...');
