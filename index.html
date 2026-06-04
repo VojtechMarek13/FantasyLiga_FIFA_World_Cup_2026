@@ -2018,7 +2018,7 @@ async function addBQ(ri){ROUNDS[ri].bonus.push('');await saveRoundsConfig();rend
 async function saveRoundsConfig(){
   await sbUpsert('app_config',{key:'rounds', value: ROUNDS});
 }
-async function setActiveRoundDirect(i){
+async async function setActiveRoundDirect(i){
   state.activeRound=i;
   await sbUpsert('app_config',{key:'active_round', value: i});
   renderRoundsAdmin();renderTeamPage();
@@ -2073,7 +2073,7 @@ async function switchManager(){
   buildFormationBar();renderTeamPage();
 }
 
-function setActiveRound(){
+async function setActiveRound(){
   const newRound=parseInt(document.getElementById('activeRoundSelect').value);
   if(newRound===state.activeRound){document.getElementById('activeRoundSelect').value=state.activeRound;return;}
   checkAdminPin(async ()=>{
