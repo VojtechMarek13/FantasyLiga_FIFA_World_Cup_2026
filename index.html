@@ -825,8 +825,6 @@ select.wc-select:focus{border-color:var(--wc-bright)}
 </div>
 
 <script>
-
-
 // ═══════════════ CONSTANTS ═══════════════
 
 // ── COUNTRY KIT DATA: flag + primary/secondary shirt colors ──
@@ -880,16 +878,6 @@ const KITS = {
   'Panama':          {flag:'🇵🇦', c1:'#FFFFFF', c2:'#DA121A', s:'#003DA5'},
   'Bosna a Hercegovina':{flag:'🇧🇦',c1:'#003DA5',c2:'#FFD700',s:'#003DA5'},
   'Jihoafrická republika':{flag:'🇿🇦',c1:'#007A4D',c2:'#FFB612',s:'#DE3831'},
-  'Norsko':          {flag:'🇳🇴', c1:'#EF2B2D', c2:'#FFFFFF', s:'#002868'},
-  'Rakousko':        {flag:'🇦🇹', c1:'#ED2939', c2:'#FFFFFF', s:'#ED2939'},
-  'Egypt':           {flag:'🇪🇬', c1:'#CE1126', c2:'#FFFFFF', s:'#CE1126'},
-  'Uzbekistán':      {flag:'🇺🇿', c1:'#1EB53A', c2:'#FFFFFF', s:'#0099B5'},
-  'Jordánsko':       {flag:'🇯🇴', c1:'#007A3D', c2:'#FFFFFF', s:'#CE1126'},
-  'Irák':            {flag:'🇮🇶', c1:'#007A3D', c2:'#FFFFFF', s:'#CE1126'},
-  'Kapverdy':        {flag:'🇨🇻', c1:'#003893', c2:'#FFFFFF', s:'#CF2027'},
-  'Curaçao':         {flag:'🇨🇼', c1:'#002B7F', c2:'#F9E814', s:'#76D0F4'},
-  'Haiti':           {flag:'🇭🇹', c1:'#00209F', c2:'#D21034', s:'#00209F'},
-  'Nový Zéland':     {flag:'🇳🇿', c1:'#FFFFFF', c2:'#000000', s:'#CC142B'},
 };
 function getKit(country){return KITS[country]||{flag:'🏳️',c1:'#3a3a5c',c2:'#888',s:'#222'};}
 
@@ -1042,457 +1030,1184 @@ function lockAdmin() {
   showPage('team', document.querySelector('.nav-btn'));
 }
 
+
 const PLAYERS_DATA = [
   {id:1,name:"Alisson",pos:"GK",country:"Brazílie",club:"Liverpool",price:12},
-  {id:2,name:"Ederson",pos:"GK",country:"Brazílie",club:"Al-Ittihad",price:9},
-  {id:3,name:"Weverton",pos:"GK",country:"Brazílie",club:"Palmeiras",price:5},
-  {id:4,name:"Marquinhos",pos:"OBR",country:"Brazílie",club:"PSG",price:10},
-  {id:5,name:"Gabriel Magalhães",pos:"OBR",country:"Brazílie",club:"Arsenal",price:9},
-  {id:6,name:"Danilo",pos:"OBR",country:"Brazílie",club:"Flamengo",price:6},
-  {id:7,name:"Casemiro",pos:"ZAL",country:"Brazílie",club:"Man United",price:7},
-  {id:8,name:"Bruno Guimarães",pos:"ZAL",country:"Brazílie",club:"Newcastle",price:11},
-  {id:9,name:"Lucas Paquetá",pos:"ZAL",country:"Brazílie",club:"West Ham",price:10},
-  {id:10,name:"Raphinha",pos:"ZAL",country:"Brazílie",club:"Barcelona",price:13},
-  {id:11,name:"Gabriel Martinelli",pos:"UTO",country:"Brazílie",club:"Arsenal",price:10},
-  {id:12,name:"Vinícius Júnior",pos:"UTO",country:"Brazílie",club:"Real Madrid",price:19},
-  {id:13,name:"Endrick",pos:"UTO",country:"Brazílie",club:"Real Madrid",price:10},
-  {id:14,name:"Neymar",pos:"UTO",country:"Brazílie",club:"Santos",price:11},
-  {id:15,name:"Matheus Cunha",pos:"UTO",country:"Brazílie",club:"Wolves",price:9},
-  {id:20,name:"Mike Maignan",pos:"GK",country:"Francie",club:"AC Milan",price:12},
-  {id:21,name:"Brice Samba",pos:"GK",country:"Francie",club:"Lens",price:6},
-  {id:22,name:"William Saliba",pos:"OBR",country:"Francie",club:"Arsenal",price:11},
-  {id:23,name:"Jules Koundé",pos:"OBR",country:"Francie",club:"Barcelona",price:11},
-  {id:24,name:"Ibrahima Konaté",pos:"OBR",country:"Francie",club:"Liverpool",price:10},
-  {id:25,name:"Théo Hernández",pos:"OBR",country:"Francie",club:"AC Milan",price:9},
-  {id:26,name:"Lucas Hernández",pos:"OBR",country:"Francie",club:"PSG",price:7},
-  {id:27,name:"Aurélien Tchouaméni",pos:"ZAL",country:"Francie",club:"Real Madrid",price:11},
-  {id:28,name:"Warren Zaïre-Emery",pos:"ZAL",country:"Francie",club:"PSG",price:10},
-  {id:29,name:"Adrien Rabiot",pos:"ZAL",country:"Francie",club:"OM",price:8},
-  {id:30,name:"N'Golo Kanté",pos:"ZAL",country:"Francie",club:"Al-Ittihad",price:8},
-  {id:31,name:"Kylian Mbappé",pos:"UTO",country:"Francie",club:"Real Madrid",price:19},
-  {id:32,name:"Ousmane Dembélé",pos:"UTO",country:"Francie",club:"PSG",price:11},
-  {id:33,name:"Bradley Barcola",pos:"UTO",country:"Francie",club:"PSG",price:10},
-  {id:34,name:"Rayan Cherki",pos:"UTO",country:"Francie",club:"Liverpool",price:9},
-  {id:40,name:"David Raya",pos:"GK",country:"Španělsko",club:"Arsenal",price:11},
-  {id:41,name:"Unai Simón",pos:"GK",country:"Španělsko",club:"Athletic Club",price:9},
-  {id:42,name:"Alex Remiro",pos:"GK",country:"Španělsko",club:"Real Sociedad",price:6},
-  {id:43,name:"Dani Carvajal",pos:"OBR",country:"Španělsko",club:"Real Madrid",price:9},
-  {id:44,name:"Alejandro Grimaldo",pos:"OBR",country:"Španělsko",club:"Bayer Leverkusen",price:11},
-  {id:45,name:"Pau Cubarsí",pos:"OBR",country:"Španělsko",club:"Barcelona",price:10},
-  {id:46,name:"Robin Le Normand",pos:"OBR",country:"Španělsko",club:"Atlético Madrid",price:8},
-  {id:47,name:"Dani Vivian",pos:"OBR",country:"Španělsko",club:"Athletic Club",price:7},
-  {id:48,name:"Pedri",pos:"ZAL",country:"Španělsko",club:"Barcelona",price:12},
-  {id:49,name:"Rodri",pos:"ZAL",country:"Španělsko",club:"Man City",price:14},
-  {id:50,name:"Lamine Yamal",pos:"ZAL",country:"Španělsko",club:"Barcelona",price:17},
-  {id:51,name:"Dani Olmo",pos:"ZAL",country:"Španělsko",club:"Barcelona",price:12},
-  {id:52,name:"Fábián Ruiz",pos:"ZAL",country:"Španělsko",club:"PSG",price:10},
-  {id:53,name:"Mikel Merino",pos:"ZAL",country:"Španělsko",club:"Arsenal",price:9},
-  {id:54,name:"Álvaro Morata",pos:"UTO",country:"Španělsko",club:"AC Milan",price:8},
-  {id:55,name:"Nico Williams",pos:"UTO",country:"Španělsko",club:"Athletic Club",price:13},
-  {id:56,name:"Ferran Torres",pos:"UTO",country:"Španělsko",club:"Barcelona",price:8},
-  {id:60,name:"Manuel Neuer",pos:"GK",country:"Německo",club:"Bayern Munich",price:8},
-  {id:61,name:"Oliver Baumann",pos:"GK",country:"Německo",club:"Hoffenheim",price:6},
-  {id:62,name:"Antonio Rüdiger",pos:"OBR",country:"Německo",club:"Real Madrid",price:9},
-  {id:63,name:"Joshua Kimmich",pos:"OBR",country:"Německo",club:"Bayern Munich",price:11},
-  {id:64,name:"Jonathan Tah",pos:"OBR",country:"Německo",club:"Bayern Munich",price:8},
-  {id:65,name:"David Raum",pos:"OBR",country:"Německo",club:"RB Leipzig",price:7},
-  {id:66,name:"Florian Wirtz",pos:"ZAL",country:"Německo",club:"Liverpool",price:17},
-  {id:67,name:"Jamal Musiala",pos:"ZAL",country:"Německo",club:"Bayern Munich",price:14},
-  {id:68,name:"İlkay Gündoğan",pos:"ZAL",country:"Německo",club:"Barcelona",price:9},
-  {id:69,name:"Kai Havertz",pos:"ZAL",country:"Německo",club:"Arsenal",price:11},
-  {id:70,name:"Leroy Sané",pos:"UTO",country:"Německo",club:"Galatasaray",price:9},
-  {id:71,name:"Niclas Füllkrug",pos:"UTO",country:"Německo",club:"West Ham",price:9},
-  {id:72,name:"Nick Woltemade",pos:"UTO",country:"Německo",club:"Newcastle",price:8},
-  {id:80,name:"Emiliano Martínez",pos:"GK",country:"Argentina",club:"Aston Villa",price:14},
-  {id:81,name:"Geronimo Rulli",pos:"GK",country:"Argentina",club:"Ajax",price:6},
-  {id:82,name:"Cristian Romero",pos:"OBR",country:"Argentina",club:"Tottenham",price:10},
-  {id:83,name:"Lisandro Martínez",pos:"OBR",country:"Argentina",club:"Man United",price:9},
-  {id:84,name:"Nicolás Otamendi",pos:"OBR",country:"Argentina",club:"Benfica",price:7},
-  {id:85,name:"Nahuel Molina",pos:"OBR",country:"Argentina",club:"Atlético Madrid",price:8},
-  {id:86,name:"Rodrigo De Paul",pos:"ZAL",country:"Argentina",club:"Atlético Madrid",price:9},
-  {id:87,name:"Enzo Fernández",pos:"ZAL",country:"Argentina",club:"Chelsea",price:10},
-  {id:88,name:"Alexis Mac Allister",pos:"ZAL",country:"Argentina",club:"Liverpool",price:11},
-  {id:89,name:"Lionel Messi",pos:"UTO",country:"Argentina",club:"Inter Miami",price:18},
-  {id:90,name:"Lautaro Martínez",pos:"UTO",country:"Argentina",club:"Inter Milan",price:15},
-  {id:91,name:"Julián Álvarez",pos:"UTO",country:"Argentina",club:"Atlético Madrid",price:14},
-  {id:92,name:"Alejandro Garnacho",pos:"UTO",country:"Argentina",club:"Napoli",price:10},
-  {id:100,name:"Jordan Pickford",pos:"GK",country:"Anglie",club:"Everton",price:8},
-  {id:101,name:"Dean Henderson",pos:"GK",country:"Anglie",club:"Crystal Palace",price:6},
-  {id:102,name:"Kyle Walker",pos:"OBR",country:"Anglie",club:"Man City",price:8},
-  {id:103,name:"Trent Alexander-Arnold",pos:"OBR",country:"Anglie",club:"Real Madrid",price:13},
-  {id:104,name:"Marc Guehi",pos:"OBR",country:"Anglie",club:"Crystal Palace",price:8},
-  {id:105,name:"Ezri Konsa",pos:"OBR",country:"Anglie",club:"Aston Villa",price:7},
-  {id:106,name:"Jude Bellingham",pos:"ZAL",country:"Anglie",club:"Real Madrid",price:16},
-  {id:107,name:"Phil Foden",pos:"ZAL",country:"Anglie",club:"Man City",price:13},
-  {id:108,name:"Bukayo Saka",pos:"ZAL",country:"Anglie",club:"Arsenal",price:14},
-  {id:109,name:"Declan Rice",pos:"ZAL",country:"Anglie",club:"Arsenal",price:12},
-  {id:110,name:"Cole Palmer",pos:"ZAL",country:"Anglie",club:"Chelsea",price:14},
-  {id:111,name:"Harry Kane",pos:"UTO",country:"Anglie",club:"Bayern Munich",price:15},
-  {id:112,name:"Marcus Rashford",pos:"UTO",country:"Anglie",club:"Aston Villa",price:9},
-  {id:113,name:"Ollie Watkins",pos:"UTO",country:"Anglie",club:"Aston Villa",price:10},
-  {id:120,name:"Diogo Costa",pos:"GK",country:"Portugalsko",club:"Porto",price:11},
-  {id:121,name:"José Sá",pos:"GK",country:"Portugalsko",club:"Wolves",price:7},
-  {id:122,name:"Rúben Dias",pos:"OBR",country:"Portugalsko",club:"Man City",price:12},
-  {id:123,name:"Nuno Mendes",pos:"OBR",country:"Portugalsko",club:"PSG",price:10},
-  {id:124,name:"Diogo Dalot",pos:"OBR",country:"Portugalsko",club:"Man United",price:9},
-  {id:125,name:"João Cancelo",pos:"OBR",country:"Portugalsko",club:"Barcelona",price:8},
-  {id:126,name:"Bruno Fernandes",pos:"ZAL",country:"Portugalsko",club:"Man United",price:11},
-  {id:127,name:"Bernardo Silva",pos:"ZAL",country:"Portugalsko",club:"Man City",price:12},
-  {id:128,name:"Vitinha",pos:"ZAL",country:"Portugalsko",club:"PSG",price:10},
-  {id:129,name:"João Félix",pos:"ZAL",country:"Portugalsko",club:"Chelsea",price:9},
-  {id:130,name:"Cristiano Ronaldo",pos:"UTO",country:"Portugalsko",club:"Al-Nassr",price:12},
-  {id:131,name:"Rafael Leão",pos:"UTO",country:"Portugalsko",club:"AC Milan",price:13},
+  {id:2,name:"Ederson",pos:"GK",country:"Brazílie",club:"Fenerbahçe",price:7},
+  {id:3,name:"Weverton",pos:"GK",country:"Brazílie",club:"Grêmio",price:5},
+  {id:4,name:"Marquinhos",pos:"OBR",country:"Brazílie",club:"PSG",price:11},
+  {id:5,name:"Gabriel Magalhães",pos:"OBR",country:"Brazílie",club:"Arsenal",price:5},
+  {id:6,name:"Alex Sandro",pos:"OBR",country:"Brazílie",club:"Flamengo",price:7},
+  {id:7,name:"Danilo",pos:"OBR",country:"Brazílie",club:"Flamengo",price:9},
+  {id:8,name:"Bremer",pos:"OBR",country:"Brazílie",club:"Juventus",price:5},
+  {id:9,name:"Wesley",pos:"OBR",country:"Brazílie",club:"Roma",price:5},
+  {id:10,name:"Casemiro",pos:"ZAL",country:"Brazílie",club:"Man United",price:11},
+  {id:11,name:"Bruno Guimarães",pos:"ZAL",country:"Brazílie",club:"Newcastle",price:7},
+  {id:12,name:"Lucas Paquetá",pos:"ZAL",country:"Brazílie",club:"Flamengo",price:11},
+  {id:13,name:"Fabinho",pos:"ZAL",country:"Brazílie",club:"Al-Ittihad",price:7},
+  {id:14,name:"Raphinha",pos:"ZAL",country:"Brazílie",club:"Barcelona",price:14},
+  {id:15,name:"Gabriel Martinelli",pos:"ZAL",country:"Brazílie",club:"Arsenal",price:7},
+  {id:16,name:"Vinícius Júnior",pos:"UTO",country:"Brazílie",club:"Real Madrid",price:18},
+  {id:17,name:"Neymar",pos:"UTO",country:"Brazílie",club:"Santos",price:19},
+  {id:18,name:"Endrick",pos:"UTO",country:"Brazílie",club:"Lyon",price:5},
+  {id:19,name:"Matheus Cunha",pos:"UTO",country:"Brazílie",club:"Man United",price:5},
+  {id:20,name:"Luiz Henrique",pos:"UTO",country:"Brazílie",club:"Zenit",price:5},
+  {id:21,name:"Mike Maignan",pos:"GK",country:"Francie",club:"AC Milan",price:14},
+  {id:22,name:"Brice Samba",pos:"GK",country:"Francie",club:"Rennes",price:5},
+  {id:23,name:"Robin Risser",pos:"GK",country:"Francie",club:"Lens",price:5},
+  {id:24,name:"William Saliba",pos:"OBR",country:"Francie",club:"Arsenal",price:14},
+  {id:25,name:"Jules Koundé",pos:"OBR",country:"Francie",club:"Barcelona",price:9},
+  {id:26,name:"Ibrahima Konaté",pos:"OBR",country:"Francie",club:"Liverpool",price:7},
+  {id:27,name:"Théo Hernández",pos:"OBR",country:"Francie",club:"Al-Hilal",price:7},
+  {id:28,name:"Lucas Hernández",pos:"OBR",country:"Francie",club:"PSG",price:9},
+  {id:29,name:"Malo Gusto",pos:"OBR",country:"Francie",club:"Chelsea",price:5},
+  {id:30,name:"Lucas Digne",pos:"OBR",country:"Francie",club:"Aston Villa",price:9},
+  {id:31,name:"N'Golo Kanté",pos:"ZAL",country:"Francie",club:"Fenerbahçe",price:9},
+  {id:32,name:"Aurélien Tchouaméni",pos:"ZAL",country:"Francie",club:"Real Madrid",price:7},
+  {id:33,name:"Adrien Rabiot",pos:"ZAL",country:"Francie",club:"AC Milan",price:9},
+  {id:34,name:"Warren Zaïre-Emery",pos:"ZAL",country:"Francie",club:"PSG",price:5},
+  {id:35,name:"Manu Koné",pos:"ZAL",country:"Francie",club:"Roma",price:5},
+  {id:36,name:"Kylian Mbappé",pos:"UTO",country:"Francie",club:"Real Madrid",price:19},
+  {id:37,name:"Ousmane Dembélé",pos:"UTO",country:"Francie",club:"PSG",price:14},
+  {id:38,name:"Bradley Barcola",pos:"UTO",country:"Francie",club:"PSG",price:9},
+  {id:39,name:"Rayan Cherki",pos:"UTO",country:"Francie",club:"Man City",price:5},
+  {id:40,name:"Maghnes Akliouche",pos:"UTO",country:"Francie",club:"Monaco",price:5},
+  {id:41,name:"David Raya",pos:"GK",country:"Španělsko",club:"Arsenal",price:5},
+  {id:42,name:"Unai Simón",pos:"GK",country:"Španělsko",club:"Athletic Club",price:9},
+  {id:43,name:"Alex Remiro",pos:"GK",country:"Španělsko",club:"Real Sociedad",price:7},
+  {id:44,name:"Dani Carvajal",pos:"OBR",country:"Španělsko",club:"Real Madrid",price:9},
+  {id:45,name:"Alejandro Grimaldo",pos:"OBR",country:"Španělsko",club:"Bayer Leverkusen",price:5},
+  {id:46,name:"Pau Cubarsí",pos:"OBR",country:"Španělsko",club:"Barcelona",price:5},
+  {id:47,name:"Robin Le Normand",pos:"OBR",country:"Španělsko",club:"Atlético Madrid",price:5},
+  {id:48,name:"Aymeric Laporte",pos:"OBR",country:"Španělsko",club:"Al-Nassr",price:9},
+  {id:49,name:"Dani Vivian",pos:"OBR",country:"Španělsko",club:"Athletic Club",price:5},
+  {id:50,name:"Pedri",pos:"ZAL",country:"Španělsko",club:"Barcelona",price:14},
+  {id:51,name:"Rodri",pos:"ZAL",country:"Španělsko",club:"Man City",price:14},
+  {id:52,name:"Fábián Ruiz",pos:"ZAL",country:"Španělsko",club:"PSG",price:9},
+  {id:53,name:"Lamine Yamal",pos:"ZAL",country:"Španělsko",club:"Barcelona",price:14},
+  {id:54,name:"Dani Olmo",pos:"ZAL",country:"Španělsko",club:"RB Leipzig",price:11},
+  {id:55,name:"Mikel Merino",pos:"ZAL",country:"Španělsko",club:"Arsenal",price:9},
+  {id:56,name:"Alvaro Morata",pos:"UTO",country:"Španělsko",club:"AC Milan",price:14},
+  {id:57,name:"Mikel Oyarzabal",pos:"UTO",country:"Španělsko",club:"Real Sociedad",price:14},
+  {id:58,name:"Nico Williams",pos:"UTO",country:"Španělsko",club:"Athletic Club",price:7},
+  {id:59,name:"Bryan Gil",pos:"UTO",country:"Španělsko",club:"Sevilla",price:5},
+  {id:60,name:"Ferran Torres",pos:"UTO",country:"Španělsko",club:"Barcelona",price:14},
+  {id:61,name:"Manuel Neuer",pos:"GK",country:"Německo",club:"Bayern Munich",price:11},
+  {id:62,name:"Oliver Baumann",pos:"GK",country:"Německo",club:"TSG Hoffenheim",price:5},
+  {id:63,name:"Alexander Nübel",pos:"GK",country:"Německo",club:"VfB Stuttgart",price:5},
+  {id:64,name:"Antonio Rüdiger",pos:"OBR",country:"Německo",club:"Real Madrid",price:11},
+  {id:65,name:"Joshua Kimmich",pos:"OBR",country:"Německo",club:"Bayern Munich",price:14},
+  {id:66,name:"Jonathan Tah",pos:"OBR",country:"Německo",club:"Bayern Munich",price:7},
+  {id:67,name:"David Raum",pos:"OBR",country:"Německo",club:"RB Leipzig",price:7},
+  {id:68,name:"Nico Schlotterbeck",pos:"OBR",country:"Německo",club:"Borussia Dortmund",price:7},
+  {id:69,name:"Waldemar Anton",pos:"OBR",country:"Německo",club:"Borussia Dortmund",price:5},
+  {id:70,name:"Florian Wirtz",pos:"ZAL",country:"Německo",club:"Liverpool",price:14},
+  {id:71,name:"Jamal Musiala",pos:"ZAL",country:"Německo",club:"Bayern Munich",price:14},
+  {id:72,name:"İlkay Gündoğan",pos:"ZAL",country:"Německo",club:"Barcelona",price:13},
+  {id:73,name:"Leon Goretzka",pos:"ZAL",country:"Německo",club:"Bayern Munich",price:11},
+  {id:74,name:"Leroy Sané",pos:"ZAL",country:"Německo",club:"Galatasaray",price:13},
+  {id:75,name:"Aleksandar Pavlović",pos:"ZAL",country:"Německo",club:"Bayern Munich",price:5},
+  {id:76,name:"Kai Havertz",pos:"UTO",country:"Německo",club:"Arsenal",price:14},
+  {id:77,name:"Niclas Füllkrug",pos:"UTO",country:"Německo",club:"West Ham",price:11},
+  {id:78,name:"Nick Woltemade",pos:"UTO",country:"Německo",club:"Newcastle",price:7},
+  {id:79,name:"Maximilian Beier",pos:"UTO",country:"Německo",club:"Borussia Dortmund",price:5},
+  {id:80,name:"Deniz Undav",pos:"UTO",country:"Německo",club:"VfB Stuttgart",price:7},
+  {id:81,name:"Emiliano Martínez",pos:"GK",country:"Argentina",club:"Aston Villa",price:13},
+  {id:82,name:"Geronimo Rulli",pos:"GK",country:"Argentina",club:"Ajax",price:7},
+  {id:83,name:"Juan Musso",pos:"GK",country:"Argentina",club:"Atalanta",price:7},
+  {id:84,name:"Cristian Romero",pos:"OBR",country:"Argentina",club:"Tottenham",price:7},
+  {id:85,name:"Lisandro Martínez",pos:"OBR",country:"Argentina",club:"Man United",price:7},
+  {id:86,name:"Nicolás Otamendi",pos:"OBR",country:"Argentina",club:"Benfica",price:11},
+  {id:87,name:"Nahuel Molina",pos:"OBR",country:"Argentina",club:"Atlético Madrid",price:7},
+  {id:88,name:"Leonardo Balerdi",pos:"OBR",country:"Argentina",club:"Marseille",price:5},
+  {id:89,name:"Gonzalo Montiel",pos:"OBR",country:"Argentina",club:"Sevilla",price:7},
+  {id:90,name:"Rodrigo De Paul",pos:"ZAL",country:"Argentina",club:"Atlético Madrid",price:13},
+  {id:91,name:"Leandro Paredes",pos:"ZAL",country:"Argentina",club:"Roma",price:11},
+  {id:92,name:"Enzo Fernández",pos:"ZAL",country:"Argentina",club:"Chelsea",price:9},
+  {id:93,name:"Alexis Mac Allister",pos:"ZAL",country:"Argentina",club:"Liverpool",price:9},
+  {id:94,name:"Lionel Messi",pos:"UTO",country:"Argentina",club:"Inter Miami",price:18},
+  {id:95,name:"Lautaro Martínez",pos:"UTO",country:"Argentina",club:"Inter Milan",price:14},
+  {id:96,name:"Julián Álvarez",pos:"UTO",country:"Argentina",club:"Atlético Madrid",price:17},
+  {id:97,name:"Alejandro Garnacho",pos:"UTO",country:"Argentina",club:"Man United",price:9},
+  {id:98,name:"Ángel Di María",pos:"UTO",country:"Argentina",club:"Benfica",price:14},
+  {id:99,name:"Jordan Pickford",pos:"GK",country:"Anglie",club:"Everton",price:9},
+  {id:100,name:"Aaron Ramsdale",pos:"GK",country:"Anglie",club:"Southampton",price:5},
+  {id:101,name:"Dean Henderson",pos:"GK",country:"Anglie",club:"Crystal Palace",price:5},
+  {id:102,name:"Kyle Walker",pos:"OBR",country:"Anglie",club:"Man City",price:11},
+  {id:103,name:"Trent Alexander-Arnold",pos:"OBR",country:"Anglie",club:"Real Madrid",price:14},
+  {id:104,name:"Marc Guehi",pos:"OBR",country:"Anglie",club:"Crystal Palace",price:5},
+  {id:105,name:"Harry Maguire",pos:"OBR",country:"Anglie",club:"Man United",price:9},
+  {id:106,name:"Ezri Konsa",pos:"OBR",country:"Anglie",club:"Aston Villa",price:5},
+  {id:107,name:"Jude Bellingham",pos:"ZAL",country:"Anglie",club:"Real Madrid",price:16},
+  {id:108,name:"Phil Foden",pos:"ZAL",country:"Anglie",club:"Man City",price:15},
+  {id:109,name:"Bukayo Saka",pos:"ZAL",country:"Anglie",club:"Arsenal",price:15},
+  {id:110,name:"Declan Rice",pos:"ZAL",country:"Anglie",club:"Arsenal",price:9},
+  {id:111,name:"Cole Palmer",pos:"ZAL",country:"Anglie",club:"Chelsea",price:14},
+  {id:112,name:"Conor Gallagher",pos:"ZAL",country:"Anglie",club:"Atlético Madrid",price:7},
+  {id:113,name:"Harry Kane",pos:"UTO",country:"Anglie",club:"Bayern Munich",price:16},
+  {id:114,name:"Marcus Rashford",pos:"UTO",country:"Anglie",club:"Aston Villa",price:14},
+  {id:115,name:"Ollie Watkins",pos:"UTO",country:"Anglie",club:"Aston Villa",price:11},
+  {id:116,name:"Dominic Solanke",pos:"UTO",country:"Anglie",club:"Tottenham",price:7},
+  {id:117,name:"Diogo Costa",pos:"GK",country:"Portugalsko",club:"Porto",price:7},
+  {id:118,name:"José Sá",pos:"GK",country:"Portugalsko",club:"Wolves",price:5},
+  {id:119,name:"Rui Patrício",pos:"GK",country:"Portugalsko",club:"Roma",price:11},
+  {id:120,name:"Rúben Dias",pos:"OBR",country:"Portugalsko",club:"Man City",price:14},
+  {id:121,name:"Nuno Mendes",pos:"OBR",country:"Portugalsko",club:"PSG",price:7},
+  {id:122,name:"Diogo Dalot",pos:"OBR",country:"Portugalsko",club:"Man United",price:7},
+  {id:123,name:"Pepe",pos:"OBR",country:"Portugalsko",club:"Porto",price:11},
+  {id:124,name:"João Cancelo",pos:"OBR",country:"Portugalsko",club:"Barcelona",price:9},
+  {id:125,name:"Bruno Fernandes",pos:"ZAL",country:"Portugalsko",club:"Man United",price:18},
+  {id:126,name:"Bernardo Silva",pos:"ZAL",country:"Portugalsko",club:"Man City",price:16},
+  {id:127,name:"Vitinha",pos:"ZAL",country:"Portugalsko",club:"PSG",price:7},
+  {id:128,name:"João Félix",pos:"ZAL",country:"Portugalsko",club:"Chelsea",price:9},
+  {id:129,name:"Otávio",pos:"ZAL",country:"Portugalsko",club:"Al-Nassr",price:7},
+  {id:130,name:"Cristiano Ronaldo",pos:"UTO",country:"Portugalsko",club:"Al-Nassr",price:13},
+  {id:131,name:"Rafael Leão",pos:"UTO",country:"Portugalsko",club:"AC Milan",price:14},
   {id:132,name:"Gonçalo Ramos",pos:"UTO",country:"Portugalsko",club:"PSG",price:11},
-  {id:133,name:"Pedro Neto",pos:"UTO",country:"Portugalsko",club:"Chelsea",price:10},
-  {id:140,name:"Matěj Kovář",pos:"GK",country:"Česko",club:"Bayer Leverkusen",price:9},
-  {id:141,name:"Jindřich Staněk",pos:"GK",country:"Česko",club:"Slavia Prague",price:6},
-  {id:142,name:"Vladimír Coufal",pos:"OBR",country:"Česko",club:"Hoffenheim",price:6},
-  {id:143,name:"Ladislav Krejčí",pos:"OBR",country:"Česko",club:"Wolves",price:7},
-  {id:144,name:"Tomáš Holeš",pos:"OBR",country:"Česko",club:"Slavia Prague",price:6},
-  {id:145,name:"David Zima",pos:"OBR",country:"Česko",club:"Slavia Prague",price:5},
-  {id:146,name:"Robin Hranáč",pos:"OBR",country:"Česko",club:"Hoffenheim",price:6},
-  {id:147,name:"Tomáš Souček",pos:"ZAL",country:"Česko",club:"West Ham",price:8},
-  {id:148,name:"Lukáš Provod",pos:"ZAL",country:"Česko",club:"Slavia Prague",price:6},
-  {id:149,name:"Pavel Šulc",pos:"ZAL",country:"Česko",club:"Bayer Leverkusen",price:8},
-  {id:150,name:"Michal Sadílek",pos:"ZAL",country:"Česko",club:"Slavia Prague",price:6},
-  {id:151,name:"Patrik Schick",pos:"UTO",country:"Česko",club:"Bayer Leverkusen",price:10},
-  {id:152,name:"Adam Hložek",pos:"UTO",country:"Česko",club:"Hoffenheim",price:7},
-  {id:153,name:"Mojmír Chytil",pos:"UTO",country:"Česko",club:"Feyenoord",price:7},
-  {id:160,name:"Yassine Bounou",pos:"GK",country:"Maroko",club:"Al-Hilal",price:9},
-  {id:161,name:"Achraf Hakimi",pos:"OBR",country:"Maroko",club:"PSG",price:14},
-  {id:162,name:"Nayef Aguerd",pos:"OBR",country:"Maroko",club:"Marseille",price:7},
-  {id:163,name:"Noussair Mazraoui",pos:"OBR",country:"Maroko",club:"Man United",price:8},
-  {id:164,name:"Romain Saïss",pos:"OBR",country:"Maroko",club:"Besiktas",price:6},
-  {id:165,name:"Sofyan Amrabat",pos:"ZAL",country:"Maroko",club:"Real Betis",price:8},
-  {id:166,name:"Azzedine Ounahi",pos:"ZAL",country:"Maroko",club:"Girona",price:8},
-  {id:167,name:"Bilal El Khannouss",pos:"ZAL",country:"Maroko",club:"Stuttgart",price:9},
-  {id:168,name:"Hakim Ziyech",pos:"ZAL",country:"Maroko",club:"Galatasaray",price:8},
-  {id:169,name:"Ayoub El Kaabi",pos:"UTO",country:"Maroko",club:"Olympiacos",price:8},
-  {id:170,name:"Brahim Díaz",pos:"UTO",country:"Maroko",club:"Real Madrid",price:10},
-  {id:171,name:"Soufiane Rahimi",pos:"UTO",country:"Maroko",club:"Al-Ain",price:7},
-  {id:180,name:"Kim Seung-gyu",pos:"GK",country:"Jižní Korea",club:"FC Tokyo",price:7},
-  {id:181,name:"Kim Min-jae",pos:"OBR",country:"Jižní Korea",club:"Bayern Munich",price:11},
-  {id:182,name:"Lee Jae-sung",pos:"ZAL",country:"Jižní Korea",club:"Mainz",price:8},
-  {id:183,name:"Hwang Hee-chan",pos:"ZAL",country:"Jižní Korea",club:"Wolves",price:8},
-  {id:184,name:"Lee Kang-in",pos:"ZAL",country:"Jižní Korea",club:"PSG",price:10},
-  {id:185,name:"Son Heung-min",pos:"UTO",country:"Jižní Korea",club:"LA FC",price:12},
-  {id:186,name:"Cho Gue-sung",pos:"UTO",country:"Jižní Korea",club:"Midtjylland",price:7},
-  {id:187,name:"Oh Hyeon-gyu",pos:"UTO",country:"Jižní Korea",club:"Beşiktaş",price:7},
-  {id:190,name:"Craig Gordon",pos:"GK",country:"Skotsko",club:"Hearts",price:7},
-  {id:191,name:"Angus Gunn",pos:"GK",country:"Skotsko",club:"Nottm Forest",price:6},
-  {id:192,name:"Andy Robertson",pos:"OBR",country:"Skotsko",club:"Liverpool",price:10},
-  {id:193,name:"Kieran Tierney",pos:"OBR",country:"Skotsko",club:"Celtic",price:7},
-  {id:194,name:"Grant Hanley",pos:"OBR",country:"Skotsko",club:"Hibernian",price:6},
-  {id:195,name:"John McGinn",pos:"ZAL",country:"Skotsko",club:"Aston Villa",price:10},
-  {id:196,name:"Scott McTominay",pos:"ZAL",country:"Skotsko",club:"Napoli",price:10},
-  {id:197,name:"Ryan Christie",pos:"ZAL",country:"Skotsko",club:"Bournemouth",price:7},
-  {id:198,name:"Lawrence Shankland",pos:"UTO",country:"Skotsko",club:"Hearts",price:7},
-  {id:199,name:"Ché Adams",pos:"UTO",country:"Skotsko",club:"Torino",price:7},
-  {id:200,name:"Gregor Kobel",pos:"GK",country:"Švýcarsko",club:"Dortmund",price:8},
-  {id:201,name:"Manuel Akanji",pos:"OBR",country:"Švýcarsko",club:"Man City",price:9},
-  {id:202,name:"Ricardo Rodriguez",pos:"OBR",country:"Švýcarsko",club:"Real Betis",price:6},
-  {id:203,name:"Nico Elvedi",pos:"OBR",country:"Švýcarsko",club:"Gladbach",price:7},
-  {id:204,name:"Granit Xhaka",pos:"ZAL",country:"Švýcarsko",club:"Bayer Leverkusen",price:10},
-  {id:205,name:"Remo Freuler",pos:"ZAL",country:"Švýcarsko",club:"Bologna",price:8},
-  {id:206,name:"Denis Zakaria",pos:"ZAL",country:"Švýcarsko",club:"Monaco",price:7},
-  {id:207,name:"Breel Embolo",pos:"UTO",country:"Švýcarsko",club:"Monaco",price:8},
-  {id:208,name:"Zeki Amdouni",pos:"UTO",country:"Švýcarsko",club:"Burnley",price:7},
-  {id:209,name:"Dan Ndoye",pos:"UTO",country:"Švýcarsko",club:"Nottm Forest",price:8},
+  {id:133,name:"Pedro Neto",pos:"UTO",country:"Portugalsko",club:"Chelsea",price:7},
+  {id:134,name:"Matěj Kovář",pos:"GK",country:"Česko",club:"PSV Eindhoven",price:7},
+  {id:135,name:"Jindřich Staněk",pos:"GK",country:"Česko",club:"Slavia Prague",price:5},
+  {id:136,name:"Lukáš Horníček",pos:"GK",country:"Česko",club:"Braga",price:5},
+  {id:137,name:"Vladimír Coufal",pos:"OBR",country:"Česko",club:"TSG Hoffenheim",price:9},
+  {id:138,name:"Ladislav Krejčí",pos:"OBR",country:"Česko",club:"Wolves",price:7},
+  {id:139,name:"Tomáš Holeš",pos:"OBR",country:"Česko",club:"Slavia Prague",price:7},
+  {id:140,name:"David Zima",pos:"OBR",country:"Česko",club:"Slavia Prague",price:5},
+  {id:141,name:"David Jurásek",pos:"OBR",country:"Česko",club:"Slavia Prague",price:5},
+  {id:142,name:"Robin Hranáč",pos:"OBR",country:"Česko",club:"TSG Hoffenheim",price:5},
+  {id:143,name:"Tomáš Souček",pos:"ZAL",country:"Česko",club:"West Ham",price:13},
+  {id:144,name:"Vladimír Darida",pos:"ZAL",country:"Česko",club:"Hradec Králové",price:11},
+  {id:145,name:"Lukáš Provod",pos:"ZAL",country:"Česko",club:"Slavia Prague",price:7},
+  {id:146,name:"Michal Sadílek",pos:"ZAL",country:"Česko",club:"Slavia Prague",price:7},
+  {id:147,name:"Pavel Šulc",pos:"ZAL",country:"Česko",club:"Lyon",price:7},
+  {id:148,name:"Patrik Schick",pos:"UTO",country:"Česko",club:"Bayer Leverkusen",price:14},
+  {id:149,name:"Adam Hložek",pos:"UTO",country:"Česko",club:"TSG Hoffenheim",price:9},
+  {id:150,name:"Jan Kuchta",pos:"UTO",country:"Česko",club:"Sparta Prague",price:7},
+  {id:151,name:"Mojmír Chytil",pos:"UTO",country:"Česko",club:"Slavia Prague",price:9},
+  {id:152,name:"Tomáš Chorý",pos:"UTO",country:"Česko",club:"Slavia Prague",price:9},
+  {id:153,name:"Yassine Bounou",pos:"GK",country:"Maroko",club:"Al-Hilal",price:11},
+  {id:154,name:"Munir Mohamedi",pos:"GK",country:"Maroko",club:"RS Berkane",price:9},
+  {id:155,name:"Achraf Hakimi",pos:"OBR",country:"Maroko",club:"PSG",price:14},
+  {id:156,name:"Nayef Aguerd",pos:"OBR",country:"Maroko",club:"Marseille",price:9},
+  {id:157,name:"Noussair Mazraoui",pos:"OBR",country:"Maroko",club:"Man United",price:7},
+  {id:158,name:"Romain Saïss",pos:"OBR",country:"Maroko",club:"Besiktas",price:11},
+  {id:159,name:"Sofyan Amrabat",pos:"ZAL",country:"Maroko",club:"Real Betis",price:9},
+  {id:160,name:"Azzedine Ounahi",pos:"ZAL",country:"Maroko",club:"Girona",price:9},
+  {id:161,name:"Bilal El Khannouss",pos:"ZAL",country:"Maroko",club:"VfB Stuttgart",price:7},
+  {id:162,name:"Ismael Saibari",pos:"ZAL",country:"Maroko",club:"PSV Eindhoven",price:7},
+  {id:163,name:"Hakim Ziyech",pos:"ZAL",country:"Maroko",club:"Galatasaray",price:13},
+  {id:164,name:"Ayoub El Kaabi",pos:"UTO",country:"Maroko",club:"Olympiacos",price:14},
+  {id:165,name:"Brahim Díaz",pos:"UTO",country:"Maroko",club:"Real Madrid",price:11},
+  {id:166,name:"Soufiane Rahimi",pos:"UTO",country:"Maroko",club:"Al-Ain",price:11},
+  {id:167,name:"Abde Ezzalzouli",pos:"UTO",country:"Maroko",club:"Real Betis",price:7},
+  {id:168,name:"Kim Seung-gyu",pos:"GK",country:"Jižní Korea",club:"FC Tokyo",price:11},
+  {id:169,name:"Jo Hyeon-woo",pos:"GK",country:"Jižní Korea",club:"Ulsan HD",price:9},
+  {id:170,name:"Kim Min-jae",pos:"OBR",country:"Jižní Korea",club:"Bayern Munich",price:9},
+  {id:171,name:"Seol Young-woo",pos:"OBR",country:"Jižní Korea",club:"Red Star Belgrade",price:7},
+  {id:172,name:"Kim Moon-hwan",pos:"OBR",country:"Jižní Korea",club:"Daejeon",price:7},
+  {id:173,name:"Lee Jae-sung",pos:"ZAL",country:"Jižní Korea",club:"Mainz 05",price:13},
+  {id:174,name:"Hwang Hee-chan",pos:"ZAL",country:"Jižní Korea",club:"Wolves",price:13},
+  {id:175,name:"Lee Kang-in",pos:"ZAL",country:"Jižní Korea",club:"PSG",price:9},
+  {id:176,name:"Hwang In-beom",pos:"ZAL",country:"Jižní Korea",club:"Feyenoord",price:11},
+  {id:177,name:"Son Heung-min",pos:"UTO",country:"Jižní Korea",club:"LA FC",price:19},
+  {id:178,name:"Cho Gue-sung",pos:"UTO",country:"Jižní Korea",club:"Midtjylland",price:11},
+  {id:179,name:"Oh Hyeon-gyu",pos:"UTO",country:"Jižní Korea",club:"Beşiktaş",price:9},
+  {id:180,name:"Craig Gordon",pos:"GK",country:"Skotsko",club:"Hearts",price:11},
+  {id:181,name:"Angus Gunn",pos:"GK",country:"Skotsko",club:"Nottingham Forest",price:7},
+  {id:182,name:"Andy Robertson",pos:"OBR",country:"Skotsko",club:"Liverpool",price:11},
+  {id:183,name:"Grant Hanley",pos:"OBR",country:"Skotsko",club:"Hibernian",price:9},
+  {id:184,name:"Kieran Tierney",pos:"OBR",country:"Skotsko",club:"Celtic",price:9},
+  {id:185,name:"Scott McKenna",pos:"OBR",country:"Skotsko",club:"Dinamo Zagreb",price:9},
+  {id:186,name:"Nathan Patterson",pos:"OBR",country:"Skotsko",club:"Everton",price:7},
+  {id:187,name:"Aaron Hickey",pos:"OBR",country:"Skotsko",club:"Brentford",price:5},
+  {id:188,name:"John McGinn",pos:"ZAL",country:"Skotsko",club:"Aston Villa",price:13},
+  {id:189,name:"Scott McTominay",pos:"ZAL",country:"Skotsko",club:"Napoli",price:11},
+  {id:190,name:"Ryan Christie",pos:"ZAL",country:"Skotsko",club:"Bournemouth",price:11},
+  {id:191,name:"Kenny McLean",pos:"ZAL",country:"Skotsko",club:"Norwich City",price:9},
+  {id:192,name:"Lewis Ferguson",pos:"ZAL",country:"Skotsko",club:"Bologna",price:5},
+  {id:193,name:"Lyndon Dykes",pos:"UTO",country:"Skotsko",club:"Charlton",price:11},
+  {id:194,name:"Ché Adams",pos:"UTO",country:"Skotsko",club:"Torino",price:11},
+  {id:195,name:"Lawrence Shankland",pos:"UTO",country:"Skotsko",club:"Hearts",price:7},
+  {id:196,name:"Gregor Kobel",pos:"GK",country:"Švýcarsko",club:"Borussia Dortmund",price:7},
+  {id:197,name:"Yvon Mvogo",pos:"GK",country:"Švýcarsko",club:"Lorient",price:5},
+  {id:198,name:"Manuel Akanji",pos:"OBR",country:"Švýcarsko",club:"Inter Milan",price:11},
+  {id:199,name:"Ricardo Rodriguez",pos:"OBR",country:"Švýcarsko",club:"Real Betis",price:11},
+  {id:200,name:"Nico Elvedi",pos:"OBR",country:"Švýcarsko",club:"BMG",price:9},
+  {id:201,name:"Silvan Widmer",pos:"OBR",country:"Švýcarsko",club:"Mainz 05",price:9},
+  {id:202,name:"Granit Xhaka",pos:"ZAL",country:"Švýcarsko",club:"Sunderland",price:15},
+  {id:203,name:"Remo Freuler",pos:"ZAL",country:"Švýcarsko",club:"Bologna",price:11},
+  {id:204,name:"Denis Zakaria",pos:"ZAL",country:"Švýcarsko",club:"Monaco",price:9},
+  {id:205,name:"Ardon Jashari",pos:"ZAL",country:"Švýcarsko",club:"Milan",price:5},
+  {id:206,name:"Breel Embolo",pos:"UTO",country:"Švýcarsko",club:"Rennes",price:14},
+  {id:207,name:"Zeki Amdouni",pos:"UTO",country:"Švýcarsko",club:"Burnley",price:9},
+  {id:208,name:"Dan Ndoye",pos:"UTO",country:"Švýcarsko",club:"Nottm Forest",price:9},
+  {id:209,name:"Rubén Vargas",pos:"UTO",country:"Švýcarsko",club:"Sevilla",price:11},
   {id:210,name:"Dayne St. Clair",pos:"GK",country:"Kanada",club:"Inter Miami",price:7},
-  {id:211,name:"Alphonso Davies",pos:"OBR",country:"Kanada",club:"Bayern Munich",price:13},
-  {id:212,name:"Alistair Johnston",pos:"OBR",country:"Kanada",club:"Celtic",price:7},
-  {id:213,name:"Derek Cornelius",pos:"OBR",country:"Kanada",club:"Rangers",price:6},
-  {id:214,name:"Stephen Eustáquio",pos:"ZAL",country:"Kanada",club:"LA FC",price:8},
-  {id:215,name:"Tajon Buchanan",pos:"ZAL",country:"Kanada",club:"Villarreal",price:8},
-  {id:216,name:"Ismaël Koné",pos:"ZAL",country:"Kanada",club:"Sassuolo",price:7},
-  {id:217,name:"Jonathan David",pos:"UTO",country:"Kanada",club:"Juventus",price:14},
-  {id:218,name:"Cyle Larin",pos:"UTO",country:"Kanada",club:"Columbus",price:8},
-  {id:220,name:"Guillermo Ochoa",pos:"GK",country:"Mexiko",club:"Toluca",price:8},
-  {id:221,name:"Edson Álvarez",pos:"ZAL",country:"Mexiko",club:"West Ham",price:8},
-  {id:222,name:"Roberto Alvarado",pos:"ZAL",country:"Mexiko",club:"Guadalajara",price:7},
-  {id:223,name:"Jesús Gallardo",pos:"OBR",country:"Mexiko",club:"Toluca",price:7},
-  {id:224,name:"César Montes",pos:"OBR",country:"Mexiko",club:"Espanyol",price:7},
-  {id:225,name:"Raúl Jiménez",pos:"UTO",country:"Mexiko",club:"Fulham",price:9},
-  {id:226,name:"Santiago Giménez",pos:"UTO",country:"Mexiko",club:"AC Milan",price:11},
-  {id:227,name:"Alexis Vega",pos:"UTO",country:"Mexiko",club:"Toluca",price:7},
-  {id:230,name:"Matt Turner",pos:"GK",country:"USA",club:"Crystal Palace",price:8},
-  {id:231,name:"Antonee Robinson",pos:"OBR",country:"USA",club:"Fulham",price:9},
-  {id:232,name:"Sergiño Dest",pos:"OBR",country:"USA",club:"PSV",price:8},
-  {id:233,name:"Chris Richards",pos:"OBR",country:"USA",club:"Crystal Palace",price:7},
-  {id:234,name:"Tyler Adams",pos:"ZAL",country:"USA",club:"Bournemouth",price:9},
-  {id:235,name:"Weston McKennie",pos:"ZAL",country:"USA",club:"Juventus",price:9},
-  {id:236,name:"Giovanni Reyna",pos:"ZAL",country:"USA",club:"Gladbach",price:8},
-  {id:237,name:"Christian Pulisic",pos:"UTO",country:"USA",club:"AC Milan",price:12},
-  {id:238,name:"Folarin Balogun",pos:"UTO",country:"USA",club:"Monaco",price:9},
-  {id:239,name:"Ricardo Pepi",pos:"UTO",country:"USA",club:"PSV",price:9},
-  {id:240,name:"Timothy Weah",pos:"UTO",country:"USA",club:"Juventus",price:8},
-  {id:250,name:"Bart Verbruggen",pos:"GK",country:"Nizozemsko",club:"Brighton",price:8},
-  {id:251,name:"Virgil van Dijk",pos:"OBR",country:"Nizozemsko",club:"Liverpool",price:13},
-  {id:252,name:"Denzel Dumfries",pos:"OBR",country:"Nizozemsko",club:"Inter Milan",price:10},
-  {id:253,name:"Nathan Aké",pos:"OBR",country:"Nizozemsko",club:"Man City",price:9},
-  {id:254,name:"Jurriën Timber",pos:"OBR",country:"Nizozemsko",club:"Arsenal",price:9},
-  {id:255,name:"Frenkie de Jong",pos:"ZAL",country:"Nizozemsko",club:"Barcelona",price:11},
-  {id:256,name:"Tijjani Reijnders",pos:"ZAL",country:"Nizozemsko",club:"Man City",price:12},
-  {id:257,name:"Teun Koopmeiners",pos:"ZAL",country:"Nizozemsko",club:"Juventus",price:10},
-  {id:258,name:"Ryan Gravenberch",pos:"ZAL",country:"Nizozemsko",club:"Liverpool",price:10},
-  {id:259,name:"Cody Gakpo",pos:"UTO",country:"Nizozemsko",club:"Liverpool",price:11},
-  {id:260,name:"Donyell Malen",pos:"UTO",country:"Nizozemsko",club:"Aston Villa",price:9},
-  {id:261,name:"Memphis Depay",pos:"UTO",country:"Nizozemsko",club:"Corinthians",price:8},
-  {id:270,name:"Thibaut Courtois",pos:"GK",country:"Belgie",club:"Real Madrid",price:13},
-  {id:271,name:"Timothy Castagne",pos:"OBR",country:"Belgie",club:"Fulham",price:7},
-  {id:272,name:"Arthur Theate",pos:"OBR",country:"Belgie",club:"Frankfurt",price:7},
+  {id:211,name:"Maxime Crépeau",pos:"GK",country:"Kanada",club:"Orlando City",price:7},
+  {id:212,name:"Alphonso Davies",pos:"OBR",country:"Kanada",club:"Bayern Munich",price:12},
+  {id:213,name:"Alistair Johnston",pos:"OBR",country:"Kanada",club:"Celtic",price:9},
+  {id:214,name:"Derek Cornelius",pos:"OBR",country:"Kanada",club:"Rangers",price:7},
+  {id:215,name:"Moïse Bombito",pos:"OBR",country:"Kanada",club:"Nice",price:5},
+  {id:216,name:"Richie Laryea",pos:"OBR",country:"Kanada",club:"Toronto FC",price:9},
+  {id:217,name:"Stephen Eustáquio",pos:"ZAL",country:"Kanada",club:"LA FC",price:9},
+  {id:218,name:"Tajon Buchanan",pos:"ZAL",country:"Kanada",club:"Villarreal",price:9},
+  {id:219,name:"Ismaël Koné",pos:"ZAL",country:"Kanada",club:"Sassuolo",price:7},
+  {id:220,name:"Liam Millar",pos:"ZAL",country:"Kanada",club:"Hull City",price:7},
+  {id:221,name:"Jonathan Osorio",pos:"ZAL",country:"Kanada",club:"Toronto FC",price:11},
+  {id:222,name:"Jonathan David",pos:"UTO",country:"Kanada",club:"Juventus",price:12},
+  {id:223,name:"Cyle Larin",pos:"UTO",country:"Kanada",club:"Southampton",price:14},
+  {id:224,name:"Jacob Shaffelburg",pos:"UTO",country:"Kanada",club:"LA FC",price:9},
+  {id:225,name:"Guillermo Ochoa",pos:"GK",country:"Mexiko",club:"AEL Limassol",price:11},
+  {id:226,name:"Raúl Rangel",pos:"GK",country:"Mexiko",club:"Guadalajara",price:5},
+  {id:227,name:"Edson Álvarez",pos:"ZAL",country:"Mexiko",club:"Fenerbahçe",price:11},
+  {id:228,name:"Roberto Alvarado",pos:"ZAL",country:"Mexiko",club:"Guadalajara",price:9},
+  {id:229,name:"Orbelín Pineda",pos:"ZAL",country:"Mexiko",club:"AEK Athens",price:13},
+  {id:230,name:"Luis Chávez",pos:"ZAL",country:"Mexiko",club:"Dynamo Moscow",price:9},
+  {id:231,name:"Jesús Gallardo",pos:"OBR",country:"Mexiko",club:"Toluca",price:11},
+  {id:232,name:"César Montes",pos:"OBR",country:"Mexiko",club:"Lokomotiv",price:9},
+  {id:233,name:"Johan Vásquez",pos:"OBR",country:"Mexiko",club:"Genoa",price:7},
+  {id:234,name:"Raúl Jiménez",pos:"UTO",country:"Mexiko",club:"Fulham",price:14},
+  {id:235,name:"Santiago Giménez",pos:"UTO",country:"Mexiko",club:"Milan",price:9},
+  {id:236,name:"Alexis Vega",pos:"UTO",country:"Mexiko",club:"Toluca",price:11},
+  {id:237,name:"Matt Turner",pos:"GK",country:"USA",club:"New England Revolution",price:9},
+  {id:238,name:"Matt Freese",pos:"GK",country:"USA",club:"NYCFC",price:5},
+  {id:239,name:"Antonee Robinson",pos:"OBR",country:"USA",club:"Fulham",price:9},
+  {id:240,name:"Chris Richards",pos:"OBR",country:"USA",club:"Crystal Palace",price:7},
+  {id:241,name:"Sergiño Dest",pos:"OBR",country:"USA",club:"PSV Eindhoven",price:7},
+  {id:242,name:"Miles Robinson",pos:"OBR",country:"USA",club:"FC Cincinnati",price:7},
+  {id:243,name:"Tim Ream",pos:"OBR",country:"USA",club:"Charlotte FC",price:11},
+  {id:244,name:"Joe Scally",pos:"OBR",country:"USA",club:"BMG",price:7},
+  {id:245,name:"Tyler Adams",pos:"ZAL",country:"USA",club:"Bournemouth",price:9},
+  {id:246,name:"Weston McKennie",pos:"ZAL",country:"USA",club:"Juventus",price:11},
+  {id:247,name:"Giovanni Reyna",pos:"ZAL",country:"USA",club:"BMG",price:9},
+  {id:248,name:"Malik Tillman",pos:"ZAL",country:"USA",club:"Bayer Leverkusen",price:7},
+  {id:249,name:"Christian Pulisic",pos:"UTO",country:"USA",club:"Milan",price:18},
+  {id:250,name:"Folarin Balogun",pos:"UTO",country:"USA",club:"Monaco",price:9},
+  {id:251,name:"Ricardo Pepi",pos:"UTO",country:"USA",club:"PSV Eindhoven",price:11},
+  {id:252,name:"Timothy Weah",pos:"UTO",country:"USA",club:"Marseille",price:11},
+  {id:253,name:"Bart Verbruggen",pos:"GK",country:"Nizozemsko",club:"Brighton",price:7},
+  {id:254,name:"Mark Flekken",pos:"GK",country:"Nizozemsko",club:"Bayer Leverkusen",price:5},
+  {id:255,name:"Virgil van Dijk",pos:"OBR",country:"Nizozemsko",club:"Liverpool",price:12},
+  {id:256,name:"Denzel Dumfries",pos:"OBR",country:"Nizozemsko",club:"Inter Milan",price:9},
+  {id:257,name:"Nathan Aké",pos:"OBR",country:"Nizozemsko",club:"Man City",price:9},
+  {id:258,name:"Jurriën Timber",pos:"OBR",country:"Nizozemsko",club:"Arsenal",price:5},
+  {id:259,name:"Micky van de Ven",pos:"OBR",country:"Nizozemsko",club:"Tottenham",price:5},
+  {id:260,name:"Frenkie de Jong",pos:"ZAL",country:"Nizozemsko",club:"Barcelona",price:14},
+  {id:261,name:"Tijjani Reijnders",pos:"ZAL",country:"Nizozemsko",club:"Man City",price:9},
+  {id:262,name:"Teun Koopmeiners",pos:"ZAL",country:"Nizozemsko",club:"Juventus",price:7},
+  {id:263,name:"Ryan Gravenberch",pos:"ZAL",country:"Nizozemsko",club:"Liverpool",price:5},
+  {id:264,name:"Marten de Roon",pos:"ZAL",country:"Nizozemsko",club:"Atalanta",price:7},
+  {id:265,name:"Memphis Depay",pos:"UTO",country:"Nizozemsko",club:"Corinthians",price:14},
+  {id:266,name:"Cody Gakpo",pos:"UTO",country:"Nizozemsko",club:"Liverpool",price:14},
+  {id:267,name:"Donyell Malen",pos:"UTO",country:"Nizozemsko",club:"Roma",price:11},
+  {id:268,name:"Wout Weghorst",pos:"UTO",country:"Nizozemsko",club:"Ajax",price:14},
+  {id:269,name:"Thibaut Courtois",pos:"GK",country:"Belgie",club:"Real Madrid",price:12},
+  {id:270,name:"Senne Lammens",pos:"GK",country:"Belgie",club:"Man United",price:5},
+  {id:271,name:"Timothy Castagne",pos:"OBR",country:"Belgie",club:"Fulham",price:9},
+  {id:272,name:"Arthur Theate",pos:"OBR",country:"Belgie",club:"Eintracht Frankfurt",price:7},
   {id:273,name:"Zeno Debast",pos:"OBR",country:"Belgie",club:"Sporting CP",price:7},
-  {id:274,name:"Kevin De Bruyne",pos:"ZAL",country:"Belgie",club:"Man City",price:13},
-  {id:275,name:"Youri Tielemans",pos:"ZAL",country:"Belgie",club:"Aston Villa",price:9},
-  {id:276,name:"Amadou Onana",pos:"ZAL",country:"Belgie",club:"Aston Villa",price:9},
-  {id:277,name:"Romelu Lukaku",pos:"UTO",country:"Belgie",club:"Napoli",price:12},
-  {id:278,name:"Lois Openda",pos:"UTO",country:"Belgie",club:"RB Leipzig",price:11},
+  {id:274,name:"Thomas Meunier",pos:"OBR",country:"Belgie",club:"Lille",price:9},
+  {id:275,name:"Axel Witsel",pos:"ZAL",country:"Belgie",club:"Girona",price:13},
+  {id:276,name:"Kevin De Bruyne",pos:"ZAL",country:"Belgie",club:"Man City",price:14},
+  {id:277,name:"Youri Tielemans",pos:"ZAL",country:"Belgie",club:"Aston Villa",price:13},
+  {id:278,name:"Amadou Onana",pos:"ZAL",country:"Belgie",club:"Aston Villa",price:7},
   {id:279,name:"Leandro Trossard",pos:"ZAL",country:"Belgie",club:"Arsenal",price:9},
-  {id:280,name:"Johan Bakayoko",pos:"UTO",country:"Belgie",club:"PSV",price:9},
-  {id:290,name:"Zion Suzuki",pos:"GK",country:"Japonsko",club:"Parma",price:7},
-  {id:291,name:"Kō Itakura",pos:"OBR",country:"Japonsko",club:"Ajax",price:8},
-  {id:292,name:"Takehiro Tomiyasu",pos:"OBR",country:"Japonsko",club:"Arsenal",price:8},
-  {id:293,name:"Wataru Endo",pos:"ZAL",country:"Japonsko",club:"Liverpool",price:9},
-  {id:294,name:"Daichi Kamada",pos:"ZAL",country:"Japonsko",club:"Crystal Palace",price:8},
-  {id:295,name:"Takefusa Kubo",pos:"ZAL",country:"Japonsko",club:"Real Sociedad",price:10},
-  {id:296,name:"Ritsu Dōan",pos:"ZAL",country:"Japonsko",club:"Frankfurt",price:9},
-  {id:297,name:"Ayase Ueda",pos:"UTO",country:"Japonsko",club:"Feyenoord",price:9},
-  {id:298,name:"Daizen Maeda",pos:"UTO",country:"Japonsko",club:"Celtic",price:7},
-  {id:300,name:"Mathew Ryan",pos:"GK",country:"Austrálie",club:"Real Sociedad",price:8},
-  {id:301,name:"Harry Souttar",pos:"OBR",country:"Austrálie",club:"Leicester",price:7},
-  {id:302,name:"Aziz Behich",pos:"OBR",country:"Austrálie",club:"Melbourne City",price:6},
-  {id:303,name:"Jackson Irvine",pos:"ZAL",country:"Austrálie",club:"St. Pauli",price:8},
-  {id:304,name:"Ajdin Hrustic",pos:"ZAL",country:"Austrálie",club:"Hellas Verona",price:7},
-  {id:305,name:"Mathew Leckie",pos:"UTO",country:"Austrálie",club:"Melbourne City",price:7},
-  {id:306,name:"Nestory Irankunda",pos:"UTO",country:"Austrálie",club:"Bayern Munich",price:8},
-  {id:310,name:"Uğurcan Çakır",pos:"GK",country:"Turecko",club:"Galatasaray",price:8},
-  {id:311,name:"Merih Demiral",pos:"OBR",country:"Turecko",club:"Al-Ahli",price:8},
-  {id:312,name:"Zeki Çelik",pos:"OBR",country:"Turecko",club:"Roma",price:7},
-  {id:313,name:"Ferdi Kadıoğlu",pos:"OBR",country:"Turecko",club:"Brighton",price:9},
-  {id:314,name:"Hakan Çalhanoğlu",pos:"ZAL",country:"Turecko",club:"Inter Milan",price:13},
-  {id:315,name:"Arda Güler",pos:"ZAL",country:"Turecko",club:"Real Madrid",price:11},
-  {id:316,name:"Kenan Yıldız",pos:"ZAL",country:"Turecko",club:"Juventus",price:10},
-  {id:317,name:"Orkun Kökçü",pos:"ZAL",country:"Turecko",club:"Benfica",price:8},
-  {id:318,name:"Kerem Aktürkoğlu",pos:"UTO",country:"Turecko",club:"Fenerbahçe",price:9},
-  {id:319,name:"Barış Alper Yılmaz",pos:"UTO",country:"Turecko",club:"Galatasaray",price:8},
-  {id:320,name:"Jacob Widell Zetterström",pos:"GK",country:"Švédsko",club:"Dortmund",price:7},
-  {id:321,name:"Victor Lindelöf",pos:"OBR",country:"Švédsko",club:"Aston Villa",price:8},
-  {id:322,name:"Isak Hien",pos:"OBR",country:"Švédsko",club:"Atalanta",price:8},
-  {id:323,name:"Lucas Bergvall",pos:"ZAL",country:"Švédsko",club:"Tottenham",price:9},
-  {id:324,name:"Alexander Isak",pos:"UTO",country:"Švédsko",club:"Liverpool",price:15},
-  {id:325,name:"Viktor Gyökeres",pos:"UTO",country:"Švédsko",club:"Arsenal",price:15},
-  {id:326,name:"Anthony Elanga",pos:"UTO",country:"Švédsko",club:"Newcastle",price:8},
-  {id:330,name:"Hernán Galíndez",pos:"GK",country:"Ekvádor",club:"Huracán",price:7},
-  {id:331,name:"Piero Hincapié",pos:"OBR",country:"Ekvádor",club:"Bayer Leverkusen",price:9},
-  {id:332,name:"Willian Pacho",pos:"OBR",country:"Ekvádor",club:"PSG",price:9},
-  {id:333,name:"Pervis Estupiñán",pos:"OBR",country:"Ekvádor",club:"AC Milan",price:8},
-  {id:334,name:"Moisés Caicedo",pos:"ZAL",country:"Ekvádor",club:"Chelsea",price:12},
-  {id:335,name:"Kendry Páez",pos:"ZAL",country:"Ekvádor",club:"Chelsea",price:9},
-  {id:336,name:"Gonzalo Plata",pos:"ZAL",country:"Ekvádor",club:"Flamengo",price:7},
-  {id:337,name:"Enner Valencia",pos:"UTO",country:"Ekvádor",club:"Pachuca",price:8},
-  {id:338,name:"Kevin Rodríguez",pos:"UTO",country:"Ekvádor",club:"Parma",price:7},
-  {id:340,name:"Gustavo Gómez",pos:"OBR",country:"Paraguay",club:"Palmeiras",price:8},
-  {id:341,name:"Junior Alonso",pos:"OBR",country:"Paraguay",club:"Atlético Mineiro",price:7},
-  {id:342,name:"Miguel Almirón",pos:"ZAL",country:"Paraguay",club:"Atlanta United",price:8},
-  {id:343,name:"Diego Gómez",pos:"ZAL",country:"Paraguay",club:"Brighton",price:8},
-  {id:344,name:"Antonio Sanabria",pos:"UTO",country:"Paraguay",club:"Roma",price:7},
-  {id:345,name:"Julio Enciso",pos:"UTO",country:"Paraguay",club:"Brighton",price:8},
-  {id:350,name:"Aymen Dahmen",pos:"GK",country:"Tunisko",club:"Sfax",price:6},
-  {id:351,name:"Montassar Talbi",pos:"OBR",country:"Tunisko",club:"Lorient",price:7},
-  {id:352,name:"Dylan Bronn",pos:"OBR",country:"Tunisko",club:"Servette",price:7},
-  {id:353,name:"Ellyes Skhiri",pos:"ZAL",country:"Tunisko",club:"Frankfurt",price:8},
-  {id:354,name:"Hannibal Mejbri",pos:"ZAL",country:"Tunisko",club:"Burnley",price:8},
-  {id:355,name:"Anis Ben Slimane",pos:"ZAL",country:"Tunisko",club:"Norwich",price:7},
-  {id:356,name:"Firas Chaouat",pos:"UTO",country:"Tunisko",club:"Club Africain",price:6},
-  {id:360,name:"Yahia Fofana",pos:"GK",country:"Pobřeží Slonoviny",club:"Leicester",price:7},
-  {id:361,name:"Odilon Kossounou",pos:"OBR",country:"Pobřeží Slonoviny",club:"Bayer Leverkusen",price:9},
-  {id:362,name:"Wilfried Singo",pos:"OBR",country:"Pobřeží Slonoviny",club:"Monaco",price:8},
-  {id:363,name:"Franck Kessié",pos:"ZAL",country:"Pobřeží Slonoviny",club:"Al-Ahli",price:8},
-  {id:364,name:"Ibrahim Sangaré",pos:"ZAL",country:"Pobřeží Slonoviny",club:"Nottm Forest",price:9},
-  {id:365,name:"Seko Fofana",pos:"ZAL",country:"Pobřeží Slonoviny",club:"Porto",price:8},
-  {id:366,name:"Simon Adingra",pos:"UTO",country:"Pobřeží Slonoviny",club:"Brighton",price:9},
-  {id:367,name:"Amad Diallo",pos:"UTO",country:"Pobřeží Slonoviny",club:"Man United",price:10},
-  {id:368,name:"Nicolas Pépé",pos:"UTO",country:"Pobřeží Slonoviny",club:"Villarreal",price:7},
-  {id:370,name:"Oussama Benbot",pos:"GK",country:"Alžírsko",club:"Toulouse",price:6},
-  {id:371,name:"Ramy Bensebaini",pos:"OBR",country:"Alžírsko",club:"Dortmund",price:8},
-  {id:372,name:"Aissa Mandi",pos:"OBR",country:"Alžírsko",club:"Betis",price:7},
-  {id:373,name:"Houssem Aouar",pos:"ZAL",country:"Alžírsko",club:"Betis",price:7},
-  {id:374,name:"Riyad Mahrez",pos:"UTO",country:"Alžírsko",club:"Al-Ahli",price:10},
-  {id:375,name:"Amine Gouiri",pos:"UTO",country:"Alžírsko",club:"Rennes",price:8},
-  {id:376,name:"Mohamed Amine Amoura",pos:"UTO",country:"Alžírsko",club:"Stuttgart",price:9},
-  {id:380,name:"Lawrence Ati-Zigi",pos:"GK",country:"Ghana",club:"St. Gallen",price:7},
-  {id:381,name:"Alexander Djiku",pos:"OBR",country:"Ghana",club:"Fenerbahçe",price:7},
-  {id:382,name:"Tariq Lamptey",pos:"OBR",country:"Ghana",club:"Brighton",price:7},
-  {id:383,name:"Thomas Partey",pos:"ZAL",country:"Ghana",club:"Arsenal",price:9},
-  {id:384,name:"Jordan Ayew",pos:"UTO",country:"Ghana",club:"Leicester",price:8},
-  {id:385,name:"Antoine Semenyo",pos:"UTO",country:"Ghana",club:"Bournemouth",price:8},
-  {id:386,name:"Inaki Williams",pos:"UTO",country:"Ghana",club:"Athletic Club",price:9},
-  {id:390,name:"Édouard Mendy",pos:"GK",country:"Senegal",club:"Al-Ahli",price:8},
-  {id:391,name:"Kalidou Koulibaly",pos:"OBR",country:"Senegal",club:"Al-Hilal",price:9},
-  {id:392,name:"Abdou Diallo",pos:"OBR",country:"Senegal",club:"RB Leipzig",price:7},
-  {id:393,name:"Idrissa Gueye",pos:"ZAL",country:"Senegal",club:"Everton",price:8},
-  {id:394,name:"Sadio Mané",pos:"UTO",country:"Senegal",club:"Al-Nassr",price:11},
-  {id:395,name:"Ismaïla Sarr",pos:"UTO",country:"Senegal",club:"Crystal Palace",price:9},
-  {id:396,name:"Nicolas Jackson",pos:"UTO",country:"Senegal",club:"Chelsea",price:10},
-  {id:400,name:"Mohammed Al-Owais",pos:"GK",country:"Saúdská Arábie",club:"Al-Hilal",price:7},
-  {id:401,name:"Ali Al-Bulayhi",pos:"OBR",country:"Saúdská Arábie",club:"Al-Hilal",price:6},
-  {id:402,name:"Mohammed Kanno",pos:"ZAL",country:"Saúdská Arábie",club:"Al-Hilal",price:7},
-  {id:403,name:"Salem Al-Dawsari",pos:"ZAL",country:"Saúdská Arábie",club:"Al-Hilal",price:8},
-  {id:404,name:"Firas Al-Buraikan",pos:"UTO",country:"Saúdská Arábie",club:"Al-Fateh",price:7},
-  {id:405,name:"Saleh Al-Shehri",pos:"UTO",country:"Saúdská Arábie",club:"Al-Hilal",price:7},
-  {id:410,name:"Meshaal Barsham",pos:"GK",country:"Katar",club:"Al-Sadd",price:7},
-  {id:411,name:"Pedro Miguel",pos:"OBR",country:"Katar",club:"Al-Sadd",price:6},
-  {id:412,name:"Boualem Khoukhi",pos:"OBR",country:"Katar",club:"Al-Sadd",price:6},
-  {id:413,name:"Abdulaziz Hatem",pos:"ZAL",country:"Katar",club:"Al-Rayyan",price:7},
-  {id:414,name:"Akram Afif",pos:"UTO",country:"Katar",club:"Al-Sadd",price:8},
-  {id:415,name:"Almoez Ali",pos:"UTO",country:"Katar",club:"Al-Duhail",price:8},
-  {id:420,name:"Camilo Vargas",pos:"GK",country:"Kolumbie",club:"Atlas",price:7},
-  {id:421,name:"Dávinson Sánchez",pos:"OBR",country:"Kolumbie",club:"Galatasaray",price:8},
-  {id:422,name:"Daniel Muñoz",pos:"OBR",country:"Kolumbie",club:"Crystal Palace",price:8},
-  {id:423,name:"Richard Ríos",pos:"ZAL",country:"Kolumbie",club:"Fluminense",price:8},
-  {id:424,name:"James Rodríguez",pos:"ZAL",country:"Kolumbie",club:"Rayo Vallecano",price:10},
-  {id:425,name:"Luis Díaz",pos:"UTO",country:"Kolumbie",club:"Liverpool",price:14},
-  {id:426,name:"Rafael Santos Borré",pos:"UTO",country:"Kolumbie",club:"Frankfurt",price:8},
-  {id:427,name:"Jhon Córdoba",pos:"UTO",country:"Kolumbie",club:"Krasnodar",price:8},
-  {id:430,name:"Sergio Rochet",pos:"GK",country:"Uruguay",club:"Nacional",price:7},
-  {id:431,name:"Ronald Araújo",pos:"OBR",country:"Uruguay",club:"Barcelona",price:12},
-  {id:432,name:"José María Giménez",pos:"OBR",country:"Uruguay",club:"Atlético Madrid",price:9},
-  {id:433,name:"Rodrigo Bentancur",pos:"ZAL",country:"Uruguay",club:"Tottenham",price:9},
-  {id:434,name:"Federico Valverde",pos:"ZAL",country:"Uruguay",club:"Real Madrid",price:14},
-  {id:435,name:"Manuel Ugarte",pos:"ZAL",country:"Uruguay",club:"Man United",price:10},
-  {id:436,name:"Darwin Núñez",pos:"UTO",country:"Uruguay",club:"Liverpool",price:13},
-  {id:437,name:"Luis Suárez",pos:"UTO",country:"Uruguay",club:"Nacional",price:9},
-  {id:440,name:"Dominik Livaković",pos:"GK",country:"Chorvatsko",club:"Fenerbahçe",price:8},
-  {id:441,name:"Joško Gvardiol",pos:"OBR",country:"Chorvatsko",club:"Man City",price:13},
-  {id:442,name:"Duje Ćaleta-Car",pos:"OBR",country:"Chorvatsko",club:"Lyon",price:7},
-  {id:443,name:"Luka Modrić",pos:"ZAL",country:"Chorvatsko",club:"Real Madrid",price:11},
-  {id:444,name:"Mateo Kovačić",pos:"ZAL",country:"Chorvatsko",club:"Man City",price:10},
-  {id:445,name:"Marcelo Brozović",pos:"ZAL",country:"Chorvatsko",club:"Al-Nassr",price:8},
-  {id:446,name:"Lovro Majer",pos:"ZAL",country:"Chorvatsko",club:"Real Madrid",price:9},
-  {id:447,name:"Andrej Kramarić",pos:"UTO",country:"Chorvatsko",club:"Hoffenheim",price:9},
-  {id:448,name:"Bruno Petković",pos:"UTO",country:"Chorvatsko",club:"Atlético Madrid",price:8},
-  {id:450,name:"Nikola Vasilj",pos:"GK",country:"Bosna a Hercegovina",club:"St. Pauli",price:7},
-  {id:451,name:"Sead Kolašinac",pos:"OBR",country:"Bosna a Hercegovina",club:"Atalanta",price:7},
-  {id:452,name:"Amar Dedić",pos:"OBR",country:"Bosna a Hercegovina",club:"Salzburg",price:7},
-  {id:453,name:"Benjamin Tahirović",pos:"ZAL",country:"Bosna a Hercegovina",club:"Ajax",price:7},
-  {id:454,name:"Edin Džeko",pos:"UTO",country:"Bosna a Hercegovina",club:"Como",price:8},
-  {id:455,name:"Ermedin Demirović",pos:"UTO",country:"Bosna a Hercegovina",club:"Stuttgart",price:9},
-  {id:460,name:"Ronwen Williams",pos:"GK",country:"Jihoafrická republika",club:"Mamelodi Sundowns",price:7},
-  {id:461,name:"Aubrey Modiba",pos:"OBR",country:"Jihoafrická republika",club:"Mamelodi Sundowns",price:6},
-  {id:462,name:"Teboho Mokoena",pos:"ZAL",country:"Jihoafrická republika",club:"Mamelodi Sundowns",price:7},
-  {id:463,name:"Themba Zwane",pos:"UTO",country:"Jihoafrická republika",club:"Mamelodi Sundowns",price:7},
-  {id:464,name:"Lyle Foster",pos:"UTO",country:"Jihoafrická republika",club:"Burnley",price:8},
-  {id:465,name:"Oswin Appollis",pos:"UTO",country:"Jihoafrická republika",club:"Pirates",price:7},
-  {id:470,name:"Joël Kiassumbua",pos:"GK",country:"DR Kongo",club:"Nantes",price:6},
-  {id:471,name:"Chancel Mbemba",pos:"OBR",country:"DR Kongo",club:"Marseille",price:8},
-  {id:472,name:"Arthur Masuaku",pos:"OBR",country:"DR Kongo",club:"Besiktas",price:7},
-  {id:473,name:"Yoane Wissa",pos:"UTO",country:"DR Kongo",club:"Brentford",price:10},
-  {id:474,name:"Cédric Bakambu",pos:"UTO",country:"DR Kongo",club:"Marseille",price:7},
-  {id:475,name:"Silas",pos:"UTO",country:"DR Kongo",club:"Stuttgart",price:7},
-  {id:480,name:"Luis Mejía",pos:"GK",country:"Panama",club:"Ind. Medellin",price:6},
-  {id:481,name:"Aníbal Godoy",pos:"ZAL",country:"Panama",club:"San Jose EQ",price:6},
-  {id:482,name:"Adalberto Carrasquilla",pos:"ZAL",country:"Panama",club:"Huachipato",price:7},
-  {id:483,name:"Ismael Díaz",pos:"UTO",country:"Panama",club:"Sint-Truiden",price:8},
-  {id:484,name:"Rolando Blackburn",pos:"UTO",country:"Panama",club:"Panathinaikos",price:7},
-  {id:490,name:"Mohamed Abou Gabal",pos:"GK",country:"Egypt",club:"Al Ahly",price:7},
-  {id:491,name:"Ahmed Hegazi",pos:"OBR",country:"Egypt",club:"Al Ittihad",price:7},
-  {id:492,name:"Omar Kamal",pos:"OBR",country:"Egypt",club:"Zamalek",price:6},
-  {id:493,name:"Tarek Hamed",pos:"ZAL",country:"Egypt",club:"Al Ahly",price:7},
-  {id:494,name:"Mohamed Elneny",pos:"ZAL",country:"Egypt",club:"Arsenal",price:7},
-  {id:495,name:"Omar Marmoush",pos:"UTO",country:"Egypt",club:"Man City",price:14},
-  {id:496,name:"Mostafa Mohamed",pos:"UTO",country:"Egypt",club:"Galatasaray",price:8},
-  {id:500,name:"Ørjan Nyland",pos:"GK",country:"Norsko",club:"Ipswich",price:7},
-  {id:501,name:"Leo Ostigard",pos:"OBR",country:"Norsko",club:"Napoli",price:8},
-  {id:502,name:"Andreas Hanche-Olsen",pos:"OBR",country:"Norsko",club:"Genk",price:7},
-  {id:503,name:"Martin Ødegaard",pos:"ZAL",country:"Norsko",club:"Arsenal",price:15},
-  {id:504,name:"Sander Berge",pos:"ZAL",country:"Norsko",club:"Burnley",price:8},
-  {id:505,name:"Andreas Schjelderup",pos:"ZAL",country:"Norsko",club:"Benfica",price:9},
-  {id:506,name:"Erling Haaland",pos:"UTO",country:"Norsko",club:"Man City",price:19},
-  {id:507,name:"Alexander Sørloth",pos:"UTO",country:"Norsko",club:"Atlético Madrid",price:10},
-  {id:508,name:"Antonio Nusa",pos:"UTO",country:"Norsko",club:"RB Leipzig",price:9},
-  {id:510,name:"Patrick Pentz",pos:"GK",country:"Rakousko",club:"Bayer Leverkusen",price:7},
-  {id:511,name:"Philipp Lienhart",pos:"OBR",country:"Rakousko",club:"Freiburg",price:7},
-  {id:512,name:"Philipp Mwene",pos:"OBR",country:"Rakousko",club:"Mainz",price:6},
-  {id:513,name:"Konrad Laimer",pos:"ZAL",country:"Rakousko",club:"Bayern Munich",price:10},
-  {id:514,name:"Florian Grillitsch",pos:"ZAL",country:"Rakousko",club:"Ajax",price:7},
-  {id:515,name:"Marcel Sabitzer",pos:"ZAL",country:"Rakousko",club:"Man United",price:9},
-  {id:516,name:"Christoph Baumgartner",pos:"ZAL",country:"Rakousko",club:"RB Leipzig",price:9},
-  {id:517,name:"Marko Arnautović",pos:"UTO",country:"Rakousko",club:"Bologna",price:8},
-  {id:518,name:"Michael Gregoritsch",pos:"UTO",country:"Rakousko",club:"Freiburg",price:7},
-  {id:520,name:"Abduvohid Nematov",pos:"GK",country:"Uzbekistán",club:"Lokomotiv Taš.",price:5},
-  {id:521,name:"Khojiakbar Alijonov",pos:"OBR",country:"Uzbekistán",club:"Pakhtakor",price:5},
-  {id:522,name:"Shamsiddin Shomurodov",pos:"ZAL",country:"Uzbekistán",club:"Pakhtakor",price:5},
-  {id:523,name:"Eldor Shomurodov",pos:"UTO",country:"Uzbekistán",club:"Roma",price:8},
-  {id:524,name:"Otabek Shukurov",pos:"UTO",country:"Uzbekistán",club:"Pakhtakor",price:5},
-  {id:530,name:"Yazeed Abo Laila",pos:"GK",country:"Jordánsko",club:"Al-Faisaly",price:5},
-  {id:531,name:"Yazan Al-Naimat",pos:"OBR",country:"Jordánsko",club:"Al-Wehdat",price:5},
-  {id:532,name:"Musa Al-Tamari",pos:"ZAL",country:"Jordánsko",club:"Montpellier",price:7},
-  {id:533,name:"Mousa Al-Tamari",pos:"ZAL",country:"Jordánsko",club:"Montpellier",price:7},
-  {id:534,name:"Ahmad Dabbas",pos:"UTO",country:"Jordánsko",club:"Al-Faisaly",price:5},
-  {id:540,name:"Jalal Hachim",pos:"GK",country:"Irák",club:"Al-Shorta",price:5},
-  {id:541,name:"Rebin Sulaka",pos:"OBR",country:"Irák",club:"Neftchi",price:5},
-  {id:542,name:"Aymen Hussein",pos:"ZAL",country:"Irák",club:"Al-Zawraa",price:6},
-  {id:543,name:"Amjad Attwan",pos:"ZAL",country:"Irák",club:"Al-Shorta",price:5},
-  {id:544,name:"Mohanad Ali",pos:"UTO",country:"Irák",club:"Al-Zawraa",price:6},
-  {id:550,name:"Josimar Dias",pos:"GK",country:"Kapverdy",club:"UD Oliveirense",price:5},
-  {id:551,name:"Stopira",pos:"OBR",country:"Kapverdy",club:"Valerenga",price:6},
-  {id:552,name:"Ryan Mendes",pos:"ZAL",country:"Kapverdy",club:"Moreirense",price:6},
-  {id:553,name:"Garry Rodrigues",pos:"ZAL",country:"Kapverdy",club:"AEK Athens",price:6},
-  {id:554,name:"Julio Tavares",pos:"UTO",country:"Kapverdy",club:"Dijon",price:6},
-  {id:560,name:"Eloy Room",pos:"GK",country:"Curaçao",club:"Columbus Crew",price:7},
-  {id:561,name:"Cuco Martina",pos:"OBR",country:"Curaçao",club:"Hellas Verona",price:6},
-  {id:562,name:"Ethan Vos",pos:"OBR",country:"Curaçao",club:"Heracles",price:5},
-  {id:563,name:"Leandro Bacuna",pos:"ZAL",country:"Curaçao",club:"Coventry",price:7},
-  {id:564,name:"Cuco Martina",pos:"ZAL",country:"Curaçao",club:"Hellas Verona",price:6},
-  {id:565,name:"Jarchinio Antonia",pos:"UTO",country:"Curaçao",club:"Belenenses",price:6},
-  {id:566,name:"Quiñcy Promes",pos:"UTO",country:"Curaçao",club:"Spartak Moscow",price:8},
-  {id:570,name:"Duckens Nazon",pos:"GK",country:"Haiti",club:"Louisville City",price:5},
-  {id:571,name:"Mechack Jérôme",pos:"OBR",country:"Haiti",club:"CF Montréal",price:6},
-  {id:572,name:"Wilde-Donald Guerrier",pos:"ZAL",country:"Haiti",club:"Portland Timbers",price:6},
-  {id:573,name:"Frantzdy Pierrot",pos:"UTO",country:"Haiti",club:"Columbus Crew",price:6},
-  {id:574,name:"Duckens Nazon",pos:"UTO",country:"Haiti",club:"Louisville City",price:6},
-  {id:580,name:"Max Crocombe",pos:"GK",country:"Nový Zéland",club:"Salford City",price:6},
-  {id:581,name:"Winston Reid",pos:"OBR",country:"Nový Zéland",club:"Brentford",price:6},
-  {id:582,name:"Tim Payne",pos:"OBR",country:"Nový Zéland",club:"Wellington",price:5},
-  {id:583,name:"Clayton Lewis",pos:"ZAL",country:"Nový Zéland",club:"Ulsan",price:6},
-  {id:584,name:"Liberato Cacace",pos:"OBR",country:"Nový Zéland",club:"Empoli",price:7},
-  {id:585,name:"Chris Wood",pos:"UTO",country:"Nový Zéland",club:"Nottm Forest",price:10},
-  {id:586,name:"Callan Elliot",pos:"UTO",country:"Nový Zéland",club:"Wellington",price:5},
-  {id:590,name:"Alireza Beiranvand",pos:"GK",country:"Írán",club:"Club Brugge",price:8},
-  {id:591,name:"Majid Hosseini",pos:"OBR",country:"Írán",club:"Trabzonspor",price:7},
-  {id:592,name:"Saeid Ezatolahi",pos:"ZAL",country:"Írán",club:"Real Valladolid",price:7},
-  {id:593,name:"Ali Gholizadeh",pos:"ZAL",country:"Írán",club:"Charleroi",price:7},
-  {id:594,name:"Mehdi Taremi",pos:"UTO",country:"Írán",club:"Inter Milan",price:12},
-  {id:595,name:"Sardar Azmoun",pos:"UTO",country:"Írán",club:"Bayer Leverkusen",price:9}
+  {id:280,name:"Romelu Lukaku",pos:"UTO",country:"Belgie",club:"Napoli",price:13},
+  {id:281,name:"Dodi Lukebakio",pos:"UTO",country:"Belgie",club:"Sevilla",price:9},
+  {id:282,name:"Lois Openda",pos:"UTO",country:"Belgie",club:"RB Leipzig",price:11},
+  {id:283,name:"Johan Bakayoko",pos:"UTO",country:"Belgie",club:"PSV Eindhoven",price:5},
+  {id:284,name:"Zion Suzuki",pos:"GK",country:"Japonsko",club:"Parma",price:7},
+  {id:285,name:"Kō Itakura",pos:"OBR",country:"Japonsko",club:"Ajax",price:7},
+  {id:286,name:"Takehiro Tomiyasu",pos:"OBR",country:"Japonsko",club:"Ajax",price:7},
+  {id:287,name:"Shōgo Taniguchi",pos:"OBR",country:"Japonsko",club:"Sint-Truiden",price:7},
+  {id:288,name:"Yūto Nagatomo",pos:"OBR",country:"Japonsko",club:"FC Tokyo",price:11},
+  {id:289,name:"Wataru Endo",pos:"ZAL",country:"Japonsko",club:"Liverpool",price:11},
+  {id:290,name:"Daichi Kamada",pos:"ZAL",country:"Japonsko",club:"Crystal Palace",price:11},
+  {id:291,name:"Ao Tanaka",pos:"ZAL",country:"Japonsko",club:"Leeds",price:9},
+  {id:292,name:"Takefusa Kubo",pos:"ZAL",country:"Japonsko",club:"Real Sociedad",price:9},
+  {id:293,name:"Junya Itō",pos:"ZAL",country:"Japonsko",club:"Genk",price:11},
+  {id:294,name:"Ritsu Dōan",pos:"ZAL",country:"Japonsko",club:"Eintracht Frankfurt",price:11},
+  {id:295,name:"Ayase Ueda",pos:"UTO",country:"Japonsko",club:"Feyenoord",price:11},
+  {id:296,name:"Daizen Maeda",pos:"UTO",country:"Japonsko",club:"Celtic",price:7},
+  {id:297,name:"Kōki Ogawa",pos:"UTO",country:"Japonsko",club:"NEC",price:9},
+  {id:298,name:"Mathew Ryan",pos:"GK",country:"Austrálie",club:"Levante",price:11},
+  {id:299,name:"Harry Souttar",pos:"OBR",country:"Austrálie",club:"Leicester",price:7},
+  {id:300,name:"Aziz Behich",pos:"OBR",country:"Austrálie",club:"Melbourne City",price:11},
+  {id:301,name:"Miloš Degenek",pos:"OBR",country:"Austrálie",club:"APOEL",price:9},
+  {id:302,name:"Cameron Burgess",pos:"OBR",country:"Austrálie",club:"Swansea",price:7},
+  {id:303,name:"Jackson Irvine",pos:"ZAL",country:"Austrálie",club:"FC St. Pauli",price:13},
+  {id:304,name:"Ajdin Hrustic",pos:"ZAL",country:"Austrálie",club:"Heracles",price:7},
+  {id:305,name:"Connor Metcalfe",pos:"ZAL",country:"Austrálie",club:"FC St. Pauli",price:7},
+  {id:306,name:"Mathew Leckie",pos:"UTO",country:"Austrálie",club:"Melbourne City",price:14},
+  {id:307,name:"Awer Mabil",pos:"UTO",country:"Austrálie",club:"Castellón",price:11},
+  {id:308,name:"Nestory Irankunda",pos:"UTO",country:"Austrálie",club:"Watford",price:7},
+  {id:309,name:"Uğurcan Çakır",pos:"GK",country:"Turecko",club:"Galatasaray",price:7},
+  {id:310,name:"Mert Günok",pos:"GK",country:"Turecko",club:"Fenerbahçe",price:7},
+  {id:311,name:"Merih Demiral",pos:"OBR",country:"Turecko",club:"Al-Ahli",price:9},
+  {id:312,name:"Zeki Çelik",pos:"OBR",country:"Turecko",club:"Roma",price:9},
+  {id:313,name:"Çağlar Söyüncü",pos:"OBR",country:"Turecko",club:"Fenerbahçe",price:9},
+  {id:314,name:"Ferdi Kadıoğlu",pos:"OBR",country:"Turecko",club:"Brighton",price:7},
+  {id:315,name:"Mert Müldür",pos:"OBR",country:"Turecko",club:"Fenerbahçe",price:7},
+  {id:316,name:"Hakan Çalhanoğlu",pos:"ZAL",country:"Turecko",club:"Inter Milan",price:11},
+  {id:317,name:"Kaan Ayhan",pos:"ZAL",country:"Turecko",club:"Galatasaray",price:11},
+  {id:318,name:"Orkun Kökçü",pos:"ZAL",country:"Turecko",club:"Beşiktaş",price:9},
+  {id:319,name:"Arda Güler",pos:"ZAL",country:"Turecko",club:"Real Madrid",price:7},
+  {id:320,name:"Kenan Yıldız",pos:"ZAL",country:"Turecko",club:"Juventus",price:7},
+  {id:321,name:"Kerem Aktürkoğlu",pos:"UTO",country:"Turecko",club:"Fenerbahçe",price:14},
+  {id:322,name:"Barış Alper Yılmaz",pos:"UTO",country:"Turecko",club:"Galatasaray",price:7},
+  {id:323,name:"İrfan Can Kahveci",pos:"UTO",country:"Turecko",club:"Kasımpaşa",price:9},
+  {id:324,name:"Jacob Widell Zetterström",pos:"GK",country:"Švédsko",club:"Derby County",price:5},
+  {id:325,name:"Viktor Johansson",pos:"GK",country:"Švédsko",club:"Stoke City",price:5},
+  {id:326,name:"Victor Lindelöf",pos:"OBR",country:"Švédsko",club:"Aston Villa",price:9},
+  {id:327,name:"Isak Hien",pos:"OBR",country:"Švédsko",club:"Atalanta",price:7},
+  {id:328,name:"Gabriel Gudmundsson",pos:"OBR",country:"Švédsko",club:"Leeds",price:5},
+  {id:329,name:"Lucas Bergvall",pos:"ZAL",country:"Švédsko",club:"Tottenham",price:5},
+  {id:330,name:"Alexander Isak",pos:"UTO",country:"Švédsko",club:"Liverpool",price:12},
+  {id:331,name:"Viktor Gyökeres",pos:"UTO",country:"Švédsko",club:"Arsenal",price:12},
+  {id:332,name:"Anthony Elanga",pos:"UTO",country:"Švédsko",club:"Newcastle",price:9},
+  {id:333,name:"Ken Sema",pos:"UTO",country:"Švédsko",club:"Pafos",price:9},
+  {id:334,name:"Hernán Galíndez",pos:"GK",country:"Ekvádor",club:"Huracán",price:7},
+  {id:335,name:"Piero Hincapié",pos:"OBR",country:"Ekvádor",club:"Arsenal",price:9},
+  {id:336,name:"Félix Torres",pos:"OBR",country:"Ekvádor",club:"Internacional",price:7},
+  {id:337,name:"Willian Pacho",pos:"OBR",country:"Ekvádor",club:"PSG",price:7},
+  {id:338,name:"Pervis Estupiñán",pos:"OBR",country:"Ekvádor",club:"Milan",price:9},
+  {id:339,name:"Moisés Caicedo",pos:"ZAL",country:"Ekvádor",club:"Chelsea",price:11},
+  {id:340,name:"Alan Franco",pos:"ZAL",country:"Ekvádor",club:"Atlético Mineiro",price:9},
+  {id:341,name:"Gonzalo Plata",pos:"ZAL",country:"Ekvádor",club:"Flamengo",price:9},
+  {id:342,name:"Kendry Páez",pos:"ZAL",country:"Ekvádor",club:"River Plate",price:5},
+  {id:343,name:"Enner Valencia",pos:"UTO",country:"Ekvádor",club:"Pachuca",price:14},
+  {id:344,name:"Kevin Rodríguez",pos:"UTO",country:"Ekvádor",club:"Union SG",price:7},
+  {id:345,name:"Gatito Fernández",pos:"GK",country:"Paraguay",club:"Cerro Porteño",price:7},
+  {id:346,name:"Gustavo Gómez",pos:"OBR",country:"Paraguay",club:"Palmeiras",price:11},
+  {id:347,name:"Júnior Alonso",pos:"OBR",country:"Paraguay",club:"Atlético Mineiro",price:9},
+  {id:348,name:"Fabián Balbuena",pos:"OBR",country:"Paraguay",club:"Grêmio",price:7},
+  {id:349,name:"Omar Alderete",pos:"OBR",country:"Paraguay",club:"Sunderland",price:7},
+  {id:350,name:"Miguel Almirón",pos:"ZAL",country:"Paraguay",club:"Atlanta United",price:11},
+  {id:351,name:"Diego Gómez",pos:"ZAL",country:"Paraguay",club:"Brighton",price:7},
+  {id:352,name:"Ramón Sosa",pos:"ZAL",country:"Paraguay",club:"Palmeiras",price:5},
+  {id:353,name:"Antonio Sanabria",pos:"UTO",country:"Paraguay",club:"Cremonese",price:9},
+  {id:354,name:"Julio Enciso",pos:"UTO",country:"Paraguay",club:"Strasbourg",price:9},
+  {id:355,name:"Aymen Dahmen",pos:"GK",country:"Tunisko",club:"CS Sfaxien",price:7},
+  {id:356,name:"Montassar Talbi",pos:"OBR",country:"Tunisko",club:"Lorient",price:9},
+  {id:357,name:"Dylan Bronn",pos:"OBR",country:"Tunisko",club:"Servette",price:9},
+  {id:358,name:"Ali Abdi",pos:"OBR",country:"Tunisko",club:"Nice",price:7},
+  {id:359,name:"Ellyes Skhiri",pos:"ZAL",country:"Tunisko",club:"Eintracht Frankfurt",price:11},
+  {id:360,name:"Hannibal Mejbri",pos:"ZAL",country:"Tunisko",club:"Burnley",price:7},
+  {id:361,name:"Anis Ben Slimane",pos:"ZAL",country:"Tunisko",club:"Norwich City",price:7},
+  {id:362,name:"Elias Achouri",pos:"UTO",country:"Tunisko",club:"Copenhagen",price:7},
+  {id:363,name:"Firas Chaouat",pos:"UTO",country:"Tunisko",club:"Club Africain",price:9},
+  {id:364,name:"Yahia Fofana",pos:"GK",country:"Pobřeží Slonoviny",club:"Çaykur Rizespor",price:7},
+  {id:365,name:"Odilon Kossounou",pos:"OBR",country:"Pobřeží Slonoviny",club:"Atalanta",price:7},
+  {id:366,name:"Evan Ndicka",pos:"OBR",country:"Pobřeží Slonoviny",club:"Roma",price:7},
+  {id:367,name:"Wilfried Singo",pos:"OBR",country:"Pobřeží Slonoviny",club:"Galatasaray",price:7},
+  {id:368,name:"Franck Kessié",pos:"ZAL",country:"Pobřeží Slonoviny",club:"Al-Ahli",price:13},
+  {id:369,name:"Ibrahim Sangaré",pos:"ZAL",country:"Pobřeží Slonoviny",club:"Nottm Forest",price:11},
+  {id:370,name:"Seko Fofana",pos:"ZAL",country:"Pobřeží Slonoviny",club:"Porto",price:9},
+  {id:371,name:"Simon Adingra",pos:"UTO",country:"Pobřeží Slonoviny",club:"Monaco",price:7},
+  {id:372,name:"Amad Diallo",pos:"UTO",country:"Pobřeží Slonoviny",club:"Man United",price:7},
+  {id:373,name:"Oumar Diakité",pos:"UTO",country:"Pobřeží Slonoviny",club:"Cercle Brugge",price:9},
+  {id:374,name:"Nicolas Pépé",pos:"UTO",country:"Pobřeží Slonoviny",club:"Villarreal",price:11},
+  {id:375,name:"Oussama Benbot",pos:"GK",country:"Alžírsko",club:"Toulouse",price:7},
+  {id:376,name:"Ramy Bensebaini",pos:"OBR",country:"Alžírsko",club:"Borussia Dortmund",price:9},
+  {id:377,name:"Aissa Mandi",pos:"OBR",country:"Alžírsko",club:"Real Betis",price:9},
+  {id:378,name:"Jaouen Hadjam",pos:"OBR",country:"Alžírsko",club:"Strasbourg",price:5},
+  {id:379,name:"Nabil Bentaleb",pos:"ZAL",country:"Alžírsko",club:"Nantes",price:9},
+  {id:380,name:"Houssem Aouar",pos:"ZAL",country:"Alžírsko",club:"Lyon",price:9},
+  {id:381,name:"Yassine Titraoui",pos:"ZAL",country:"Alžírsko",club:"Kasımpaşa",price:5},
+  {id:382,name:"Riyad Mahrez",pos:"UTO",country:"Alžírsko",club:"Al-Ahli",price:19},
+  {id:383,name:"Amine Gouiri",pos:"UTO",country:"Alžírsko",club:"Stade Rennais",price:9},
+  {id:384,name:"Mohamed Amine Amoura",pos:"UTO",country:"Alžírsko",club:"VfB Stuttgart",price:9},
+  {id:385,name:"Stanley Nwabali",pos:"GK",country:"Nigérie",club:"Chippa United",price:7},
+  {id:386,name:"Semi Ajayi",pos:"OBR",country:"Nigérie",club:"West Brom",price:7},
+  {id:387,name:"Calvin Bassey",pos:"OBR",country:"Nigérie",club:"Fulham",price:7},
+  {id:388,name:"William Troost-Ekong",pos:"OBR",country:"Nigérie",club:"Watford",price:9},
+  {id:389,name:"Ola Aina",pos:"OBR",country:"Nigérie",club:"Nottm Forest",price:7},
+  {id:390,name:"Alex Iwobi",pos:"ZAL",country:"Nigérie",club:"Fulham",price:11},
+  {id:391,name:"Wilfred Ndidi",pos:"ZAL",country:"Nigérie",club:"Leicester",price:9},
+  {id:392,name:"Raphael Onyedika",pos:"ZAL",country:"Nigérie",club:"Club Brugge",price:5},
+  {id:393,name:"Victor Osimhen",pos:"UTO",country:"Nigérie",club:"Galatasaray",price:14},
+  {id:394,name:"Ademola Lookman",pos:"UTO",country:"Nigérie",club:"Atalanta",price:11},
+  {id:395,name:"Emmanuel Dennis",pos:"UTO",country:"Nigérie",club:"Nottm Forest",price:7},
+  {id:396,name:"Lawrence Ati-Zigi",pos:"GK",country:"Ghana",club:"St. Gallen",price:7},
+  {id:397,name:"Daniel Amartey",pos:"OBR",country:"Ghana",club:"Besiktas",price:7},
+  {id:398,name:"Alexander Djiku",pos:"OBR",country:"Ghana",club:"Fenerbahçe",price:7},
+  {id:399,name:"Tariq Lamptey",pos:"OBR",country:"Ghana",club:"Brighton",price:5},
+  {id:400,name:"Thomas Partey",pos:"ZAL",country:"Ghana",club:"Arsenal",price:11},
+  {id:401,name:"Salis Abdul Samed",pos:"ZAL",country:"Ghana",club:"RC Lens",price:5},
+  {id:402,name:"Jordan Ayew",pos:"UTO",country:"Ghana",club:"Crystal Palace",price:14},
+  {id:403,name:"Antoine Semenyo",pos:"UTO",country:"Ghana",club:"Bournemouth",price:7},
+  {id:404,name:"Inaki Williams",pos:"UTO",country:"Ghana",club:"Athletic Club",price:9},
+  {id:405,name:"Édouard Mendy",pos:"GK",country:"Senegal",club:"Al-Ahli",price:9},
+  {id:406,name:"Kalidou Koulibaly",pos:"OBR",country:"Senegal",club:"Al-Hilal",price:14},
+  {id:407,name:"Abdou Diallo",pos:"OBR",country:"Senegal",club:"RB Leipzig",price:7},
+  {id:408,name:"Youssouf Sabaly",pos:"OBR",country:"Senegal",club:"Real Betis",price:7},
+  {id:409,name:"Idrissa Gueye",pos:"ZAL",country:"Senegal",club:"Everton",price:13},
+  {id:410,name:"Cheikhou Kouyaté",pos:"ZAL",country:"Senegal",club:"Nottm Forest",price:11},
+  {id:411,name:"Nampalys Mendy",pos:"ZAL",country:"Senegal",club:"Leicester",price:9},
+  {id:412,name:"Sadio Mané",pos:"UTO",country:"Senegal",club:"Al-Nassr",price:13},
+  {id:413,name:"Ismaïla Sarr",pos:"UTO",country:"Senegal",club:"Crystal Palace",price:14},
+  {id:414,name:"Nicolas Jackson",pos:"UTO",country:"Senegal",club:"Chelsea",price:9},
+  {id:415,name:"André Onana",pos:"GK",country:"Kamerun",club:"Man United",price:14},
+  {id:416,name:"Michael Ngadeu",pos:"OBR",country:"Kamerun",club:"Gent",price:7},
+  {id:417,name:"Jean-Charles Castelletto",pos:"OBR",country:"Kamerun",club:"Nantes",price:7},
+  {id:418,name:"Collins Fai",pos:"OBR",country:"Kamerun",club:"Al-Tai",price:9},
+  {id:419,name:"Samuel Oum Gouet",pos:"ZAL",country:"Kamerun",club:"Besiktas",price:5},
+  {id:420,name:"Martin Hongla",pos:"ZAL",country:"Kamerun",club:"Hellas Verona",price:5},
+  {id:421,name:"Vincent Aboubakar",pos:"UTO",country:"Kamerun",club:"Panathinaikos",price:14},
+  {id:422,name:"Karl Toko Ekambi",pos:"UTO",country:"Kamerun",club:"Rennes",price:14},
+  {id:423,name:"Eric Maxim Choupo-Moting",pos:"UTO",country:"Kamerun",club:"Stade Rennais",price:14},
+  {id:424,name:"Alireza Beiranvand",pos:"GK",country:"Írán",club:"Club Brugge",price:11},
+  {id:425,name:"Majid Hosseini",pos:"OBR",country:"Írán",club:"Trabzonspor",price:7},
+  {id:426,name:"Milad Mohammadi",pos:"OBR",country:"Írán",club:"AEK Athens",price:9},
+  {id:427,name:"Saeid Ezatolahi",pos:"ZAL",country:"Írán",club:"Real Valladolid",price:9},
+  {id:428,name:"Ali Gholizadeh",pos:"ZAL",country:"Írán",club:"Charleroi",price:9},
+  {id:429,name:"Mehdi Taremi",pos:"UTO",country:"Írán",club:"Inter Milan",price:11},
+  {id:430,name:"Sardar Azmoun",pos:"UTO",country:"Írán",club:"Bayer Leverkusen",price:14},
+  {id:431,name:"Mohammed Al-Owais",pos:"GK",country:"Saúdská Arábie",club:"Al-Hilal",price:9},
+  {id:432,name:"Ali Al-Bulayhi",pos:"OBR",country:"Saúdská Arábie",club:"Al-Hilal",price:11},
+  {id:433,name:"Sultan Al-Ghannam",pos:"OBR",country:"Saúdská Arábie",club:"Al-Nassr",price:9},
+  {id:434,name:"Mohammed Al-Breik",pos:"OBR",country:"Saúdská Arábie",club:"Al-Hilal",price:7},
+  {id:435,name:"Sami Al-Najei",pos:"ZAL",country:"Saúdská Arábie",club:"Al-Qadsiah",price:7},
+  {id:436,name:"Mohammed Kanno",pos:"ZAL",country:"Saúdská Arábie",club:"Al-Hilal",price:11},
+  {id:437,name:"Salem Al-Dawsari",pos:"ZAL",country:"Saúdská Arábie",club:"Al-Hilal",price:17},
+  {id:438,name:"Firas Al-Buraikan",pos:"UTO",country:"Saúdská Arábie",club:"Al-Fateh",price:11},
+  {id:439,name:"Saleh Al-Shehri",pos:"UTO",country:"Saúdská Arábie",club:"Al-Hilal",price:11},
+  {id:440,name:"Meshaal Barsham",pos:"GK",country:"Katar",club:"Al-Sadd",price:9},
+  {id:441,name:"Pedro Miguel",pos:"OBR",country:"Katar",club:"Al-Sadd",price:11},
+  {id:442,name:"Boualem Khoukhi",pos:"OBR",country:"Katar",club:"Al-Sadd",price:11},
+  {id:443,name:"Homam Ahmed",pos:"OBR",country:"Katar",club:"Cultural Leonesa",price:9},
+  {id:444,name:"Abdulaziz Hatem",pos:"ZAL",country:"Katar",club:"Al-Rayyan",price:13},
+  {id:445,name:"Karim Boudiaf",pos:"ZAL",country:"Katar",club:"Al-Duhail",price:13},
+  {id:446,name:"Assim Madibo",pos:"ZAL",country:"Katar",club:"Al-Wakrah",price:9},
+  {id:447,name:"Akram Afif",pos:"UTO",country:"Katar",club:"Al-Sadd",price:14},
+  {id:448,name:"Almoez Ali",pos:"UTO",country:"Katar",club:"Al-Duhail",price:19},
+  {id:449,name:"Hassan Al-Haydos",pos:"UTO",country:"Katar",club:"Al-Sadd",price:14},
+  {id:450,name:"Keylor Navas",pos:"GK",country:"Kostarika",club:"Newell's Old Boys",price:14},
+  {id:451,name:"Bryan Ruiz",pos:"ZAL",country:"Kostarika",club:"Herediano",price:13},
+  {id:452,name:"Yeltsin Tejeda",pos:"ZAL",country:"Kostarika",club:"Herediano",price:11},
+  {id:453,name:"Joel Campbell",pos:"UTO",country:"Kostarika",club:"Herediano",price:14},
+  {id:454,name:"Johan Venegas",pos:"UTO",country:"Kostarika",club:"Herediano",price:11},
+  {id:455,name:"Luis Mejía",pos:"GK",country:"Panama",club:"Independiente Medellin",price:9},
+  {id:456,name:"Aníbal Godoy",pos:"ZAL",country:"Panama",club:"San Jose Earthquakes",price:11},
+  {id:457,name:"Adalberto Carrasquilla",pos:"ZAL",country:"Panama",club:"Salt Lake",price:7},
+  {id:458,name:"Ismael Díaz",pos:"UTO",country:"Panama",club:"Sint-Truiden",price:9},
+  {id:459,name:"Rolando Blackburn",pos:"UTO",country:"Panama",club:"Panathinaikos",price:11},
+  {id:460,name:"Ronwen Williams",pos:"GK",country:"Jihoafrická republika",club:"Mamelodi Sundowns",price:9},
+  {id:461,name:"Aubrey Modiba",pos:"OBR",country:"Jihoafrická republika",club:"Mamelodi Sundowns",price:7},
+  {id:462,name:"Khuliso Mudau",pos:"OBR",country:"Jihoafrická republika",club:"Mamelodi Sundowns",price:7},
+  {id:463,name:"Teboho Mokoena",pos:"ZAL",country:"Jihoafrická republika",club:"Mamelodi Sundowns",price:11},
+  {id:464,name:"Themba Zwane",pos:"UTO",country:"Jihoafrická republika",club:"Mamelodi Sundowns",price:11},
+  {id:465,name:"Lyle Foster",pos:"UTO",country:"Jihoafrická republika",club:"Burnley",price:9},
+  {id:466,name:"Oswin Appollis",pos:"UTO",country:"Jihoafrická republika",club:"Orlando Pirates",price:9},
+  {id:467,name:"Nikola Vasilj",pos:"GK",country:"Bosna a Hercegovina",club:"FC St. Pauli",price:7},
+  {id:468,name:"Sead Kolašinac",pos:"OBR",country:"Bosna a Hercegovina",club:"Atalanta",price:9},
+  {id:469,name:"Amar Dedić",pos:"OBR",country:"Bosna a Hercegovina",club:"Benfica",price:7},
+  {id:470,name:"Amir Hadžiahmetović",pos:"ZAL",country:"Bosna a Hercegovina",club:"Hull City",price:7},
+  {id:471,name:"Benjamin Tahirović",pos:"ZAL",country:"Bosna a Hercegovina",club:"Brøndby",price:5},
+  {id:472,name:"Edin Džeko",pos:"UTO",country:"Bosna a Hercegovina",club:"Schalke 04",price:8},
+  {id:473,name:"Ermedin Demirović",pos:"UTO",country:"Bosna a Hercegovina",club:"VfB Stuttgart",price:9},
+  {id:474,name:"Camilo Vargas",pos:"GK",country:"Kolumbie",club:"Atlas",price:9},
+  {id:475,name:"Dávinson Sánchez",pos:"OBR",country:"Kolumbie",club:"Galatasaray",price:9},
+  {id:476,name:"Yerry Mina",pos:"OBR",country:"Kolumbie",club:"Atalanta",price:9},
+  {id:477,name:"Daniel Muñoz",pos:"OBR",country:"Kolumbie",club:"Crystal Palace",price:7},
+  {id:478,name:"Jhon Lucumí",pos:"OBR",country:"Kolumbie",club:"Bologna",price:7},
+  {id:479,name:"Wilmar Barrios",pos:"ZAL",country:"Kolumbie",club:"Zenit",price:9},
+  {id:480,name:"Richard Ríos",pos:"ZAL",country:"Kolumbie",club:"Fluminense",price:5},
+  {id:481,name:"James Rodríguez",pos:"ZAL",country:"Kolumbie",club:"Rayo Vallecano",price:11},
+  {id:482,name:"Luis Díaz",pos:"UTO",country:"Kolumbie",club:"Liverpool",price:12},
+  {id:483,name:"Rafael Santos Borré",pos:"UTO",country:"Kolumbie",club:"Eintracht Frankfurt",price:11},
+  {id:484,name:"Jhon Córdoba",pos:"UTO",country:"Kolumbie",club:"Krasnodar",price:11},
+  {id:485,name:"Rafael Romo",pos:"GK",country:"Venezuela",club:"Nantes",price:7},
+  {id:486,name:"Wilker Ángel",pos:"OBR",country:"Venezuela",club:"Fluminense",price:9},
+  {id:487,name:"Nahuel Ferraresi",pos:"OBR",country:"Venezuela",club:"Villarreal",price:7},
+  {id:488,name:"Jhon Chancellor",pos:"OBR",country:"Venezuela",club:"Apollon",price:7},
+  {id:489,name:"Tomás Rincón",pos:"ZAL",country:"Venezuela",club:"Cagliari",price:11},
+  {id:490,name:"Yangel Herrera",pos:"ZAL",country:"Venezuela",club:"Girona",price:9},
+  {id:491,name:"Yeferson Soteldo",pos:"ZAL",country:"Venezuela",club:"New England",price:9},
+  {id:492,name:"Salomón Rondón",pos:"UTO",country:"Venezuela",club:"Everton",price:14},
+  {id:493,name:"Eduard Bello",pos:"UTO",country:"Venezuela",club:"Atlético Nacional",price:7},
+  {id:494,name:"Sergio Rochet",pos:"GK",country:"Uruguay",club:"Nacional",price:7},
+  {id:495,name:"Ronald Araújo",pos:"OBR",country:"Uruguay",club:"Barcelona",price:14},
+  {id:496,name:"José María Giménez",pos:"OBR",country:"Uruguay",club:"Atlético Madrid",price:11},
+  {id:497,name:"Matías Viña",pos:"OBR",country:"Uruguay",club:"Marseille",price:7},
+  {id:498,name:"Rodrigo Bentancur",pos:"ZAL",country:"Uruguay",club:"Tottenham",price:11},
+  {id:499,name:"Federico Valverde",pos:"ZAL",country:"Uruguay",club:"Real Madrid",price:13},
+  {id:500,name:"Manuel Ugarte",pos:"ZAL",country:"Uruguay",club:"PSG",price:7},
+  {id:501,name:"Darwin Núñez",pos:"UTO",country:"Uruguay",club:"Liverpool",price:13},
+  {id:502,name:"Luis Suárez",pos:"UTO",country:"Uruguay",club:"Atlético Nacional",price:19},
+  {id:503,name:"Facundo Pellistri",pos:"UTO",country:"Uruguay",club:"Man United",price:7},
+  {id:504,name:"Łukasz Skorupski",pos:"GK",country:"Polsko",club:"Bologna",price:9},
+  {id:505,name:"Bartosz Salamon",pos:"OBR",country:"Polsko",club:"Lech Poznan",price:7},
+  {id:506,name:"Jan Bednarek",pos:"OBR",country:"Polsko",club:"Southampton",price:9},
+  {id:507,name:"Matty Cash",pos:"OBR",country:"Polsko",club:"Aston Villa",price:7},
+  {id:508,name:"Przemysław Frankowski",pos:"ZAL",country:"Polsko",club:"RC Lens",price:9},
+  {id:509,name:"Piotr Zieliński",pos:"ZAL",country:"Polsko",club:"Inter Milan",price:13},
+  {id:510,name:"Sebastian Szymański",pos:"ZAL",country:"Polsko",club:"Feyenoord",price:9},
+  {id:511,name:"Karol Świderski",pos:"UTO",country:"Polsko",club:"Charlotte FC",price:11},
+  {id:512,name:"Jakub Piątek",pos:"UTO",country:"Polsko",club:"Hertha BSC",price:9},
+  {id:513,name:"Dawid Kownacki",pos:"UTO",country:"Polsko",club:"Fortuna Düsseldorf",price:7},
+  {id:514,name:"Dominik Livaković",pos:"GK",country:"Chorvatsko",club:"Fenerbahçe",price:9},
+  {id:515,name:"Joško Gvardiol",pos:"OBR",country:"Chorvatsko",club:"Man City",price:14},
+  {id:516,name:"Duje Ćaleta-Car",pos:"OBR",country:"Chorvatsko",club:"Lyon",price:7},
+  {id:517,name:"Josip Šutalo",pos:"OBR",country:"Chorvatsko",club:"Ajax",price:5},
+  {id:518,name:"Luka Modrić",pos:"ZAL",country:"Chorvatsko",club:"Real Madrid",price:17},
+  {id:519,name:"Mateo Kovačić",pos:"ZAL",country:"Chorvatsko",club:"Man City",price:13},
+  {id:520,name:"Marcelo Brozović",pos:"ZAL",country:"Chorvatsko",club:"Al-Nassr",price:13},
+  {id:521,name:"Lovro Majer",pos:"ZAL",country:"Chorvatsko",club:"Real Madrid",price:9},
+  {id:522,name:"Ivan Perišić",pos:"UTO",country:"Chorvatsko",club:"Hajduk Split",price:14},
+  {id:523,name:"Andrej Kramarić",pos:"UTO",country:"Chorvatsko",club:"TSG Hoffenheim",price:14},
+  {id:524,name:"Bruno Petković",pos:"UTO",country:"Chorvatsko",club:"Atlético Madrid",price:11},
+  {id:525,name:"Vanja Milinković-Savić",pos:"GK",country:"Srbsko",club:"Torino",price:7},
+  {id:526,name:"Nikola Milenkovic",pos:"OBR",country:"Srbsko",club:"Nottm Forest",price:7},
+  {id:527,name:"Srđan Babić",pos:"OBR",country:"Srbsko",club:"Almería",price:5},
+  {id:528,name:"Sasa Lukic",pos:"ZAL",country:"Srbsko",club:"Fulham",price:7},
+  {id:529,name:"Sergej Milinković-Savić",pos:"ZAL",country:"Srbsko",club:"Al-Hilal",price:16},
+  {id:530,name:"Filip Kostić",pos:"ZAL",country:"Srbsko",club:"Juventus",price:11},
+  {id:531,name:"Luka Jović",pos:"UTO",country:"Srbsko",club:"Milan",price:11},
+  {id:532,name:"Aleksandar Mitrović",pos:"UTO",country:"Srbsko",club:"Al-Hilal",price:19},
+  {id:533,name:"Dušan Vlahović",pos:"UTO",country:"Srbsko",club:"Juventus",price:16},
+  {id:534,name:"Florin Niță",pos:"GK",country:"Rumunsko",club:"Damac",price:7},
+  {id:535,name:"Radu Drăgușin",pos:"OBR",country:"Rumunsko",club:"Tottenham",price:7},
+  {id:536,name:"Andrei Rațiu",pos:"OBR",country:"Rumunsko",club:"Rayo Vallecano",price:7},
+  {id:537,name:"Adrian Rus",pos:"OBR",country:"Rumunsko",club:"Pisa",price:5},
+  {id:538,name:"Ianis Hagi",pos:"ZAL",country:"Rumunsko",club:"Alaves",price:9},
+  {id:539,name:"Alexandru Ioniță",pos:"ZAL",country:"Rumunsko",club:"Cluj",price:7},
+  {id:540,name:"Florinel Coman",pos:"ZAL",country:"Rumunsko",club:"FCSB",price:11},
+  {id:541,name:"Denis Drăguș",pos:"UTO",country:"Rumunsko",club:"Trabzonspor",price:9},
+  {id:542,name:"George Pușcaș",pos:"UTO",country:"Rumunsko",club:"Genoa",price:11},
+  {id:543,name:"Péter Gulácsi",pos:"GK",country:"Maďarsko",club:"RB Leipzig",price:11},
+  {id:544,name:"Attila Fiola",pos:"OBR",country:"Maďarsko",club:"Fehérvár",price:11},
+  {id:545,name:"Willi Orbán",pos:"OBR",country:"Maďarsko",club:"RB Leipzig",price:9},
+  {id:546,name:"Ádám Lang",pos:"OBR",country:"Maďarsko",club:"Omonia",price:5},
+  {id:547,name:"Dominik Szoboszlai",pos:"ZAL",country:"Maďarsko",club:"Liverpool",price:13},
+  {id:548,name:"Ádám Nagy",pos:"ZAL",country:"Maďarsko",club:"Spezia",price:9},
+  {id:549,name:"László Kleinheisler",pos:"ZAL",country:"Maďarsko",club:"Werder Bremen",price:9},
+  {id:550,name:"Roland Sallai",pos:"UTO",country:"Maďarsko",club:"Freiburg",price:11},
+  {id:551,name:"Martin Ádám",pos:"UTO",country:"Maďarsko",club:"Slavia Prague",price:9},
+  {id:552,name:"Jan Oblak",pos:"GK",country:"Slovinsko",club:"Atlético Madrid",price:12},
+  {id:553,name:"Jaka Bijol",pos:"OBR",country:"Slovinsko",club:"Udinese",price:7},
+  {id:554,name:"Miha Blažič",pos:"OBR",country:"Slovinsko",club:"Ferencváros",price:7},
+  {id:555,name:"Benjamin Šeško",pos:"UTO",country:"Slovinsko",club:"RB Leipzig",price:12},
+  {id:556,name:"Andraž Šporar",pos:"UTO",country:"Slovinsko",club:"Panathinaikos",price:11},
+  {id:557,name:"Thomas Strakosha",pos:"GK",country:"Albánie",club:"Brentford",price:9},
+  {id:558,name:"Berat Djimsiti",pos:"OBR",country:"Albánie",club:"Atalanta",price:9},
+  {id:559,name:"Elseid Hysaj",pos:"OBR",country:"Albánie",club:"Lazio",price:9},
+  {id:560,name:"Klaus Gjasula",pos:"ZAL",country:"Albánie",club:"Hannover 96",price:7},
+  {id:561,name:"Nedim Bajrami",pos:"ZAL",country:"Albánie",club:"Sassuolo",price:9},
+  {id:562,name:"Qazim Laçi",pos:"ZAL",country:"Albánie",club:"Genoa",price:5},
+  {id:563,name:"Rey Manaj",pos:"UTO",country:"Albánie",club:"Sivasspor",price:9},
+  {id:564,name:"Armando Broja",pos:"UTO",country:"Albánie",club:"Chelsea",price:7},
+  {id:565,name:"Joël Kiassumbua",pos:"GK",country:"DR Kongo",club:"Nantes",price:7},
+  {id:566,name:"Chancel Mbemba",pos:"OBR",country:"DR Kongo",club:"Nantes",price:9},
+  {id:567,name:"Arthur Masuaku",pos:"OBR",country:"DR Kongo",club:"Besiktas",price:7},
+  {id:568,name:"Paul-José Mpoku",pos:"ZAL",country:"DR Kongo",club:"USM Alger",price:11},
+  {id:569,name:"Yoane Wissa",pos:"UTO",country:"DR Kongo",club:"Brentford",price:9},
+  {id:570,name:"Cédric Bakambu",pos:"UTO",country:"DR Kongo",club:"Marseille",price:14},
+  {id:571,name:"Silas",pos:"UTO",country:"DR Kongo",club:"VfB Stuttgart",price:9},
+  {id:572,name:"Djigui Diarra",pos:"GK",country:"Mali",club:"SM Caen",price:7},
+  {id:573,name:"Hamari Traoré",pos:"OBR",country:"Mali",club:"Stade Rennais",price:7},
+  {id:574,name:"Massadio Haïdara",pos:"OBR",country:"Mali",club:"RC Lens",price:7},
+  {id:575,name:"Diadie Samassékou",pos:"ZAL",country:"Mali",club:"Hoffenheim",price:5},
+  {id:576,name:"Moussa Djenepo",pos:"ZAL",country:"Mali",club:"Standard Liège",price:7},
+  {id:577,name:"Adama Traoré",pos:"ZAL",country:"Mali",club:"Barcelona",price:9},
+  {id:578,name:"Lassine Sinayoko",pos:"UTO",country:"Mali",club:"Reims",price:7},
+  {id:579,name:"Moussa Marega",pos:"UTO",country:"Mali",club:"Al-Hilal",price:11}
 ];
+
+
+if(!state.players||state.players.length===0){state.players=PLAYERS_DATA;saveLocal();}
+
+// ═══════════════ UI STATE ═══════════════
+let selTeam=[],captainId=null,posFilter='ALL',posFilterPage='ALL';
+let currentFormation=state.formation||'1-2-2';
+
+function buildFormationBar(){
+  const bar=document.getElementById('formationBar');
+  bar.innerHTML=Object.entries(FORM_DEFS).map(([k,v])=>
+    `<button class="form-btn${k===currentFormation?' active':''}" onclick="setFormation('${k}',this)">${FORM_LABELS[k]}</button>`
+  ).join('');
+}
+
+function setFormation(key,btn){
+  currentFormation=key;state.formation=key;saveLocal();
+  document.querySelectorAll('.form-btn').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  const f=FORM_DEFS[key];
+  document.getElementById('formHint').textContent=`Formace: 1 GK + ${f.OBR} OBR + ${f.ZAL} ZAL + ${f.UTO} UTO`;
+  const v=validateTeamForFormation(selTeam,key);
+  if(!v.ok){selTeam=[];captainId=null;}
+  renderTeamPage();
+}
+
+function validateTeamForFormation(team,fKey){
+  const f=FORM_DEFS[fKey];
+  const cnt={GK:0,OBR:0,ZAL:0,UTO:0};
+  team.forEach(pid=>{const p=state.players.find(x=>x.id===pid);if(p)cnt[p.pos]++;});
+  if(cnt.GK>1||cnt.OBR>f.OBR||cnt.ZAL>f.ZAL||cnt.UTO>f.UTO)return{ok:false};
+  return{ok:true};
+}
+
+function getMaxForPos(pos){if(pos==='GK')return 1;return FORM_DEFS[currentFormation][pos]||0;}
+
+function isTeamComplete(){
+  const f=FORM_DEFS[currentFormation];
+  const total=1+f.OBR+f.ZAL+f.UTO;
+  if(selTeam.length!==total)return{ok:false,msg:`Potřeba ${total} hráčů (aktuálně ${selTeam.length})`};
+  const cnt={GK:0,OBR:0,ZAL:0,UTO:0};
+  selTeam.forEach(pid=>{const p=state.players.find(x=>x.id===pid);if(p)cnt[p.pos]++;});
+  if(cnt.GK!==1)return{ok:false,msg:'Chybí brankář'};
+  if(cnt.OBR!==f.OBR)return{ok:false,msg:`Potřeba ${f.OBR} obránce (máš ${cnt.OBR})`};
+  if(cnt.ZAL!==f.ZAL)return{ok:false,msg:`Potřeba ${f.ZAL} záložník (máš ${cnt.ZAL})`};
+  if(cnt.UTO!==f.UTO)return{ok:false,msg:`Potřeba ${f.UTO} útočník (máš ${cnt.UTO})`};
+  if(!captainId)return{ok:false,msg:'Nevybran kapitán — klikni 👑 Kapitán'};
+  return{ok:true,msg:'✅ Tým je kompletní!'};
+}
+
+function getBudgetUsed(){return selTeam.reduce((s,pid)=>{const p=state.players.find(x=>x.id===pid);return s+(p?p.price:0);},0);}
+
+// ═══════════════ RENDER TEAM PAGE ═══════════════
+function renderTeamPage(){
+  renderPlayerList();renderPitch();renderBudget();
+  const v=isTeamComplete();
+  const st=document.getElementById('metaStatus');
+  st.textContent=state.currentManager?v.msg:'👤 Nejprve vyber manažera';
+  st.style.color=v.ok?'#6ddc8a':'var(--wc-mid)';
+  document.getElementById('saveTeamBtn').disabled=!v.ok||!state.currentManager;
+  document.getElementById('metaRound').textContent=(state.activeRound+1)+' — '+ROUNDS[state.activeRound].name;
+  document.getElementById('activeBadge').textContent='⚡ Kolo '+(state.activeRound+1)+' — '+ROUNDS[state.activeRound].name;
+  renderBonusForm();
+  updateTeamNameDisplay();
+}
+
+function updateTeamNameDisplay(){
+  const disp=document.getElementById('teamNameDisplay');
+  const mgr=state.managers.find(m=>(typeof m==='object'?m.name:m)===state.currentManager);
+  const tn=mgr&&typeof mgr==='object'?mgr.team_name:null;
+  if(state.currentManager&&tn){
+    disp.textContent='🛡️ '+tn;
+    disp.style.display='';
+    disp.title='Klikni pro změnu názvu';
+    disp.style.cursor='pointer';
+    disp.onclick=()=>openEditTeamModal();
+  } else if(state.currentManager){
+    disp.textContent='✏️ Nastavit název týmu';
+    disp.style.display='';
+    disp.style.color='var(--wc-mid)';
+    disp.style.cursor='pointer';
+    disp.onclick=()=>openEditTeamModal();
+  } else {
+    disp.style.display='none';
+  }
+}
+
+function openEditTeamModal(){
+  if(!state.currentManager)return;
+  document.getElementById('editTeamNameInput').value=state.teamNames[state.currentManager]||'';
+  openModal('editTeamModal');
+}
+
+async function saveTeamName(){
+  if(!state.currentManager)return;
+  const n=document.getElementById('editTeamNameInput').value.trim();
+  if(!n)return;
+  await sbUpsert('managers',{name:state.currentManager, team_name:n});
+  // Update local state
+  const mgr=state.managers.find(m=>(typeof m==='object'?m.name:m)===state.currentManager);
+  if(mgr && typeof mgr==='object') mgr.team_name=n;
+  closeModal('editTeamModal');updateTeamNameDisplay();updateManagerSelect();
+}
+
+function renderBudget(){
+  const used=getBudgetUsed();
+  const pct=Math.min(100,(used/BUDGET)*100);
+  const fill=document.getElementById('budgetBar');
+  fill.style.width=pct+'%';
+  fill.className='budget-bar-fill'+(pct>90?' over':pct>75?' warn':'');
+  document.getElementById('metaBudget').textContent=(BUDGET-used).toFixed(1)+' M CZK';
+  document.getElementById('metaBudget').style.color=pct>90?'#ff7070':'var(--wc-gold2)';
+  document.getElementById('metaCount').textContent=selTeam.length+' / 6';
+  document.getElementById('budgetPct').textContent=Math.round(pct)+' %';
+}
+
+function renderPlayerList(){
+  const search=document.getElementById('playerSearch')?.value?.toLowerCase()||'';
+  const countryF=document.getElementById('countryFilter')?.value||'';
+  const used=getBudgetUsed();
+  const cnt={GK:0,OBR:0,ZAL:0,UTO:0};
+  selTeam.forEach(pid=>{const p=state.players.find(x=>x.id===pid);if(p)cnt[p.pos]++;});
+  const filtered=state.players.filter(p=>{
+    if(posFilter!=='ALL'&&p.pos!==posFilter)return false;
+    if(countryF&&p.country!==countryF)return false;
+    if(search&&!p.name.toLowerCase().includes(search)&&!p.country.toLowerCase().includes(search))return false;
+    return true;
+  });
+  document.getElementById('playerList').innerHTML=filtered.map(p=>{
+    const isSel=selTeam.includes(p.id);
+    const maxPos=getMaxForPos(p.pos);
+    const wouldOver=(BUDGET-used-p.price)<0&&!isSel;
+    const posOver=cnt[p.pos]>=maxPos&&!isSel;
+    const disabled=(wouldOver||posOver)&&!isSel;
+    return `<div class="player-item${isSel?' selected':''}${disabled?' disabled':''}" onclick="if(!${disabled})togglePlayer(${p.id})">
+      <span class="badge badge-${p.pos}">${p.pos}</span>
+      <div style="min-width:0">
+        <div class="p-name">${p.name}</div>
+        <div class="p-meta">${p.country} · ${p.club}</div>
+      </div>
+      <div class="p-price">${p.price} M</div>
+      <span class="check">✓</span>
+    </div>`;
+  }).join('');
+}
+
+function renderPitch(){
+  const f=FORM_DEFS[currentFormation];
+  const rows={GK:[],OBR:[],ZAL:[],UTO:[]};
+  selTeam.forEach(pid=>{const p=state.players.find(x=>x.id===pid);if(p)rows[p.pos].push(p);});
+  ['UTO','ZAL','OBR','GK'].forEach(pos=>{
+    const row=document.getElementById('pitch-'+pos);
+    const max=pos==='GK'?1:f[pos];
+    let h='';
+    for(let i=0;i<max;i++){
+      const p=rows[pos][i];
+      if(p){
+        const isCap=captainId===p.id;
+        h+=`<div class="pitch-slot" title="${p.name} (${p.country}) — ${p.price}M" onclick="openModal('captainModal')">
+          <div class="pitch-card${isCap?' captain-card':''}">
+            ${shirtSVG(p.country, p.pos, isCap, p.price, p.name)}
+            ${isCap?'<div class="cap-badge">C</div>':''}
+            <div class="price-badge">${p.price}M</div>
+          </div>
+          <div class="pitch-flag">${getKit(p.country).flag}</div>
+          <div class="pitch-name">${p.name.split(' ').pop()}</div>
+        </div>`;
+      } else {
+        h+=`<div class="pitch-slot">
+          <div class="pitch-empty">${pos}</div>
+          <div class="pitch-name" style="color:rgba(255,255,255,.2)">—</div>
+        </div>`;
+      }
+    }
+    row.innerHTML=h;
+  });
+}
+
+function renderBonusForm(){
+  const r=ROUNDS[state.activeRound];
+  document.getElementById('bonusRoundName').textContent=r.name;
+  const saved=state.currentManager?((state.bonusByManager[state.currentManager]||{})[state.activeRound]||[]):[];
+  document.getElementById('bonusForm').innerHTML=r.bonus.map((q,i)=>`
+    <div class="bonus-q">
+      <label>${i+1}. ${q}</label>
+      <input type="text" placeholder="Tvoje odpověď..." value="${saved[i]||''}" id="bq_${i}">
+    </div>
+  `).join('');
+}
+
+async function saveBonusAnswers(){
+  if(!state.currentManager){alert('Nejprve vyber manažera!');return;}
+  const r=ROUNDS[state.activeRound];
+  const ans=r.bonus.map((_,i)=>document.getElementById('bq_'+i)?.value||'');
+  const btn=event.currentTarget;btn.textContent='⏳ Ukládám...';btn.disabled=true;
+  const res = await sbUpsert('bonus_answers', {
+    manager_name: state.currentManager,
+    round: state.activeRound,
+    answers: ans
+  });
+  btn.disabled=false;
+  if(res){ btn.textContent='✅ Uloženo!'; setTimeout(()=>{btn.textContent='Uložit odpovědi';},2000); }
+  else { btn.textContent='❌ Chyba!'; setTimeout(()=>{btn.textContent='Uložit odpovědi';},3000); }
+}
+
+// ═══════════════ TEAM ACTIONS ═══════════════
+function togglePlayer(id){
+  if(!state.currentManager){alert('Nejprve vyber manažera!');return;}
+  const idx=selTeam.indexOf(id);
+  if(idx>-1){selTeam.splice(idx,1);if(captainId===id)captainId=null;}
+  else{
+    const p=state.players.find(x=>x.id===id);
+    const used=getBudgetUsed();
+    if(used+p.price>BUDGET){alert('⚠️ Překročen rozpočet 100 M!');return;}
+    const cnt={GK:0,OBR:0,ZAL:0,UTO:0};
+    selTeam.forEach(pid=>{const pl=state.players.find(x=>x.id===pid);if(pl)cnt[pl.pos]++;});
+    if(cnt[p.pos]>=getMaxForPos(p.pos)){alert(`⚠️ Max. ${getMaxForPos(p.pos)}× ${p.pos} v této formaci`);return;}
+    selTeam.push(id);
+  }
+  renderTeamPage();
+}
+
+function clearTeam(){if(!confirm('Vymazat celý tým?'))return;selTeam=[];captainId=null;renderTeamPage();}
+
+async function saveTeam(){
+  if(!state.currentManager)return;
+  const btn=document.getElementById('saveTeamBtn');
+  btn.textContent='⏳ Ukládám...';btn.disabled=true;
+  const res = await sbUpsert('teams', {
+    manager_name: state.currentManager,
+    round: state.activeRound,
+    players: selTeam,
+    captain: captainId,
+    formation: currentFormation
+  });
+  btn.disabled=false;
+  if(res){
+    btn.textContent='✅ Uloženo!';
+    setTimeout(()=>{btn.textContent='💾 Uložit tým';},2000);
+  } else {
+    btn.textContent='❌ Chyba!';
+    setTimeout(()=>{btn.textContent='💾 Uložit tým';},3000);
+  }
+}
+
+// ═══════════════ CAPTAIN ═══════════════
+function openCaptainModal(){
+  const fp=selTeam.filter(pid=>{const p=state.players.find(x=>x.id===pid);return p&&p.pos!=='GK';});
+  const list=document.getElementById('captainList');
+  if(!fp.length){
+    list.innerHTML=`<div style="text-align:center;padding:20px;color:var(--wc-mid);font-size:13px">
+      ⚠️ Nejprve přidej hráče pole (OBR, ZAL nebo UTO) do sestavy.
+    </div>`;
+    return;
+  }
+  list.innerHTML=fp.map(pid=>{
+    const p=state.players.find(x=>x.id===pid);
+    const k=getKit(p.country);
+    return `<div class="cap-item${captainId===p.id?' active':''}" onclick="setCaptain(${p.id})">
+      <span style="font-size:20px">${k.flag}</span>
+      <span class="badge badge-${p.pos}">${p.pos}</span>
+      <div style="flex:1;min-width:0">
+        <div style="font-weight:700;font-size:13px">${p.name}</div>
+        <div style="font-size:11px;color:var(--wc-mid)">${p.country} · ${p.price}M</div>
+      </div>
+      <div style="margin-left:auto;font-size:22px">${captainId===p.id?'⭐':'☆'}</div>
+    </div>`;
+  }).join('');
+}
+
+function setCaptain(id){captainId=id;closeModal('captainModal');renderTeamPage();}
+
+// ═══════════════ PLAYERS PAGE ═══════════════
+function renderPlayersPage(){
+  const search=(document.getElementById('playersSearch')?.value||'').toLowerCase();
+  const countryFP=document.getElementById('countryFilterPage')?.value||'';
+  const filtered=state.players.filter(p=>{
+    if(posFilterPage!=='ALL'&&p.pos!==posFilterPage)return false;
+    if(countryFP&&p.country!==countryFP)return false;
+    if(search&&!p.name.toLowerCase().includes(search)&&!p.country.toLowerCase().includes(search))return false;
+    return true;
+  });
+  document.getElementById('playersTableBody').innerHTML=filtered.map(p=>{
+    const st=state.playerStats[p.id]||{};
+    return `<tr>
+      <td style="font-weight:700">${p.name}</td>
+      <td><span class="badge badge-${p.pos}">${p.pos}</span></td>
+      <td style="font-size:12px;color:var(--wc-mid)">${p.country} · ${p.club}</td>
+      <td style="font-weight:800;color:var(--wc-gold2);font-family:var(--font-head)">${p.price}</td>
+      <td>${st.goals||0}</td><td>${st.assists||0}</td><td>${st.cs||0}</td>
+      <td>${st.yellow||0}</td><td>${st.red||0}</td>
+      <td style="font-weight:800;font-family:var(--font-head);color:var(--wc-gold2)">${calcPts(p.id)}</td>
+    </tr>`;
+  }).join('');
+}
+
+function calcPts(pid){
+  const p=state.players.find(x=>x.id===pid);if(!p)return 0;
+  const sc=SCORING[p.pos],st=state.playerStats[pid]||{};
+  return(st.goals||0)*sc.goal+(st.assists||0)*sc.assist+(st.cs||0)*sc.cs+(st.yellow||0)*sc.yellow+(st.red||0)*sc.red;
+}
+
+
+
+async function calculateRoundExec(){
+  const ri=parseInt(document.getElementById('resultRoundSelect').value);
+  setLoading(true,'Ukládám statistiky...');
+  // Save all player stats
+  const statsArr = state.players.map(p=>({
+    player_id: p.id,
+    goals:   parseInt(document.getElementById(`st_${p.id}_goals`)?.value)||0,
+    assists: parseInt(document.getElementById(`st_${p.id}_assists`)?.value)||0,
+    cs:      parseInt(document.getElementById(`st_${p.id}_cs`)?.value)||0,
+    yellow:  parseInt(document.getElementById(`st_${p.id}_yellow`)?.value)||0,
+    red:     parseInt(document.getElementById(`st_${p.id}_red`)?.value)||0,
+  }));
+  // Update local state too
+  statsArr.forEach(s=>{ state.playerStats[s.player_id]={goals:s.goals,assists:s.assists,cs:s.cs,yellow:s.yellow,red:s.red}; });
+  await sbUpsert('player_stats', statsArr);
+
+  setLoading(true,'Počítám body...');
+  // Load all teams for this round
+  const allTeams = await sbGet('teams', `round=eq.${ri}&select=*`);
+  const scoreArr = [];
+  if(allTeams){
+    for(const team of allTeams){
+      let pts=0;
+      team.players.forEach(pid=>{let pp=calcPts(pid);if(pid===team.captain)pp*=2;pts+=pp;});
+      scoreArr.push({manager_name: team.manager_name, round: ri, points: pts});
+      if(!state.scores[team.manager_name])state.scores[team.manager_name]={};
+      state.scores[team.manager_name][ri]=pts;
+    }
+    if(scoreArr.length) await sbUpsert('scores', scoreArr);
+  }
+  setLoading(false);
+  const btn=event.currentTarget;btn.textContent='✅ Vypočítáno!';btn.style.background='#0b7a3e';
+  setTimeout(()=>{btn.textContent='⚡ Vypočítat body & aktualizovat pořadí';btn.style.background='';},3000);
+  renderLeaderboard();
+}
+
+
+function calculateRound(){
+  if(!adminUnlocked){checkAdminPin(()=>{if(adminUnlocked)calculateRoundExec();});return;}
+  calculateRoundExec();
+}
+
+// ═══════════════ LEADERBOARD ═══════════════
+async function renderLeaderboard(){
+  document.getElementById('lbCurrentRound').textContent=ROUNDS[state.activeRound].name;
+  setLoading(true,'Načítám pořadí...');
+
+  // Load all scores from Supabase
+  const scoresData = await sbGet('scores','select=*&order=points.desc');
+  // Load all managers
+  const mgrsData = await sbGet('managers','select=*');
+  // Load teams for current round (for player names)
+  const teamsData = await sbGet('teams',`round=eq.${state.activeRound}&select=*`);
+  // Load bonus answers for current round
+  const bonusData = await sbGet('bonus_answers',`round=eq.${state.activeRound}&select=*`);
+  setLoading(false);
+
+  if(!mgrsData) return;
+
+  // Rebuild state from fresh data
+  state.managers = mgrsData;
+  if(scoresData){
+    state.scores={};
+    scoresData.forEach(s=>{
+      if(!state.scores[s.manager_name])state.scores[s.manager_name]={};
+      state.scores[s.manager_name][s.round]=s.points;
+    });
+  }
+
+  // Build overall leaderboard
+  const rows = mgrsData.map(m=>{
+    const sc=state.scores[m.name]||{};
+    const total=Object.values(sc).reduce((a,b)=>a+b,0);
+    return{m:m.name, teamName:m.team_name, sc, total};
+  }).sort((a,b)=>b.total-a.total);
+
+  document.getElementById('lbBody').innerHTML=rows.map((r,i)=>`
+    <tr class="${i===0?'rank-1':i===1?'rank-2':i===2?'rank-3':''}">
+      <td><div class="lb-rank">${i+1}</div></td>
+      <td>
+        <div style="font-weight:700">${r.m}</div>
+        ${r.teamName?`<div style="font-size:11px;color:var(--wc-gold2);font-family:var(--font-head);font-weight:800">🛡️ ${r.teamName}</div>`:''}
+      </td>
+      <td style="font-size:12px;color:var(--wc-mid)">${r.teamName||'—'}</td>
+      <td style="text-align:center">${r.sc[0]!==undefined?r.sc[0]:'—'}</td>
+      <td style="text-align:center">${r.sc[1]!==undefined?r.sc[1]:'—'}</td>
+      <td style="text-align:center">${r.sc[2]!==undefined?r.sc[2]:'—'}</td>
+      <td style="text-align:center">${r.sc[3]!==undefined?r.sc[3]:'—'}</td>
+      <td style="text-align:center"><span class="pts-big">${r.total}</span></td>
+    </tr>`).join('');
+
+  // Build current round leaderboard
+  const rRows = mgrsData.map(m=>{
+    const team = teamsData ? teamsData.find(t=>t.manager_name===m.name) : null;
+    const fLabel = team?(FORM_LABELS[team.formation]||'—'):'—';
+    const teamN = m.team_name?`<span class="tag tag-gold">${m.team_name}</span>`:'<span class="tag">—</span>';
+    const names = team?team.players.map(pid=>{
+      const p=state.players.find(x=>x.id===pid);
+      return p?`<span class="badge badge-${p.pos}" style="font-size:9px;margin:1px">${p.name.split(' ').pop()}${pid===team.captain?' 👑':''}</span>`:'';
+    }).join(''):'<span style="color:var(--wc-mid)">Bez týmu</span>';
+    const bonusEntry = bonusData ? bonusData.find(b=>b.manager_name===m.name) : null;
+    const bonusCount = bonusEntry ? bonusEntry.answers.filter(Boolean).length : 0;
+    const pts=(state.scores[m.name]||{})[state.activeRound]||0;
+    return{m:m.name,teamN,fLabel,names,bonusCount,pts};
+  }).sort((a,b)=>b.pts-a.pts);
+
+  document.getElementById('lbRoundBody').innerHTML=rRows.map((r,i)=>`
+    <tr>
+      <td>${i+1}</td>
+      <td style="font-weight:700">${r.m}</td>
+      <td>${r.teamN}</td>
+      <td><span class="tag">${r.fLabel}</span></td>
+      <td style="font-size:11px">${r.names}</td>
+      <td style="text-align:center">${r.bonusCount} / ${ROUNDS[state.activeRound].bonus.length}</td>
+      <td style="text-align:center"><span class="pts-big">${r.pts}</span></td>
+    </tr>`).join('');
+
+  updateManagerSelect();
+}
+
+
+// ═══════════════ ROUNDS ADMIN ═══════════════
+function renderRoundsAdmin(){
+  document.getElementById('roundsAdmin').innerHTML=ROUNDS.map((r,i)=>`
+    <div class="round-admin-card${state.activeRound===i?' active-round':''}">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <strong style="font-family:var(--font-head);font-size:15px;font-weight:800;text-transform:uppercase;letter-spacing:.04em">Kolo ${i+1} — ${r.name}</strong>
+        ${state.activeRound===i?'<span class="tag tag-gold">Aktivní</span>':''}
+        <button class="btn btn-sm" style="margin-left:auto;font-size:11px" onclick="setActiveRoundDirect(${i})">Nastavit aktivní</button>
+      </div>
+      ${r.bonus.map((q,j)=>`
+        <div class="q-row">
+          <span style="font-size:12px;color:var(--wc-mid);width:18px;flex-shrink:0">${j+1}.</span>
+          <input type="text" value="${q}" id="bqedit_${i}_${j}">
+          <button class="btn btn-sm" style="font-size:11px" onclick="saveBQ(${i},${j})">Uložit</button>
+          <button class="btn btn-sm btn-danger" style="font-size:11px" onclick="deleteBQ(${i},${j})">×</button>
+        </div>`).join('')}
+      <button class="btn btn-sm" style="margin-top:8px;font-size:11px" onclick="addBQ(${i})">+ Přidat otázku</button>
+    </div>`).join('');
+}
+async function saveBQ(ri,qi){
+  ROUNDS[ri].bonus[qi]=document.getElementById(`bqedit_${ri}_${qi}`).value;
+  await saveRoundsConfig();
+  const btn=event.currentTarget;btn.textContent='✅';setTimeout(()=>{btn.textContent='Uložit';},1500);
+}
+async function deleteBQ(ri,qi){ROUNDS[ri].bonus.splice(qi,1);await saveRoundsConfig();renderRoundsAdmin();}
+async function addBQ(ri){ROUNDS[ri].bonus.push('');await saveRoundsConfig();renderRoundsAdmin();}
+async function saveRoundsConfig(){
+  await sbUpsert('app_config',{key:'rounds', value: ROUNDS});
+}
+async function setActiveRoundDirect(i){
+  state.activeRound=i;
+  await sbUpsert('app_config',{key:'active_round', value: i});
+  renderRoundsAdmin();renderTeamPage();
+  document.getElementById('activeRoundSelect').value=i;
+}
+
+// ═══════════════ MANAGERS ═══════════════
+function updateManagerSelect(){
+  const sel=document.getElementById('managerSelect');
+  const cur=state.currentManager||sel.value;
+  const mgrs = state.managers.map(m=> typeof m==='object' ? m : {name:m, team_name:null});
+  sel.innerHTML='<option value="">— Vyber manažera —</option>'+
+    mgrs.map(m=>`<option value="${m.name}"${m.name===cur?' selected':''}>${m.name}${m.team_name?' ('+m.team_name+')':''}</option>`).join('');
+}
+
+async function addManager(){
+  const n=document.getElementById('newManagerName').value.trim();
+  const tn=document.getElementById('newTeamName').value.trim();
+  if(!n){alert('Zadej jméno!');return;}
+  if(state.managers.find(m=>m.name===n)){alert('Manažer již existuje');return;}
+  setLoading(true,'Přidávám manažera...');
+  const res = await sbUpsert('managers', {name:n, team_name:tn||null});
+  setLoading(false);
+  if(!res){alert('Chyba při ukládání — zkontroluj připojení.');return;}
+  state.managers.push({name:n, team_name:tn||null});
+  state.currentManager=n;
+  selTeam=[];captainId=null;
+  saveLocal();
+  updateManagerSelect();
+  document.getElementById('managerSelect').value=n;
+  closeModal('addManagerModal');
+  document.getElementById('newManagerName').value='';
+  document.getElementById('newTeamName').value='';
+  renderTeamPage();
+}
+
+async function switchManager(){
+  const v=document.getElementById('managerSelect').value;
+  state.currentManager=v||null;
+  saveLocal();
+  if(v){
+    setLoading(true,'Načítám sestavu...');
+    const teams = await sbGet('teams', `manager_name=eq.${encodeURIComponent(v)}&round=eq.${state.activeRound}&select=*`);
+    setLoading(false);
+    if(teams&&teams.length>0){
+      const t=teams[0];
+      selTeam=[...t.players];
+      captainId=t.captain;
+      currentFormation=t.formation||'1-2-2';
+    } else {selTeam=[];captainId=null;currentFormation=state.formation||'1-2-2';}
+  } else{selTeam=[];captainId=null;}
+  buildFormationBar();renderTeamPage();
+}
+
+async function setActiveRound(){
+  const newRound=parseInt(document.getElementById('activeRoundSelect').value);
+  if(newRound===state.activeRound){document.getElementById('activeRoundSelect').value=state.activeRound;return;}
+  checkAdminPin(async ()=>{
+    state.activeRound=newRound;
+    await sbUpsert('app_config',{key:'active_round', value: state.activeRound});
+    renderTeamPage();
+    alert('✅ Kolo '+(state.activeRound+1)+' — '+ROUNDS[state.activeRound].name+' je nyní aktivní!');
+  });
+  if(!adminUnlocked) document.getElementById('activeRoundSelect').value=state.activeRound;
+}
+// ═══════════════ FILTERS ═══════════════
+function filterPos(p,btn){posFilter=p;document.querySelectorAll('#posFilter .pos-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderPlayerList();}
+function filterPlayersPage(p,btn){posFilterPage=p;document.querySelectorAll('#posFilterPlayers .pos-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderPlayersPage();}
+
+// ═══════════════ PAGES ═══════════════
+function showPage(p,btn){
+  const adminPages = ['admin','rounds'];
+  if(adminPages.includes(p) && !adminUnlocked){
+    checkAdminPin(()=>{ showPage(p,btn); });
+    return;
+  }
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(x=>x.classList.remove('active'));
+  document.getElementById('page-'+p).classList.add('active');
+  if(btn)btn.classList.add('active');
+  if(p==='team')renderTeamPage();
+  if(p==='players')renderPlayersPage();
+  if(p==='leaderboard')renderLeaderboard();
+  if(p==='admin'){renderResultsForm(); renderAdminHeader();}
+  if(p==='rounds'){renderRoundsAdmin(); renderAdminHeader();}
+}
+
+// ═══════════════ MODALS ═══════════════
+function openModal(id){document.getElementById(id).classList.add('open');if(id==='captainModal')openCaptainModal();}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');}));
+
+// ═══════════════ INIT ═══════════════
+function renderAdminHeader(){
+  ['page-admin','page-rounds'].forEach(pid=>{
+    const pg = document.getElementById(pid);
+    if(!pg) return;
+    let bar = pg.querySelector('.admin-topbar');
+    if(!bar){
+      bar = document.createElement('div');
+      bar.className='admin-topbar';
+      bar.style.cssText='display:flex;align-items:center;gap:10px;background:rgba(201,168,44,.1);border:1px solid rgba(201,168,44,.3);border-radius:10px;padding:10px 16px;margin-bottom:14px';
+      bar.innerHTML=`<span style="font-size:18px">🔓</span>
+        <span style="font-family:var(--font-head);font-size:14px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--wc-gold2)">Admin mód aktivní</span>
+        <button class="btn btn-sm" onclick="lockAdmin()" style="margin-left:auto;background:rgba(204,34,34,.2);border-color:rgba(204,34,34,.4);color:#ff7070;font-size:12px">🔒 Zamknout</button>`;
+      pg.insertBefore(bar, pg.firstChild);
+    }
+  });
+}
+
 
 // ═══════════════ FOOTBALL FACTS ═══════════════
 const FACTS = [
   {e:'🏆',t:'MS 2026 je historicky první turnaj se 48 týmy a 104 zápasy. Předchozí formát měl 32 týmů a 64 zápasů.',s:'FIFA, 2022'},
-  {e:'🌍',t:'MS 2026 se koná ve třech zemích — USA, Kanadě a Mexiku. Je to poprvé, kdy turnaj hostí tři státy najednou.',s:'FIFA 2026'},
-  {e:'⚽',t:'Brazílie je rekordním šampionem s 5 tituly (1958, 1962, 1970, 1994, 2002). Jako jediná země se zúčastnila VŠECH dosavadních MS.',s:'FIFA'},
-  {e:'👟',t:'Pelé vyhrál MS jako 17letý v roce 1958. Je stále nejmladším střelcem ve finále MS v historii.',s:'FIFA Archives'},
+  {e:'🌍',t:'MS 2026 se koná ve třech zemích najednou — USA, Kanadě a Mexiku. Je to poprvé v historii, kdy turnaj hostí tři státy.',s:'FIFA World Cup 2026'},
+  {e:'⚽',t:'Brazílie je rekordním šampionem s 5 tituly (1958, 1962, 1970, 1994, 2002). Jako jediná země se zúčastnila VŠECH 23 dosavadních MS.',s:'FIFA'},
+  {e:'👟',t:'Legendární Pelé vyhrál MS jako 17letý v roce 1958. Je stále nejmladším střelcem ve finále MS v historii.',s:'FIFA Archives'},
   {e:'🥅',t:'Nejvyšší výsledek v historii MS: Maďarsko porazilo El Salvador 10:1 na MS 1982 ve Španělsku.',s:'FIFA, 1982'},
-  {e:'🌟',t:'Ronaldo (Brazílie) drží rekord v počtu gólů na jednom MS — 8 gólů na Francii 1998.',s:'FIFA Records'},
+  {e:'🌟',t:'Ronaldo (Brazílie) drží rekord v počtu vstřelených gólů na jednom MS — 8 gólů na Francii 1998.',s:'FIFA Records'},
+  {e:'🇩🇪',t:'Německo a Brazílie jsou jediné země, které se zúčastnily všech MS od roku 1954. Oba týmy mají dohromady 9 titulů.',s:'FIFA'},
   {e:'🎯',t:'Just Fontaine (Francie) vstřelil 13 gólů na jednom MS (1958) — rekord, který stojí dodnes přes 65 let.',s:'FIFA, 1958'},
-  {e:'📺',t:'MS 2022 v Kataru sledovalo 5 miliard diváků. Finále Argentina vs Francie bylo nejsledovanějším zápasem v historii.',s:'FIFA, 2022'},
+  {e:'🤿',t:'MS 1950 v Brazílii jako jediné hrálo bez finálového zápasu — vítěz byl určen skupinou 4 týmů. Uruguay překvapila Brazílii 2:1.',s:'FIFA, 1950'},
+  {e:'📺',t:'MS 2022 v Kataru sledovalo celkem 5 miliard diváků po celém světě. Finále Argentina vs Francie bylo nejsledovanějším zápasem v historii.',s:'FIFA, 2022'},
   {e:'🔴',t:'Nejrychlejší červená karta v historii MS: José Batista (Uruguay) byl vyloučen po 56 sekundách zápasu proti Skotsku v roce 1986.',s:'FIFA, 1986'},
-  {e:'🇦🇷',t:'Messi na MS 2026 hraje svůj 6. světový šampionát. Haaland poprvé — Norsko se kvalifikovalo po 28 letech!',s:'FIFA'},
-  {e:'🏟️',t:'MetLife Stadium v New Jersey bude hostit finále MS 2026. Kapacita 82 500 míst z něj dělá největší dějište finále MS.',s:'FIFA 2026'},
-  {e:'🇫🇷',t:'Zinedine Zidane dal dva góly hlavou ve finále 1998 proti Brazílii (3:0). Byl zvolen nejlepším hráčem turnaje.',s:'FIFA, 1998'},
-  {e:'🌐',t:'4 debutanti na MS 2026: Kapverdy, Curaçao (nejmenší národ v historii MS!), Jordánsko a Uzbekistán.',s:'FIFA, 2026'},
-  {e:'🏅',t:'Uruguay je první šampion MS v historii — vyhráli na domácím turnaji v roce 1930. Hrálo tehdy pouze 13 týmů.',s:'FIFA, 1930'},
+  {e:'🇦🇷',t:'Lionel Messi na MS 2026 bude hrát svůj 6. světový šampionát. Je to rekord společně s Lothar Matthäusem a Antoniem Cabrini.',s:'FIFA'},
+  {e:'🏟️',t:'MetLife Stadium v New Jersey bude hostit finále MS 2026. Kapacita 82 500 diváků z něj dělá největší stadion v historii finále MS.',s:'FIFA World Cup 2026'},
+  {e:'💛',t:'Rekord v počtu žlutých karet na jednom MS drží Německo — 12 karet na MS 2006 ve vlastní zemi, přesto skončili 3. místo.',s:'FIFA, 2006'},
+  {e:'🇫🇷',t:'Francie 1998: Zinedine Zidane dal dva góly hlavou ve finále proti Brazílii (3:0). Byl zvolen nejlepším hráčem turnaje.',s:'FIFA, 1998'},
+  {e:'⏱️',t:'Nejdelší penaltový rozstřel v historii MS: Argentina vs Nizozemsko na MS 2022 skončil 4:3 na penalty po 22 pokusech.',s:'FIFA, 2022'},
+  {e:'🌐',t:'Na MS 2026 se poprvé představí 48 národních týmů — mimo jiné debut zemí jako Guinea, Cabo Verde nebo Uzbekistán.',s:'FIFA, 2026'},
+  {e:'👶',t:'Nejmladším hráčem v historii MS je Souleyman Mamam z Toga — hrál ve věku 13 let a 310 dní na MS 2001 (mládežnický).',s:'FIFA Records'},
+  {e:'🥇',t:'Uruguay je první šampion MS v historii — vyhráli na domácím turnaji v roce 1930. Hrálo tehdy pouze 13 týmů.',s:'FIFA, 1930'},
+  {e:'🎪',t:'MS 2026 nabídne 16 skupin po 3 týmech — zcela nový formát. Každý tým odehraje 2 zápasy ve skupině a postoupí 32 celků.',s:'FIFA World Cup 2026'},
   {e:'💰',t:'FIFA vyplatí na MS 2026 rekordní prémie — celkem 1 miliarda dolarů. Vítěz obdrží 100 milionů dolarů.',s:'FIFA, 2025'},
-  {e:'⚡',t:'Lamine Yamal (Španělsko) je největší hvězdou MS 2026 — v sezóně 24/25 byl nejlepším hráčem La Ligy ve věku 17 let.',s:'La Liga, 2025'},
-  {e:'🇬🇧',t:'Anglie vyhrála jediný titul v roce 1966 na domácí půdě. Gól Geoffa Hursta ve finále dodnes vzbuzuje diskuze.',s:'FIFA, 1966'},
-  {e:'🇩🇪',t:'Florian Wirtz přestoupil z Leverkusenu do Liverpoolu za rekordních 150M€ — bude největší hvězdou Německa na MS.',s:'2025'},
-  {e:'🇸🇪',t:'Viktor Gyökeres dal 54 gólů v sezóně 2023/24 za Sporting — jeden z nejlepších střelců světa míří na MS.',s:'Sporting CP, 2024'},
-  {e:'🇨🇼',t:'Curaçao má pouze 156 000 obyvatel — je to nejmenší národ v celé historii MS!',s:'FIFA, 2026'},
-  {e:'🇨🇿',t:'Česko se na MS 2026 představuje poprvé jako samostatná republika — postup přes playoff byl historický.',s:'FIFA, 2026'},
-  {e:'🇳🇴',t:'Norsko se vrací na MS po 28 letech! S Erlingem Haalandem (19 gólů v PL 24/25) jsou jedním z favoritů.',s:'PL Stats, 2025'},
-  {e:'🏆',t:'Argentina je obhájce titulu — Messi a spol. budou chtít obhájit zlatý hattrick.',s:'FIFA 2022'},
-  {e:'🌊',t:'Adidas Trionda je oficiální míč MS 2026. Jeho design inspirovaly vlajky USA, Kanady a Mexika.',s:'Adidas, 2026'},
-  {e:'🇪🇬',t:'Omar Marmoush (Egypt) přestoupil do Man City za 45M€ po sezóně s 22 góly v Bundeslize — nová hvězda MS.',s:'Bundesliga, 2025'},
+  {e:'🇵🇹',t:'Cristiano Ronaldo bude na MS 2026 hrát svůj 6. světový šampionát ve věku 41 let. Pokud nastoupí, stane se druhým nejstarším hráčem MS.',s:'FIFA'},
+  {e:'🏅',t:'Eusébio (Portugalsko) byl nejlepším střelcem MS 1966 s 9 góly. Portugalci tehdy skončili překvapivě třetí.',s:'FIFA, 1966'},
+  {e:'🌊',t:'Adidas Trionda je oficiální míč MS 2026. Jeho design inspirovaly vlajky tří hostitelských zemí — USA, Kanady a Mexika.',s:'Adidas, 2026'},
+  {e:'🦁',t:'Anglie vyhrála jediný titul v roce 1966 na domácí půdě. Gól Geoffa Hursta ve finále (4:2 vs Německo) je dodnes diskutovaný — byl nebo nebyl za čárou?',s:'FIFA, 1966'},
+  {e:'🔢',t:'Na MS 2026 odehrají hráči celkem 104 zápasů. Na každý zápas připadá průměrně 2.6 gólu — historický průměr MS.',s:'FIFA Statistics'},
+  {e:'🎵',t:'Oficíální píseň MS 2026 je "Counting Stars (We Are One)" od Jennifer Lopez, Bad Bunny a Shakiry — tria reprezentující všechny tři hostitelské země.',s:'FIFA, 2026'},
+  {e:'📊',t:'Česko se na MS 2026 představuje poprvé jako samostatná republika. Předchůdce Československo hrálo MS naposledy v roce 1990.',s:'FIFA'},
 ];
 
 let currentFactIdx = -1;
@@ -1515,15 +2230,15 @@ function newFact() {
   }, 260);
   // Update dots
   const dots = document.getElementById('factDots');
-  if(dots) dots.innerHTML = FACTS.slice(0,8).map((_,i)=>`<div style="width:6px;height:6px;border-radius:50%;background:${i===idx%8?'var(--wc-gold2)':'rgba(255,255,255,.15)'}"><\/div>`).join('');
+  if(dots) dots.innerHTML = FACTS.slice(0,8).map((_,i)=>`<div style="width:6px;height:6px;border-radius:50%;background:${i===idx%8?'var(--wc-gold2)':'rgba(255,255,255,.15)'}"></div>`).join('');
 }
 
 function populateCountrySelects(){
   const countries=[...new Set(state.players.map(p=>p.country))].sort();
-  const opts=countries.map(c=>`<option value="${c}">${c}<\/option>`).join('');
+  const opts=countries.map(c=>`<option value="${c}">${c}</option>`).join('');
   ['countryFilter','countryFilterPage'].forEach(id=>{
     const el=document.getElementById(id);
-    if(el)el.innerHTML='<option value="">🌍 Všechny země<\/option>'+opts;
+    if(el)el.innerHTML='<option value="">🌍 Všechny země</option>'+opts;
   });
 }
 
@@ -1603,8 +2318,6 @@ async function initApp(){
 }
 
 initApp();
-
-
 </script>
 </body>
 </html>
