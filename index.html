@@ -672,7 +672,7 @@ select.wc-select:focus{border-color:var(--wc-bright)}
 
 
 <!-- LOGIN MODAL -->
-<div class="modal-overlay" id="loginModal" style="display:none">
+<div class="overlay" id="loginModal">
   <div class="modal">
     <div class="modal-title">🔑 Přihlásit se</div>
     <div class="modal-sub">Zadej svůj PIN pro přístup k sestavě.</div>
@@ -681,11 +681,30 @@ select.wc-select:focus{border-color:var(--wc-bright)}
     <input type="password" id="loginPin" class="form-input" placeholder="Zadej PIN..." maxlength="6" inputmode="numeric" onkeydown="if(event.key==='Enter')loginManager()">
     <div id="loginError" style="color:var(--wc-red);font-size:12px;margin-top:4px;display:none">❌ Nesprávný PIN</div>
     <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
-      <button class="btn btn-sm" onclick="closeModal('loginModal');document.getElementById('managerSelect').value=state.currentManager||''">Zrušit</button>
+      <button class="btn btn-sm" onclick="closeModal('loginModal');if(!state.myManager&&state.currentManager){document.getElementById('managerSelect').value=state.currentManager||'';}">Zrušit</button>
       <button class="btn btn-sm btn-primary" onclick="loginManager()">Přihlásit</button>
     </div>
   </div>
 </div>
+<!-- SET PIN MODAL -->
+<div class="overlay" id="setPinModal">
+  <div class="modal">
+    <div class="modal-title">🔑 Nastavit PIN</div>
+    <div class="modal-sub">Nastav nebo změň svůj přihlašovací PIN.</div>
+    <div id="setPinManagerName" style="font-family:var(--font-head);font-size:18px;font-weight:900;color:var(--wc-gold2);margin-bottom:12px;text-align:center"></div>
+    <label class="form-label">Nový PIN (4–6 číslic)</label>
+    <input type="password" id="setPinValue" class="form-input" placeholder="Zadej PIN..." maxlength="6" inputmode="numeric" onkeydown="if(event.key==='Enter')confirmSetPin()">
+    <label class="form-label" style="margin-top:8px">Potvrď PIN</label>
+    <input type="password" id="setPinConfirm" class="form-input" placeholder="Zopakuj PIN..." maxlength="6" inputmode="numeric" onkeydown="if(event.key==='Enter')confirmSetPin()">
+    <div id="setPinError" style="color:var(--wc-red);font-size:12px;margin-top:4px;display:none"></div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
+      <button class="btn btn-sm" onclick="closeModal('setPinModal')">Zrušit</button>
+      <button class="btn btn-sm btn-primary" onclick="confirmSetPin()">Uložit PIN</button>
+    </div>
+  </div>
+</div>
+
+
 
 <!-- ════════════════ PAGE: PLAYERS ════════════════ -->
 <div id="page-players" class="page">
@@ -1574,6 +1593,19 @@ function renderTeamPage(){
     st.textContent=v.msg;st.style.color=v.ok?'#6ddc8a':'var(--wc-mid)';
   }
   document.getElementById('saveTeamBtn').disabled=!canEdit||!v.ok;
+  // Show/hide set PIN button
+  let setPinBtn=document.getElementById('setPinBtn');
+  if(!setPinBtn){
+    setPinBtn=document.createElement('button');
+    setPinBtn.id='setPinBtn';
+    setPinBtn.className='btn btn-sm btn-outline';
+    setPinBtn.style.cssText='font-size:11px;padding:4px 10px;margin-left:8px;';
+    setPinBtn.onclick=function(){openSetPinModal(state.myManager,false);};
+    setPinBtn.textContent='🔑 Změnit PIN';
+    const saveBtn=document.getElementById('saveTeamBtn');
+    if(saveBtn&&saveBtn.parentNode)saveBtn.parentNode.appendChild(setPinBtn);
+  }
+  setPinBtn.style.display=isMyTeam?'inline-flex':'none';
   // Deadline banner
   const dl=deadlineLabel();
   let banner=document.getElementById('deadlineBanner');
@@ -2119,7 +2151,7 @@ function openLoginModal(managerName){
   document.getElementById('loginManagerName').textContent=managerName;
   document.getElementById('loginPin').value='';
   document.getElementById('loginError').style.display='none';
-  document.getElementById('loginModal').style.display='flex';
+  openModal('loginModal');
   setTimeout(()=>document.getElementById('loginPin').focus(),100);
 }
 
@@ -2127,30 +2159,41 @@ function openLoginModal(managerName){
 async function loginManager(){
   const pin=document.getElementById('loginPin').value.trim();
   const name=document.getElementById('loginManagerName').textContent;
-  if(!pin){document.getElementById('loginError').style.display='block';document.getElementById('loginError').textContent='❌ Zadej PIN';return;}
-
-  // Verify PIN against Supabase
+  if(!pin){
+    document.getElementById('loginError').style.display='block';
+    document.getElementById('loginError').textContent='❌ Zadej PIN';
+    return;
+  }
   setLoading(true,'Ověřuji PIN...');
-  const res=await sbGet('managers',`name=eq.${encodeURIComponent(name)}&select=name,pin_hash`);
+  const res=await sbGet('managers',`name=eq.${encodeURIComponent(name)}&select=name,pin_hash,team_name`);
   setLoading(false);
-
-  if(!res||res.length===0){document.getElementById('loginError').style.display='block';document.getElementById('loginError').textContent='❌ Manažer nenalezen';return;}
-
+  if(!res||res.length===0){
+    document.getElementById('loginError').style.display='block';
+    document.getElementById('loginError').textContent='❌ Manažer nenalezen';
+    return;
+  }
   const mgr=res[0];
-  // Simple hash compare (we store hashed PIN)
-  const inputHash=simpleHash(pin);
-  if(mgr.pin_hash!==inputHash){
+  // No PIN set yet → offer to set one
+  if(!mgr.pin_hash){
+    closeModal('loginModal');
+    openSetPinModal(name, true);
+    return;
+  }
+  if(mgr.pin_hash!==simpleHash(pin)){
     document.getElementById('loginError').style.display='block';
     document.getElementById('loginError').textContent='❌ Nesprávný PIN';
     return;
   }
+  // Success
+  await doLogin(name);
+}
 
-  // Success — log in as this manager
+async function doLogin(name){
   closeModal('loginModal');
+  closeModal('setPinModal');
   state.currentManager=name;
   state.myManager=name;
   saveLocal();
-
   setLoading(true,'Načítám sestavu...');
   const teams=await sbGet('teams',`manager_name=eq.${encodeURIComponent(name)}&round=eq.${state.activeRound}&select=*`);
   setLoading(false);
@@ -2158,6 +2201,43 @@ async function loginManager(){
   else{selTeam=[];captainId=null;currentFormation=state.formation||'1-2-2';}
   buildFormationBar();renderTeamPage();updateManagerSelect();
 }
+
+function openSetPinModal(name, isFirst){
+  document.getElementById('setPinManagerName').textContent=name;
+  document.getElementById('setPinValue').value='';
+  document.getElementById('setPinConfirm').value='';
+  document.getElementById('setPinError').style.display='none';
+  document.getElementById('setPinModal').dataset.manager=name;
+  document.getElementById('setPinModal').dataset.isFirst=isFirst?'1':'0';
+  const sub = document.querySelector('#setPinModal .modal-sub');
+  if(sub) sub.textContent = isFirst
+    ? 'Tento manažer ještě nemá PIN. Nastav si ho pro příště.'
+    : 'Nastav nebo změň svůj přihlašovací PIN.';
+  openModal('setPinModal');
+  setTimeout(()=>document.getElementById('setPinValue').focus(),100);
+}
+
+async function confirmSetPin(){
+  const pin=document.getElementById('setPinValue').value.trim();
+  const pin2=document.getElementById('setPinConfirm').value.trim();
+  const name=document.getElementById('setPinModal').dataset.manager;
+  const isFirst=document.getElementById('setPinModal').dataset.isFirst==='1';
+  const errEl=document.getElementById('setPinError');
+  if(!pin||pin.length<4){errEl.style.display='block';errEl.textContent='❌ PIN musí mít alespoň 4 číslice';return;}
+  if(!/^\d+$/.test(pin)){errEl.style.display='block';errEl.textContent='❌ PIN musí obsahovat pouze číslice';return;}
+  if(pin!==pin2){errEl.style.display='block';errEl.textContent='❌ PINy se neshodují';return;}
+  setLoading(true,'Ukládám PIN...');
+  const res=await sbUpsert('managers',{name:name,pin_hash:simpleHash(pin)});
+  setLoading(false);
+  if(!res){errEl.style.display='block';errEl.textContent='❌ Chyba při ukládání';return;}
+  if(isFirst){
+    await doLogin(name);
+  } else {
+    closeModal('setPinModal');
+    alert('✅ PIN byl nastaven!');
+  }
+}
+
 
 // Simple hash for PIN storage (not cryptographic, just obfuscation)
 function simpleHash(str){
