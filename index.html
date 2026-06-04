@@ -1545,7 +1545,7 @@ const PLAYERS_DATA = [
 ];
 
 
-if(!state.players||state.players.length===0){state.players=PLAYERS_DATA;save();}
+if(!state.players||state.players.length===0){state.players=PLAYERS_DATA;saveLocal();}
 
 // ═══════════════ UI STATE ═══════════════
 let selTeam=[],captainId=null,posFilter='ALL',posFilterPage='ALL';
@@ -1559,7 +1559,7 @@ function buildFormationBar(){
 }
 
 function setFormation(key,btn){
-  currentFormation=key;state.formation=key;save();
+  currentFormation=key;state.formation=key;saveLocal();
   document.querySelectorAll('.form-btn').forEach(b=>b.classList.remove('active'));
   if(btn)btn.classList.add('active');
   const f=FORM_DEFS[key];
