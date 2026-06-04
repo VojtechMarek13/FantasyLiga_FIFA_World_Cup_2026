@@ -335,6 +335,7 @@ select.wc-select:focus{border-color:var(--wc-bright)}
   </select>
   <div id="teamNameDisplay" class="team-name-display" style="display:none"></div>
   <button class="btn btn-sm btn-primary" onclick="openModal('addManagerModal')">+ Přidat manažera</button>
+    <button class="btn btn-sm btn-gold" id="myTeamBtn" onclick="switchToMyTeam()" style="display:none">⭐ Moje sestava</button>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
     <label style="font-size:11px;font-weight:700;color:var(--wc-mid);text-transform:uppercase;letter-spacing:.08em;white-space:nowrap">Admin — kolo:</label>
     <select id="activeRoundSelect" class="wc-select" style="max-width:200px;font-size:12px" onchange="setActiveRound()">
@@ -829,54 +830,55 @@ select.wc-select:focus{border-color:var(--wc-bright)}
 
 // ── COUNTRY KIT DATA: flag + primary/secondary shirt colors ──
 const KITS = {
-  'Brazílie':              {flag:'🇧🇷', c1:'#FEDE00', c2:'#009C3B', s:'#002776'},
-  'Francie':               {flag:'🇫🇷', c1:'#002395', c2:'#FFFFFF', s:'#ED2939'},
-  'Španělsko':             {flag:'🇪🇸', c1:'#C60B1E', c2:'#FFC400', s:'#C60B1E'},
-  'Německo':               {flag:'🇩🇪', c1:'#FFFFFF', c2:'#000000', s:'#DD0000'},
-  'Argentina':             {flag:'🇦🇷', c1:'#74ACDF', c2:'#FFFFFF', s:'#74ACDF'},
-  'Anglie':                {flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿', c1:'#FFFFFF', c2:'#CE1124', s:'#012169'},
-  'Portugalsko':           {flag:'🇵🇹', c1:'#006600', c2:'#FF0000', s:'#006600'},
-  'Česko':                 {flag:'🇨🇿', c1:'#D7141A', c2:'#FFFFFF', s:'#11457E'},
-  'Maroko':                {flag:'🇲🇦', c1:'#C1272D', c2:'#006233', s:'#C1272D'},
-  'Jižní Korea':           {flag:'🇰🇷', c1:'#FFFFFF', c2:'#CD2E3A', s:'#0047A0'},
-  'Skotsko':               {flag:'🏴󠁧󠁢󠁳󠁣󠁴󠁿', c1:'#003B6F', c2:'#FFFFFF', s:'#003B6F'},
-  'Švýcarsko':             {flag:'🇨🇭', c1:'#FF0000', c2:'#FFFFFF', s:'#FF0000'},
-  'Kanada':                {flag:'🇨🇦', c1:'#FF0000', c2:'#FFFFFF', s:'#FF0000'},
-  'Mexiko':                {flag:'🇲🇽', c1:'#006847', c2:'#FFFFFF', s:'#CE1126'},
-  'USA':                   {flag:'🇺🇸', c1:'#002868', c2:'#FFFFFF', s:'#BF0A30'},
-  'Nizozemsko':            {flag:'🇳🇱', c1:'#FF6600', c2:'#FFFFFF', s:'#003087'},
-  'Belgie':                {flag:'🇧🇪', c1:'#000000', c2:'#FFD700', s:'#EF3340'},
-  'Japonsko':              {flag:'🇯🇵', c1:'#003087', c2:'#FFFFFF', s:'#BC002D'},
-  'Austrálie':             {flag:'🇦🇺', c1:'#00843D', c2:'#FFD700', s:'#00843D'},
-  'Turecko':               {flag:'🇹🇷', c1:'#E30A17', c2:'#FFFFFF', s:'#E30A17'},
-  'Švédsko':               {flag:'🇸🇪', c1:'#006AA7', c2:'#FECC02', s:'#006AA7'},
-  'Ekvádor':               {flag:'🇪🇨', c1:'#FFD100', c2:'#0039A6', s:'#EF3340'},
-  'Paraguay':              {flag:'🇵🇾', c1:'#D52B1E', c2:'#FFFFFF', s:'#0038A8'},
-  'Tunisko':               {flag:'🇹🇳', c1:'#E70013', c2:'#FFFFFF', s:'#E70013'},
-  'Pobřeží Slonoviny':     {flag:'🇨🇮', c1:'#F77F00', c2:'#FFFFFF', s:'#009A44'},
-  'Alžírsko':              {flag:'🇩🇿', c1:'#FFFFFF', c2:'#006233', s:'#D21034'},
-  'Ghana':                 {flag:'🇬🇭', c1:'#FFFFFF', c2:'#000000', s:'#EF3340'},
-  'Senegal':               {flag:'🇸🇳', c1:'#FFFFFF', c2:'#00853F', s:'#FDEF42'},
-  'Írán':                  {flag:'🇮🇷', c1:'#239F40', c2:'#FFFFFF', s:'#DA0000'},
-  'Saúdská Arábie':        {flag:'🇸🇦', c1:'#006C35', c2:'#FFFFFF', s:'#006C35'},
-  'Katar':                 {flag:'🇶🇦', c1:'#8D1B3D', c2:'#FFFFFF', s:'#8D1B3D'},
-  'Kolumbie':              {flag:'🇨🇴', c1:'#FCD116', c2:'#003087', s:'#CE1126'},
-  'Uruguay':               {flag:'🇺🇾', c1:'#75AADB', c2:'#FFFFFF', s:'#75AADB'},
-  'Chorvatsko':            {flag:'🇭🇷', c1:'#FF0000', c2:'#FFFFFF', s:'#003DA5'},
-  'Bosna a Hercegovina':   {flag:'🇧🇦', c1:'#003DA5', c2:'#FFD700', s:'#003DA5'},
-  'Jihoafrická republika': {flag:'🇿🇦', c1:'#007A4D', c2:'#FFB612', s:'#DE3831'},
-  'DR Kongo':              {flag:'🇨🇩', c1:'#007FFF', c2:'#FFFFFF', s:'#CE1021'},
-  'Panama':                {flag:'🇵🇦', c1:'#FFFFFF', c2:'#DA121A', s:'#1B3F94'},
-  'Norsko':                {flag:'🇳🇴', c1:'#EF2B2D', c2:'#FFFFFF', s:'#002868'},
-  'Rakousko':              {flag:'🇦🇹', c1:'#ED2939', c2:'#FFFFFF', s:'#ED2939'},
-  'Egypt':                 {flag:'🇪🇬', c1:'#CE1126', c2:'#FFFFFF', s:'#CE1126'},
-  'Uzbekistán':            {flag:'🇺🇿', c1:'#1EB53A', c2:'#FFFFFF', s:'#0099B5'},
-  'Jordánsko':             {flag:'🇯🇴', c1:'#007A3D', c2:'#FFFFFF', s:'#CE1126'},
-  'Irák':                  {flag:'🇮🇶', c1:'#007A3D', c2:'#FFFFFF', s:'#CE1126'},
-  'Kapverdy':              {flag:'🇨🇻', c1:'#003893', c2:'#FFFFFF', s:'#CF2027'},
-  'Curaçao':               {flag:'🇨🇼', c1:'#002B7F', c2:'#F9E814', s:'#76D0F4'},
-  'Haiti':                 {flag:'🇭🇹', c1:'#00209F', c2:'#D21034', s:'#00209F'},
-  'Nový Zéland':           {flag:'🇳🇿', c1:'#FFFFFF', c2:'#000000', s:'#CC142B'},
+  'Brazílie':        {flag:'🇧🇷', c1:'#FEDE00', c2:'#009C3B', s:'#002776'},
+  'Francie':         {flag:'🇫🇷', c1:'#002395', c2:'#FFFFFF', s:'#ED2939'},
+  'Španělsko':       {flag:'🇪🇸', c1:'#C60B1E', c2:'#FFC400', s:'#C60B1E'},
+  'Německo':         {flag:'🇩🇪', c1:'#FFFFFF', c2:'#000000', s:'#DD0000'},
+  'Argentina':       {flag:'🇦🇷', c1:'#74ACDF', c2:'#FFFFFF', s:'#74ACDF'},
+  'Anglie':          {flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿', c1:'#FFFFFF', c2:'#CE1124', s:'#012169'},
+  'Portugalsko':     {flag:'🇵🇹', c1:'#006600', c2:'#FF0000', s:'#006600'},
+  'Česko':           {flag:'🇨🇿', c1:'#D7141A', c2:'#FFFFFF', s:'#11457E'},
+  'Maroko':          {flag:'🇲🇦', c1:'#C1272D', c2:'#006233', s:'#C1272D'},
+  'Jižní Korea':     {flag:'🇰🇷', c1:'#FFFFFF', c2:'#CD2E3A', s:'#0047A0'},
+  'Skotsko':         {flag:'🏴󠁧󠁢󠁳󠁣󠁴󠁿', c1:'#003B6F', c2:'#FFFFFF', s:'#003B6F'},
+  'Švýcarsko':       {flag:'🇨🇭', c1:'#FF0000', c2:'#FFFFFF', s:'#FF0000'},
+  'Kanada':          {flag:'🇨🇦', c1:'#FF0000', c2:'#FFFFFF', s:'#FF0000'},
+  'Mexiko':          {flag:'🇲🇽', c1:'#006847', c2:'#FFFFFF', s:'#CE1126'},
+  'USA':             {flag:'🇺🇸', c1:'#002868', c2:'#FFFFFF', s:'#BF0A30'},
+  'Nizozemsko':      {flag:'🇳🇱', c1:'#FF6600', c2:'#FFFFFF', s:'#003087'},
+  'Belgie':          {flag:'🇧🇪', c1:'#000000', c2:'#FFD700', s:'#EF3340'},
+  'Japonsko':        {flag:'🇯🇵', c1:'#003087', c2:'#FFFFFF', s:'#BC002D'},
+  'Austrálie':       {flag:'🇦🇺', c1:'#00843D', c2:'#FFD700', s:'#00843D'},
+  'Turecko':         {flag:'🇹🇷', c1:'#E30A17', c2:'#FFFFFF', s:'#E30A17'},
+  'Švédsko':         {flag:'🇸🇪', c1:'#006AA7', c2:'#FECC02', s:'#006AA7'},
+  'Ekvádor':         {flag:'🇪🇨', c1:'#FFD100', c2:'#0039A6', s:'#EF3340'},
+  'Paraguay':        {flag:'🇵🇾', c1:'#D52B1E', c2:'#FFFFFF', s:'#0038A8'},
+  'Tunisko':         {flag:'🇹🇳', c1:'#E70013', c2:'#FFFFFF', s:'#E70013'},
+  'Pobřeží Slonoviny':{flag:'🇨🇮',c1:'#F77F00', c2:'#FFFFFF', s:'#009A44'},
+  'Alžírsko':        {flag:'🇩🇿', c1:'#FFFFFF', c2:'#006233', s:'#D21034'},
+  'Nigérie':         {flag:'🇳🇬', c1:'#008751', c2:'#FFFFFF', s:'#008751'},
+  'Ghana':           {flag:'🇬🇭', c1:'#FFFFFF', c2:'#000000', s:'#EF3340'},
+  'Senegal':         {flag:'🇸🇳', c1:'#FFFFFF', c2:'#00853F', s:'#FDEF42'},
+  'Kamerun':         {flag:'🇨🇲', c1:'#007A5E', c2:'#CE1126', s:'#FCD116'},
+  'Írán':            {flag:'🇮🇷', c1:'#239F40', c2:'#FFFFFF', s:'#DA0000'},
+  'Saúdská Arábie':  {flag:'🇸🇦', c1:'#006C35', c2:'#FFFFFF', s:'#006C35'},
+  'Katar':           {flag:'🇶🇦', c1:'#8D1B3D', c2:'#FFFFFF', s:'#8D1B3D'},
+  'Kolumbie':        {flag:'🇨🇴', c1:'#FCD116', c2:'#003087', s:'#CE1126'},
+  'Venezuela':       {flag:'🇻🇪', c1:'#CF142B', c2:'#FFFFFF', s:'#00247D'},
+  'Uruguay':         {flag:'🇺🇾', c1:'#75AADB', c2:'#FFFFFF', s:'#75AADB'},
+  'Polsko':          {flag:'🇵🇱', c1:'#FFFFFF', c2:'#DC143C', s:'#DC143C'},
+  'Chorvatsko':      {flag:'🇭🇷', c1:'#FF0000', c2:'#FFFFFF', s:'#003DA5'},
+  'Srbsko':          {flag:'🇷🇸', c1:'#C6363C', c2:'#FFFFFF', s:'#0C4076'},
+  'Rumunsko':        {flag:'🇷🇴', c1:'#FFD700', c2:'#002B7F', s:'#CE1126'},
+  'Maďarsko':        {flag:'🇭🇺', c1:'#CE2939', c2:'#FFFFFF', s:'#477050'},
+  'Slovinsko':       {flag:'🇸🇮', c1:'#003DA5', c2:'#FFFFFF', s:'#003DA5'},
+  'Albánie':         {flag:'🇦🇱', c1:'#E41E20', c2:'#000000', s:'#E41E20'},
+  'DR Kongo':        {flag:'🇨🇩', c1:'#007FFF', c2:'#FFFFFF', s:'#CE1021'},
+  'Mali':            {flag:'🇲🇱', c1:'#14B53A', c2:'#FFFFFF', s:'#CE1021'},
+  'Kostarika':       {flag:'🇨🇷', c1:'#002B7F', c2:'#FFFFFF', s:'#CE1126'},
+  'Panama':          {flag:'🇵🇦', c1:'#FFFFFF', c2:'#DA121A', s:'#003DA5'},
+  'Bosna a Hercegovina':{flag:'🇧🇦',c1:'#003DA5',c2:'#FFD700',s:'#003DA5'},
+  'Jihoafrická republika':{flag:'🇿🇦',c1:'#007A4D',c2:'#FFB612',s:'#DE3831'},
 };
 function getKit(country){return KITS[country]||{flag:'🏳️',c1:'#3a3a5c',c2:'#888',s:'#222'};}
 
@@ -947,18 +949,33 @@ function shirtSVG(country, pos, isCap, price, name) {
 }
 
 const ROUNDS=[
-  {name:"Základní skupiny",       bonus:[]},
-  {name:"1/32 + Osmifinále",      bonus:[]},
-  {name:"Čtvrtfinále",            bonus:[]},
-  {name:"Semifinále + Finále",    bonus:[]},
+  {name:"Základní skupiny",       bonus:[], deadline:null},
+  {name:"1/32 + Osmifinále",      bonus:[], deadline:null},
+  {name:"Čtvrtfinále",            bonus:[], deadline:null},
+  {name:"Semifinále + Finále",    bonus:[], deadline:null},
 ];
+function isDeadlinePassed(){
+  const dl=ROUNDS[state.activeRound].deadline;
+  if(!dl)return false;
+  return new Date()>new Date(dl);
+}
+function deadlineLabel(){
+  const dl=ROUNDS[state.activeRound].deadline;
+  if(!dl)return null;
+  const d=new Date(dl),now=new Date();
+  if(now>d)return '🔒 Deadline vypršel — sestava zamčena';
+  const diff=d-now,h=Math.floor(diff/3600000),m=Math.floor((diff%3600000)/60000);
+  if(h>48)return '✏️ Deadline: '+d.toLocaleDateString('cs-CZ',{day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'});
+  return `✏️ Zbývá: ${h}h ${m}m do uzávěrky`;
+}
+
 const SCORING={GK:{goal:8,assist:3,cs:6,yellow:-1,red:-3},OBR:{goal:6,assist:3,cs:4,yellow:-1,red:-3},ZAL:{goal:5,assist:3,cs:1,yellow:-1,red:-3},UTO:{goal:4,assist:3,cs:0,yellow:-1,red:-3}};
 const BUDGET=100;
 const FORM_DEFS={'1-2-2':{OBR:2,ZAL:2,UTO:1},'1-3-1':{OBR:3,ZAL:1,UTO:1},'1-1-3':{OBR:1,ZAL:1,UTO:3},'1-2-1':{OBR:2,ZAL:1,UTO:2},'1-1-2':{OBR:1,ZAL:2,UTO:2},'1-1-3a':{OBR:1,ZAL:3,UTO:1}};
 const FORM_LABELS={'1-2-2':'2–2–1','1-3-1':'3–1–1','1-1-3':'1–1–3','1-2-1':'2–1–2','1-1-2':'1–2–2','1-1-3a':'1–3–1'};
 
 // ═══════════════ STATE ═══════════════
-let state={players:[],managers:[],teamNames:{},currentManager:null,activeRound:0,
+let state={players:[],managers:[],teamNames:{},currentManager:null,myManager:null,activeRound:0,
   teamsByManager:{},bonusByManager:{},scores:{},playerStats:{},formation:'1-2-2'};
 
 // ═══════════════ SUPABASE CONFIG ═══════════════
@@ -986,12 +1003,10 @@ async function sbDelete(table, query) {
 
 // localStorage fallback for currentManager + formation preference
 function saveLocal() {
-  try { localStorage.setItem('ms2026_local', JSON.stringify({ currentManager: state.currentManager, formation: state.formation })); } catch(e) {}
+  try { localStorage.setItem('ms2026_local', JSON.stringify({ currentManager: state.currentManager, myManager: state.myManager, formation: state.formation })); } catch(e) {}
+}function loadLocal() {
+  try { const d = localStorage.getItem('ms2026_local'); if(d) { const p = JSON.parse(d); state.currentManager = p.currentManager||null; state.myManager = p.myManager||null; state.formation = p.formation||'1-2-2'; } } catch(e) {}
 }
-function loadLocal() {
-  try { const d = localStorage.getItem('ms2026_local'); if (d) { const p = JSON.parse(d); state.currentManager = p.currentManager||null; state.formation = p.formation||'1-2-2'; } } catch(e) {}
-}
-
 // Show/hide loading overlay
 function setLoading(on, msg='Načítám...') {
   let el = document.getElementById('loadingOverlay');
@@ -1526,15 +1541,51 @@ function renderTeamPage(){
   renderPlayerList();renderPitch();renderBudget();
   const v=isTeamComplete();
   const st=document.getElementById('metaStatus');
-  st.textContent=state.currentManager?v.msg:'👤 Nejprve vyber manažera';
-  st.style.color=v.ok?'#6ddc8a':'var(--wc-mid)';
-  document.getElementById('saveTeamBtn').disabled=!v.ok||!state.currentManager;
+  const isMyTeam=state.currentManager&&state.currentManager===state.myManager;
+  const locked=isDeadlinePassed();
+  const canEdit=isMyTeam&&!locked;
+  if(!state.currentManager){
+    st.textContent='👤 Nejprve vyber manažera';st.style.color='var(--wc-mid)';
+  } else if(!isMyTeam){
+    st.textContent='👁️ Prohlížíš sestavu: '+state.currentManager;st.style.color='var(--wc-gold2)';
+  } else if(locked){
+    st.textContent='🔒 Deadline vypršel — sestava zamčena';st.style.color='var(--wc-red)';
+  } else {
+    st.textContent=v.msg;st.style.color=v.ok?'#6ddc8a':'var(--wc-mid)';
+  }
+  document.getElementById('saveTeamBtn').disabled=!canEdit||!v.ok;
+  // Deadline banner
+  const dl=deadlineLabel();
+  let banner=document.getElementById('deadlineBanner');
+  if(!banner){
+    banner=document.createElement('div');banner.id='deadlineBanner';
+    banner.style.cssText='margin-bottom:8px;padding:8px 14px;border-radius:8px;font-family:var(--font-head);font-size:13px;font-weight:800;letter-spacing:.04em;display:none;';
+    const card=document.querySelector('#page-team .card');
+    if(card)card.insertBefore(banner,card.firstChild);
+  }
+  if(dl){
+    banner.style.display='block';
+    if(locked){banner.style.background='rgba(204,34,34,.15)';banner.style.color='var(--wc-red)';banner.style.border='1px solid rgba(204,34,34,.3)';}
+    else{banner.style.background='rgba(201,168,44,.12)';banner.style.color='var(--wc-gold2)';banner.style.border='1px solid rgba(201,168,44,.25)';}
+    banner.textContent=dl;
+  } else {banner.style.display='none';}
+  // View-only banner
+  let vb=document.getElementById('viewOnlyBanner');
+  if(!vb){
+    vb=document.createElement('div');vb.id='viewOnlyBanner';
+    vb.style.cssText='margin-bottom:8px;padding:8px 14px;border-radius:8px;font-family:var(--font-head);font-size:13px;font-weight:800;letter-spacing:.04em;display:none;background:rgba(43,81,212,.12);color:var(--wc-bright);border:1px solid rgba(43,81,212,.25);';
+    const card=document.querySelector('#page-team .card');
+    if(card)card.insertBefore(vb,card.firstChild);
+  }
+  if(state.currentManager&&!isMyTeam){
+    vb.style.display='block';
+    const tn=state.teamNames&&state.teamNames[state.currentManager]?' ('+state.teamNames[state.currentManager]+')':'';
+    vb.textContent='👁️ Sestava hráče: '+state.currentManager+tn+' — pouze pro čtení';
+  } else {vb.style.display='none';}
   document.getElementById('metaRound').textContent=(state.activeRound+1)+' — '+ROUNDS[state.activeRound].name;
   document.getElementById('activeBadge').textContent='⚡ Kolo '+(state.activeRound+1)+' — '+ROUNDS[state.activeRound].name;
   renderBonusForm();
-  updateTeamNameDisplay();
 }
-
 function updateTeamNameDisplay(){
   const disp=document.getElementById('teamNameDisplay');
   const mgr=state.managers.find(m=>(typeof m==='object'?m.name:m)===state.currentManager);
@@ -1695,6 +1746,8 @@ function clearTeam(){if(!confirm('Vymazat celý tým?'))return;selTeam=[];captai
 
 async function saveTeam(){
   if(!state.currentManager)return;
+  if(state.currentManager!==state.myManager){alert('Můžeš ukládat pouze svou vlastní sestavu!');return;}
+  if(isDeadlinePassed()){alert('⏰ Deadline vypršel — sestava je uzamčena.');return;}
   const btn=document.getElementById('saveTeamBtn');
   btn.textContent='⏳ Ukládám...';btn.disabled=true;
   const res = await sbUpsert('teams', {
@@ -1898,7 +1951,16 @@ async function renderLeaderboard(){
 function renderRoundsAdmin(){
   document.getElementById('roundsAdmin').innerHTML=ROUNDS.map((r,i)=>`
     <div class="round-admin-card${state.activeRound===i?' active-round':''}">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+      <div style="margin-bottom:12px;padding:10px 12px;background:rgba(255,255,255,.05);border-radius:8px;border:1px solid var(--wc-border2)">
+          <div style="font-family:var(--font-head);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--wc-mid);margin-bottom:8px">⏰ Deadline uzávěrky sestav</div>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            <input type="datetime-local" id="dl_${i}" style="flex:1;min-width:180px;padding:7px 10px;border:1.5px solid var(--wc-border);border-radius:8px;background:var(--wc-surface);color:var(--wc-white);font-size:13px;" value="${ROUNDS[i].deadline?new Date(new Date(ROUNDS[i].deadline).getTime()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,16):''}">
+            <button class="btn btn-sm btn-gold" onclick="saveDeadline(${i})">Uložit</button>
+            ${ROUNDS[i].deadline?('<button class="btn btn-sm btn-danger" onclick="clearDeadline('+i+')">Zrušit</button>'):''}
+            <span style="font-size:11px;color:${ROUNDS[i].deadline?(isDeadlinePassed()&&i===state.activeRound?'var(--wc-red)':'var(--wc-gold2)'):'var(--wc-mid)'}">${ROUNDS[i].deadline?(isDeadlinePassed()&&i===state.activeRound?'🔒 Vypršel':'⏳ Aktivní'):'Není nastaven'}</span>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
         <strong style="font-family:var(--font-head);font-size:15px;font-weight:800;text-transform:uppercase;letter-spacing:.04em">Kolo ${i+1} — ${r.name}</strong>
         ${state.activeRound===i?'<span class="tag tag-gold">Aktivní</span>':''}
         <button class="btn btn-sm" style="margin-left:auto;font-size:11px" onclick="setActiveRoundDirect(${i})">Nastavit aktivní</button>
@@ -1912,6 +1974,19 @@ function renderRoundsAdmin(){
         </div>`).join('')}
       <button class="btn btn-sm" style="margin-top:8px;font-size:11px" onclick="addBQ(${i})">+ Přidat otázku</button>
     </div>`).join('');
+}
+async function saveDeadline(ri){
+  const input=document.getElementById('dl_'+ri);
+  if(!input||!input.value){alert('Zadej datum a čas!');return;}
+  ROUNDS[ri].deadline=new Date(input.value).toISOString();
+  await sbUpsert('app_config',{key:'rounds',value:ROUNDS});
+  renderRoundsAdmin();renderTeamPage();
+  alert('✅ Deadline nastaven: '+new Date(ROUNDS[ri].deadline).toLocaleString('cs-CZ'));
+}
+async function clearDeadline(ri){
+  ROUNDS[ri].deadline=null;
+  await sbUpsert('app_config',{key:'rounds',value:ROUNDS});
+  renderRoundsAdmin();renderTeamPage();
 }
 async function saveBQ(ri,qi){
   ROUNDS[ri].bonus[qi]=document.getElementById(`bqedit_${ri}_${qi}`).value;
@@ -1934,9 +2009,27 @@ async function setActiveRoundDirect(i){
 function updateManagerSelect(){
   const sel=document.getElementById('managerSelect');
   const cur=state.currentManager||sel.value;
-  const mgrs = state.managers.map(m=> typeof m==='object' ? m : {name:m, team_name:null});
+  const mgrs=state.managers.map(m=>typeof m==='object'?m:{name:m,team_name:null});
   sel.innerHTML='<option value="">— Vyber manažera —</option>'+
-    mgrs.map(m=>`<option value="${m.name}"${m.name===cur?' selected':''}>${m.name}${m.team_name?' ('+m.team_name+')':''}</option>`).join('');
+    mgrs.map(m=>{
+      const isMe=m.name===state.myManager;
+      const label=(isMe?'⭐ ':'')+m.name+(m.team_name?' ('+m.team_name+')':'');
+      return `<option value="${m.name}"${m.name===cur?' selected':''}>${label}</option>`;
+    }).join('');
+  const myBtn=document.getElementById('myTeamBtn');
+  if(myBtn)myBtn.style.display=(state.myManager&&state.currentManager!==state.myManager)?'inline-flex':'none';
+}
+async function switchToMyTeam(){
+  if(!state.myManager)return;
+  document.getElementById('managerSelect').value=state.myManager;
+  state.currentManager=state.myManager;
+  saveLocal();
+  setLoading(true,'Načítám svou sestavu...');
+  const teams=await sbGet('teams',`manager_name=eq.${encodeURIComponent(state.myManager)}&round=eq.${state.activeRound}&select=*`);
+  setLoading(false);
+  if(teams&&teams.length>0){const t=teams[0];selTeam=[...t.players];captainId=t.captain;currentFormation=t.formation||'1-2-2';}
+  else{selTeam=[];captainId=null;currentFormation=state.formation||'1-2-2';}
+  buildFormationBar();renderTeamPage();updateManagerSelect();
 }
 
 async function addManager(){
@@ -1950,6 +2043,7 @@ async function addManager(){
   if(!res){alert('Chyba při ukládání — zkontroluj připojení.');return;}
   state.managers.push({name:n, team_name:tn||null});
   state.currentManager=n;
+  state.myManager=n;
   selTeam=[];captainId=null;
   saveLocal();
   updateManagerSelect();
@@ -2037,28 +2131,34 @@ function renderAdminHeader(){
 
 // ═══════════════ FOOTBALL FACTS ═══════════════
 const FACTS = [
-  {e:'🏆',t:'MS 2026 je historicky první turnaj se 48 týmy. Hraje se 104 zápasů — oproti 64 na předchozích šampionátech.',s:'FIFA 2026'},
-  {e:'🌍',t:'MS 2026 se koná ve třech zemích — USA, Kanadě a Mexiku. Poprvé v historii turnaj hostí tři státy zároveň.',s:'FIFA 2026'},
-  {e:'⚽',t:'Brazílie je rekordní šampion s 5 tituly (1958, 1962, 1970, 1994, 2002). Jako jediná země se kvalifikovala na VŠECH dosavadních MS.',s:'FIFA'},
-  {e:'👑',t:'Miroslav Klose (Německo) je nejlepší střelec v historii MS s 16 góly ve 4 turnajích. Rekord překonal Brazilce Ronalda (15 gólů) v semifinále 2014 při výhře 7:1 nad Brazílií.',s:'FIFA'},
-  {e:'🎯',t:'Just Fontaine (Francie) vstřelil 13 gólů na JEDNOM MS v roce 1958 — rekord jednoho turnaje, který stojí přes 65 let. Odehrál přitom pouhých 6 zápasů.',s:'FIFA 1958'},
-  {e:'📺',t:'MS 2022 sledovalo celkem 5 miliard diváků. Finále Argentina vs Francie přilákalo přes 1,5 miliardy — více než tři Super Bowly dohromady.',s:'FIFA 2022'},
-  {e:'🔴',t:'Nejrychlejší červená karta v historii MS: José Batista (Uruguay) vyloučen po 56 sekundách v zápase proti Skotsku na MS 1986 v Mexiku.',s:'FIFA 1986'},
-  {e:'🏟️',t:'Finále MS 2026 se hraje v MetLife Stadium v New Jersey — kapacita 82 500 míst. Největší stadion v historii finále MS.',s:'FIFA 2026'},
-  {e:'👦',t:'Pelé vstřelil první gól na MS ve věku 17 let a 239 dní v roce 1958 — stále nejmladší střelec ve finálové části MS v historii.',s:'Britannica'},
-  {e:'🇦🇷',t:'Messi i Ronaldo nastoupí na svůj 6. MS — sdílejí rekord v počtu účastí. Messi navíc drží rekord v počtu odehraných zápasů na MS: 26 utkání.',s:'Olympics.com 2026'},
-  {e:'🇩🇪',t:'Nejvyšší výsledek v historii MS: Německo porazilo Brazílii 7:1 v semifinále 2014 na domácí půdě soupeře — největší prohra hostitele v historii turnaje.',s:'FIFA 2014'},
-  {e:'🇭🇺',t:'Nejvyšší výsledek základní skupiny MS: Maďarsko porazilo El Salvador 10:1 na MS 1982 ve Španělsku.',s:'FIFA 1982'},
-  {e:'🇨🇼',t:'Curaçao má 156 000 obyvatel — nejmenší národ v historii MS. Jejich 78letý trenér Dick Advocaat bude nejstarším koučem v historii turnaje.',s:'Yahoo Sports 2026'},
-  {e:'🇨🇿',t:'Česko na MS 2026 jako samostatná republika poprvé — historický postup přes baráž. Československo hrálo MS naposledy v roce 1990.',s:'FIFA 2026'},
-  {e:'🇳🇴',t:'Norsko na MS 2026 poprvé po 28 letech! Haaland byl TOP střelec celé evropské kvalifikace se 16 góly — více než jakýkoliv jiný hráč.',s:'Wikipedia 2026'},
-  {e:'🌊',t:'Adidas Trionda je oficiální míč MS 2026. Design je inspirován vlajkami tří hostitelských zemí — USA, Kanady a Mexika.',s:'Adidas 2026'},
-  {e:'🇺🇾',t:'Uruguay vyhrálo první MS v historii v roce 1930 jako hostitel. Hrálo tehdy jen 13 týmů — dnes je jich 48.',s:'FIFA 1930'},
-  {e:'💰',t:'FIFA vyplatí na MS 2026 přes 1,7 miliardy liber na prémiích — rekord v historii turnaje.',s:'William Hill 2026'},
-  {e:'🏅',t:'Brazílie odehrála nejvíce zápasů v historii MS — 114 utkání. Německo je těsně za nimi se 113 zápasy.',s:'worldcupranking.com'},
-  {e:'🥅',t:'Rekord nejdelší neprůstřelnosti na MS: Walter Zenga (Itálie) — 517 minut bez obdrženého gólu na MS 1990 v Itálii.',s:'Sports Mole'},
-  {e:'🇫🇷',t:'Kylian Mbappé jde na MS 2026 s 12 góly ze dvou turnajů (2018, 2022). Je největším kandidátem na překonání Kloseho rekordu 16 gólů.',s:'FIFA'},
-  {e:'🇸🇦',t:'Saúdská Arábie porazila na MS 2022 obhájce titulu Argentinu 2:1 — jedno z největších překvapení v historii MS. Argentina nakonec titul vyhrála.',s:'FIFA 2022'},
+  {e:'🏆',t:'MS 2026 je historicky první turnaj se 48 týmy a 104 zápasy. Předchozí formát měl 32 týmů a 64 zápasů.',s:'FIFA, 2022'},
+  {e:'🌍',t:'MS 2026 se koná ve třech zemích najednou — USA, Kanadě a Mexiku. Je to poprvé v historii, kdy turnaj hostí tři státy.',s:'FIFA World Cup 2026'},
+  {e:'⚽',t:'Brazílie je rekordním šampionem s 5 tituly (1958, 1962, 1970, 1994, 2002). Jako jediná země se zúčastnila VŠECH 23 dosavadních MS.',s:'FIFA'},
+  {e:'👟',t:'Legendární Pelé vyhrál MS jako 17letý v roce 1958. Je stále nejmladším střelcem ve finále MS v historii.',s:'FIFA Archives'},
+  {e:'🥅',t:'Nejvyšší výsledek v historii MS: Maďarsko porazilo El Salvador 10:1 na MS 1982 ve Španělsku.',s:'FIFA, 1982'},
+  {e:'🌟',t:'Ronaldo (Brazílie) drží rekord v počtu vstřelených gólů na jednom MS — 8 gólů na Francii 1998.',s:'FIFA Records'},
+  {e:'🇩🇪',t:'Německo a Brazílie jsou jediné země, které se zúčastnily všech MS od roku 1954. Oba týmy mají dohromady 9 titulů.',s:'FIFA'},
+  {e:'🎯',t:'Just Fontaine (Francie) vstřelil 13 gólů na jednom MS (1958) — rekord, který stojí dodnes přes 65 let.',s:'FIFA, 1958'},
+  {e:'🤿',t:'MS 1950 v Brazílii jako jediné hrálo bez finálového zápasu — vítěz byl určen skupinou 4 týmů. Uruguay překvapila Brazílii 2:1.',s:'FIFA, 1950'},
+  {e:'📺',t:'MS 2022 v Kataru sledovalo celkem 5 miliard diváků po celém světě. Finále Argentina vs Francie bylo nejsledovanějším zápasem v historii.',s:'FIFA, 2022'},
+  {e:'🔴',t:'Nejrychlejší červená karta v historii MS: José Batista (Uruguay) byl vyloučen po 56 sekundách zápasu proti Skotsku v roce 1986.',s:'FIFA, 1986'},
+  {e:'🇦🇷',t:'Lionel Messi na MS 2026 bude hrát svůj 6. světový šampionát. Je to rekord společně s Lothar Matthäusem a Antoniem Cabrini.',s:'FIFA'},
+  {e:'🏟️',t:'MetLife Stadium v New Jersey bude hostit finále MS 2026. Kapacita 82 500 diváků z něj dělá největší stadion v historii finále MS.',s:'FIFA World Cup 2026'},
+  {e:'💛',t:'Rekord v počtu žlutých karet na jednom MS drží Německo — 12 karet na MS 2006 ve vlastní zemi, přesto skončili 3. místo.',s:'FIFA, 2006'},
+  {e:'🇫🇷',t:'Francie 1998: Zinedine Zidane dal dva góly hlavou ve finále proti Brazílii (3:0). Byl zvolen nejlepším hráčem turnaje.',s:'FIFA, 1998'},
+  {e:'⏱️',t:'Nejdelší penaltový rozstřel v historii MS: Argentina vs Nizozemsko na MS 2022 skončil 4:3 na penalty po 22 pokusech.',s:'FIFA, 2022'},
+  {e:'🌐',t:'Na MS 2026 se poprvé představí 48 národních týmů — mimo jiné debut zemí jako Guinea, Cabo Verde nebo Uzbekistán.',s:'FIFA, 2026'},
+  {e:'👶',t:'Nejmladším hráčem v historii MS je Souleyman Mamam z Toga — hrál ve věku 13 let a 310 dní na MS 2001 (mládežnický).',s:'FIFA Records'},
+  {e:'🥇',t:'Uruguay je první šampion MS v historii — vyhráli na domácím turnaji v roce 1930. Hrálo tehdy pouze 13 týmů.',s:'FIFA, 1930'},
+  {e:'🎪',t:'MS 2026 nabídne 16 skupin po 3 týmech — zcela nový formát. Každý tým odehraje 2 zápasy ve skupině a postoupí 32 celků.',s:'FIFA World Cup 2026'},
+  {e:'💰',t:'FIFA vyplatí na MS 2026 rekordní prémie — celkem 1 miliarda dolarů. Vítěz obdrží 100 milionů dolarů.',s:'FIFA, 2025'},
+  {e:'🇵🇹',t:'Cristiano Ronaldo bude na MS 2026 hrát svůj 6. světový šampionát ve věku 41 let. Pokud nastoupí, stane se druhým nejstarším hráčem MS.',s:'FIFA'},
+  {e:'🏅',t:'Eusébio (Portugalsko) byl nejlepším střelcem MS 1966 s 9 góly. Portugalci tehdy skončili překvapivě třetí.',s:'FIFA, 1966'},
+  {e:'🌊',t:'Adidas Trionda je oficiální míč MS 2026. Jeho design inspirovaly vlajky tří hostitelských zemí — USA, Kanady a Mexika.',s:'Adidas, 2026'},
+  {e:'🦁',t:'Anglie vyhrála jediný titul v roce 1966 na domácí půdě. Gól Geoffa Hursta ve finále (4:2 vs Německo) je dodnes diskutovaný — byl nebo nebyl za čárou?',s:'FIFA, 1966'},
+  {e:'🔢',t:'Na MS 2026 odehrají hráči celkem 104 zápasů. Na každý zápas připadá průměrně 2.6 gólu — historický průměr MS.',s:'FIFA Statistics'},
+  {e:'🎵',t:'Oficíální píseň MS 2026 je "Counting Stars (We Are One)" od Jennifer Lopez, Bad Bunny a Shakiry — tria reprezentující všechny tři hostitelské země.',s:'FIFA, 2026'},
+  {e:'📊',t:'Česko se na MS 2026 představuje poprvé jako samostatná republika. Předchůdce Československo hrálo MS naposledy v roce 1990.',s:'FIFA'},
 ];
 
 let currentFactIdx = -1;
@@ -2159,6 +2259,13 @@ async function initApp(){
     console.error('Init error:', e);
   }
 
+  // Default to myManager
+  if(state.myManager&&!state.currentManager)state.currentManager=state.myManager;
+  // Load my team on startup
+  if(state.currentManager===state.myManager&&state.myManager){
+    const myT=await sbGet('teams',`manager_name=eq.${encodeURIComponent(state.myManager)}&round=eq.${state.activeRound}&select=*`);
+    if(myT&&myT.length>0){const t=myT[0];selTeam=[...t.players];captainId=t.captain;currentFormation=t.formation||'1-2-2';}
+  }
   setLoading(false);
   document.getElementById('activeRoundSelect').value=state.activeRound;
   updateManagerSelect();
