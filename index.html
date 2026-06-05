@@ -2047,13 +2047,18 @@ async function saveManualScore(ri, managerName){
   if(!state.scores[managerName]) state.scores[managerName]={};
   state.scores[managerName][ri] = newScore;
 
-  // Visual feedback
+  // Visual feedback - just update the "aktuální" display, don't re-render
   input.style.borderColor='#6ddc8a';
   input.style.color='#6ddc8a';
+  // Update the "aktuální" value displayed next to the input
+  const row = input.closest('div[style*="grid"]');
+  if(row){
+    const currentSpan = row.querySelector('span[style*="wc-gold2"]');
+    if(currentSpan) currentSpan.textContent = newScore;
+  }
   setTimeout(()=>{
     input.style.borderColor='';
     input.style.color='var(--wc-white)';
-    renderManualScores(); // refresh to show new current value
   }, 1500);
 }
 
