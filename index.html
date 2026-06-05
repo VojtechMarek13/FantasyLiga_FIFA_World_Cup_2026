@@ -2100,22 +2100,23 @@ async function saveLbRow(managerName){
     const input = document.getElementById('lbedit_'+safeId+'_'+ri);
     if(!input) continue;
     const raw = input.value.trim();
+    if(raw===''||raw==='—') continue;
     const pts = parseInt(raw);
     if(isNaN(pts)||pts<0) continue;
-    // Only save if value actually changed from current state
-    const current = (state.scores[managerName]||{})[ri];
-    if(current===pts) continue; // no change, skip
     upserts.push({ri, pts});
   }
-  if(upserts.length===0){alert('Žádná změna ke uložení.');return;}
+  if(upserts.length===0){alert('Žádná hodnota k uložení.');return;}
   setLoading(true,'Ukládám skóre...');
-  await Promise.all(upserts.map(u=>sbUpsert('scores',{manager_name:managerName,round:u.ri,points:u.pts})));
-  upserts.forEach(u=>{
-    if(!state.scores[managerName])state.scores[managerName]={};
-    state.scores[managerName][u.ri]=u.pts;
-  });
+  // Save each round score
+  for(const u of upserts){
+    const res = await sbUpsert('scores',{manager_name:managerName, round:u.ri, points:u.pts});
+    console.log('Saved', managerName, 'round', u.ri, 'pts', u.pts, 'result:', res);
+    if(!state.scores[managerName]) state.scores[managerName]={};
+    state.scores[managerName][u.ri] = u.pts;
+  }
   setLoading(false);
-  renderLeaderboard();
+  // Force reload leaderboard from Supabase
+  await renderLeaderboard();
 }
 
 async function renderLeaderboard(){
