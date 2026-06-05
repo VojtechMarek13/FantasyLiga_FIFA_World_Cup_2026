@@ -780,6 +780,17 @@ select.wc-select:focus{border-color:var(--wc-bright)}
     <div style="display:flex;gap:8px;margin-top:16px;justify-content:flex-end">
       <button class="btn btn-primary" onclick="calculateRound()">⚡ Vypočítat body & aktualizovat pořadí</button>
     </div>
+
+    <!-- RUČNÍ EDITACE SKÓRE -->
+    <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--wc-border2)">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap">
+        <span class="card-title" style="margin:0"><span class="ico">✏️</span> Ruční úprava skóre</span>
+        <button class="btn btn-sm btn-gold" onclick="renderManualScores()">Načíst skóre</button>
+      </div>
+      <div style="font-size:12px;color:var(--wc-mid);margin-bottom:10px">Přidej nebo odeber body libovolnému manažerovi. Změna se okamžitě projeví v pořadí.</div>
+      <div id="manualScoresContainer"></div>
+    </div>
+
   </div>
 </div>
 
@@ -1980,6 +1991,71 @@ async function calculateRoundExec(){
   renderLeaderboard();
 }
 
+
+
+async function renderManualScores(){
+  const ri = parseInt(document.getElementById('resultRoundSelect').value);
+  const container = document.getElementById('manualScoresContainer');
+  if(!container) return;
+
+  // Load all scores for this round
+  setLoading(true,'Načítám skóre...');
+  const scores = await sbGet('scores', `round=eq.${ri}&select=*`);
+  setLoading(false);
+
+  // Build score map
+  const scoreMap = {};
+  if(scores) scores.forEach(s => scoreMap[s.manager_name] = s.points||0);
+
+  // Show all managers
+  const mgrs = state.managers.map(m => typeof m==='object' ? m.name : m);
+
+  let h = `<div style="display:grid;grid-template-columns:1fr auto auto auto;gap:8px;align-items:center;margin-bottom:6px;padding-bottom:6px;border-bottom:1px solid var(--wc-border2)">
+    <span style="font-family:var(--font-head);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--wc-mid)">Manažer</span>
+    <span style="font-family:var(--font-head);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--wc-mid);text-align:center">Aktuální</span>
+    <span style="font-family:var(--font-head);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--wc-mid);text-align:center">Nové skóre</span>
+    <span></span>
+  </div>`;
+
+  mgrs.forEach(name => {
+    const current = scoreMap[name] !== undefined ? scoreMap[name] : '—';
+    const safeId = name.replace(/[^a-zA-Z0-9]/g,'_');
+    h += `<div style="display:grid;grid-template-columns:1fr auto auto auto;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid var(--wc-border2)">
+      <span style="font-weight:700;font-size:14px">${name}</span>
+      <span style="font-family:var(--font-head);font-size:17px;font-weight:900;color:var(--wc-gold2);text-align:center;min-width:40px">${current}</span>
+      <input type="number" id="mscore_${safeId}" value="${current !== '—' ? current : 0}" min="0" max="999"
+        style="width:80px;padding:6px 10px;border:1.5px solid var(--wc-border);border-radius:8px;background:var(--wc-surface);color:var(--wc-white);text-align:center;font-size:15px;font-weight:700"
+        onkeydown="if(event.key==='Enter')saveManualScore(${ri},'${name.replace(/'/g,"\\'")}')">
+      <button class="btn btn-sm btn-green" onclick="saveManualScore(${ri},'${name.replace(/'/g,"\\'")}')">Uložit</button>
+    </div>`;
+  });
+
+  container.innerHTML = h;
+}
+
+async function saveManualScore(ri, managerName){
+  const safeId = managerName.replace(/[^a-zA-Z0-9]/g,'_');
+  const input = document.getElementById(`mscore_${safeId}`);
+  const newScore = parseInt(input?.value);
+  if(isNaN(newScore)||newScore<0){alert('Zadej platné číslo!');return;}
+
+  setLoading(true,'Ukládám...');
+  await sbUpsert('scores',{manager_name:managerName, round:ri, points:newScore});
+  setLoading(false);
+
+  // Update local state
+  if(!state.scores[managerName]) state.scores[managerName]={};
+  state.scores[managerName][ri] = newScore;
+
+  // Visual feedback
+  input.style.borderColor='#6ddc8a';
+  input.style.color='#6ddc8a';
+  setTimeout(()=>{
+    input.style.borderColor='';
+    input.style.color='var(--wc-white)';
+    renderManualScores(); // refresh to show new current value
+  }, 1500);
+}
 
 function calculateRound(){
   if(!adminUnlocked){checkAdminPin(()=>{if(adminUnlocked)calculateRoundExec();});return;}
