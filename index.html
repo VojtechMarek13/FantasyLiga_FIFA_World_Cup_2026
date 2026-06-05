@@ -2097,16 +2097,18 @@ async function saveLbRow(managerName){
   const safeId = managerName.replace(/[^a-zA-Z0-9]/g,'_');
   const upserts = [];
   for(let ri=0; ri<4; ri++){
-    const input = document.getElementById(`lbedit_${safeId}_${ri}`);
-    if(!input || input.value === '') continue;
-    const pts = parseInt(input.value);
-    if(isNaN(pts)) continue;
+    const input = document.getElementById('lbedit_'+safeId+'_'+ri);
+    if(!input) continue;
+    const raw = input.value.trim();
+    if(raw===''||raw==='—') continue; // skip empty
+    const pts = parseInt(raw);
+    if(isNaN(pts)||pts<0) continue;
     upserts.push(sbUpsert('scores',{manager_name:managerName, round:ri, points:pts}));
     if(!state.scores[managerName]) state.scores[managerName]={};
     state.scores[managerName][ri] = pts;
   }
-  if(upserts.length === 0) return;
-  setLoading(true,'Ukládám...');
+  if(upserts.length===0){alert('Žádná změna ke uložení.');return;}
+  setLoading(true,'Ukládám skóre...');
   await Promise.all(upserts);
   setLoading(false);
   renderLeaderboard();
@@ -2155,10 +2157,10 @@ async function renderLeaderboard(){
       </td>
       <td style="font-size:12px;color:var(--wc-mid)">${r.teamName||'—'}</td>
       ${editMode ? `
-        <td style="text-align:center"><input type="number" id="lbedit_${r.m.replace(/[^a-zA-Z0-9]/g,'_')}_0" value="${r.sc[0]!==undefined?r.sc[0]:''}" placeholder="—" style="width:52px;padding:3px 5px;border:1.5px solid var(--wc-border);border-radius:6px;background:var(--wc-surface);color:var(--wc-white);text-align:center;font-size:13px"></td>
-        <td style="text-align:center"><input type="number" id="lbedit_${r.m.replace(/[^a-zA-Z0-9]/g,'_')}_1" value="${r.sc[1]!==undefined?r.sc[1]:''}" placeholder="—" style="width:52px;padding:3px 5px;border:1.5px solid var(--wc-border);border-radius:6px;background:var(--wc-surface);color:var(--wc-white);text-align:center;font-size:13px"></td>
-        <td style="text-align:center"><input type="number" id="lbedit_${r.m.replace(/[^a-zA-Z0-9]/g,'_')}_2" value="${r.sc[2]!==undefined?r.sc[2]:''}" placeholder="—" style="width:52px;padding:3px 5px;border:1.5px solid var(--wc-border);border-radius:6px;background:var(--wc-surface);color:var(--wc-white);text-align:center;font-size:13px"></td>
-        <td style="text-align:center"><input type="number" id="lbedit_${r.m.replace(/[^a-zA-Z0-9]/g,'_')}_3" value="${r.sc[3]!==undefined?r.sc[3]:''}" placeholder="—" style="width:52px;padding:3px 5px;border:1.5px solid var(--wc-border);border-radius:6px;background:var(--wc-surface);color:var(--wc-white);text-align:center;font-size:13px"></td>
+        <td style="text-align:center"><input type="number" id="lbedit_${r.m.replace(/[^a-zA-Z0-9]/g,'_')}_0" value="${r.sc[0]!==undefined?r.sc[0]:0}" placeholder="0" style="width:52px;padding:3px 5px;border:1.5px solid var(--wc-border);border-radius:6px;background:var(--wc-surface);color:var(--wc-white);text-align:center;font-size:13px"></td>
+        <td style="text-align:center"><input type="number" id="lbedit_${r.m.replace(/[^a-zA-Z0-9]/g,'_')}_1" value="${r.sc[1]!==undefined?r.sc[1]:0}" placeholder="0" style="width:52px;padding:3px 5px;border:1.5px solid var(--wc-border);border-radius:6px;background:var(--wc-surface);color:var(--wc-white);text-align:center;font-size:13px"></td>
+        <td style="text-align:center"><input type="number" id="lbedit_${r.m.replace(/[^a-zA-Z0-9]/g,'_')}_2" value="${r.sc[2]!==undefined?r.sc[2]:0}" placeholder="0" style="width:52px;padding:3px 5px;border:1.5px solid var(--wc-border);border-radius:6px;background:var(--wc-surface);color:var(--wc-white);text-align:center;font-size:13px"></td>
+        <td style="text-align:center"><input type="number" id="lbedit_${r.m.replace(/[^a-zA-Z0-9]/g,'_')}_3" value="${r.sc[3]!==undefined?r.sc[3]:0}" placeholder="0" style="width:52px;padding:3px 5px;border:1.5px solid var(--wc-border);border-radius:6px;background:var(--wc-surface);color:var(--wc-white);text-align:center;font-size:13px"></td>
         <td style="text-align:center"><span class="pts-big">${r.total}</span></td>
         <td style="text-align:center"><button class="btn btn-sm btn-green" style="font-size:11px;padding:4px 8px" onclick="saveLbRow('${r.m.replace(/'/g,"\\'")}')">✓</button></td>
       ` : `
