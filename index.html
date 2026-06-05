@@ -1044,7 +1044,34 @@ async function sbUpsert(table, data) {
     method: 'POST', headers: { ...SB_HEADERS, 'Prefer': 'resolution=merge-duplicates,return=representation' },
     body: JSON.stringify(data)
   });
-  if (!r.ok) { console.error('sbUpsert error', table, await r.text()); return null; }
+  if (!r.ok) {
+    const err = await r.text();
+    console.error('sbUpsert error', table, err);
+    // Fallback: try PATCH for duplicate key errors
+    if(err.includes('23505') || err.includes('duplicate key')) {
+      return sbPatch(table, data);
+    }
+    return null;
+  }
+  return r.json();
+}
+async function sbPatch(table, data) {
+  let filter = '';
+  if(data.manager_name !== undefined && data.round !== undefined)
+    filter = `manager_name=eq.${encodeURIComponent(data.manager_name)}&round=eq.${data.round}`;
+  else if(data.key !== undefined)
+    filter = `key=eq.${encodeURIComponent(data.key)}`;
+  else if(data.name !== undefined)
+    filter = `name=eq.${encodeURIComponent(data.name)}`;
+  else if(data.player_id !== undefined)
+    filter = `player_id=eq.${data.player_id}`;
+  if(!filter) return null;
+  const r = await fetch(`${SB_URL}/rest/v1/${table}?${filter}`, {
+    method: 'PATCH',
+    headers: { ...SB_HEADERS, 'Prefer': 'return=representation' },
+    body: JSON.stringify(data)
+  });
+  if(!r.ok) { console.error('sbPatch error', table, await r.text()); return null; }
   return r.json();
 }
 async function sbDelete(table, query) {
