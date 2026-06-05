@@ -2045,9 +2045,13 @@ async function renderLeaderboard(){
       return p?`<span class="badge badge-${p.pos}" style="font-size:9px;margin:1px">${p.name.split(' ').pop()}${pid===team.captain?' 👑':''}</span>`:'';
     }).join(''):'<span style="color:var(--wc-mid)">Bez týmu</span>';
     const bonusEntry = bonusData ? bonusData.find(b=>b.manager_name===m.name) : null;
-    const bonusCount = bonusEntry ? bonusEntry.answers.filter(Boolean).length : 0;
+    // Počet bonus otázek kde admin přidělil body (> 0)
+    const r_bonus_pts = (ROUNDS[state.activeRound].bonus_pts||{})[m.name]||{};
+    const bonusWon = Object.values(r_bonus_pts).filter(p=>parseInt(p)>0).length;
+    const bonusTotal = ROUNDS[state.activeRound].bonus.length;
+    const bonusCount = bonusWon; // kolik otázek vyhrál
     const pts=(state.scores[m.name]||{})[state.activeRound]||0;
-    return{m:m.name,teamN,fLabel,names,bonusCount,pts};
+    return{m:m.name,teamN,fLabel,names,bonusCount,pts}; // bonusCount = počet vyhrátých
   }).sort((a,b)=>b.pts-a.pts);
 
   document.getElementById('lbRoundBody').innerHTML=rRows.map((r,i)=>`
@@ -2113,53 +2117,53 @@ async function renderBonusEvaluation(ri){
 async function awardBonusPoints(ri, qi, managerName){
   const safeId = managerName.replace(/[^a-zA-Z0-9]/g,'_');
   const input = document.getElementById(`bpts_${ri}_${qi}_${safeId}`);
-  const pts = parseInt(input?.value)||0;
+  const newPts = parseInt(input?.value)||0;
 
   const r = ROUNDS[ri];
   if(!r.bonus_pts) r.bonus_pts = {};
   if(!r.bonus_pts[managerName]) r.bonus_pts[managerName] = {};
-  r.bonus_pts[managerName][qi] = pts;
 
-  // Save rounds config (includes bonus_pts)
+  // What were the OLD bonus points for this question?
+  const oldPts = parseInt(r.bonus_pts[managerName][qi])||0;
+  const delta = newPts - oldPts; // difference to add/subtract
+
+  // Update local ROUNDS
+  r.bonus_pts[managerName][qi] = newPts;
+
+  // Save rounds config
   await sbUpsert('app_config',{key:'rounds',value:ROUNDS});
 
-  // Sum ALL bonus points for this manager in this round
-  let totalBonus = 0;
-  Object.values(r.bonus_pts[managerName]).forEach(p=>totalBonus+=parseInt(p)||0);
+  // Load current score from Supabase
+  setLoading(true,'Aktualizuji skóre...');
+  const existing = await sbGet('scores',`manager_name=eq.${encodeURIComponent(managerName)}&round=eq.${ri}&select=*`);
+  setLoading(false);
 
-  // Load current score row
-  const existingScore = await sbGet('scores',`manager_name=eq.${encodeURIComponent(managerName)}&round=eq.${ri}&select=*`);
-  let baseScore = 0;
-  if(existingScore && existingScore.length > 0){
-    const row = existingScore[0];
-    // base_points = hráčské body (bez bonusu)
-    // If base_points column exists and > 0, use it. Otherwise use points as base.
-    if(row.base_points && row.base_points > 0){
-      baseScore = row.base_points;
-    } else {
-      // Old row without base_points — current points IS the base, save it
-      baseScore = row.points || 0;
-    }
+  let currentPts = 0;
+  if(existing && existing.length > 0){
+    currentPts = existing[0].points || 0;
   }
 
-  const totalPoints = baseScore + totalBonus;
+  const newTotal = Math.max(0, currentPts + delta);
 
-  // Update score in Supabase
+  // Save updated score
   await sbUpsert('scores',{
     manager_name: managerName,
     round: ri,
-    points: totalPoints,
-    base_points: baseScore,
-    bonus_points: totalBonus
+    points: newTotal
   });
 
-  // Update local state
+  // Update local state immediately
   if(!state.scores[managerName]) state.scores[managerName] = {};
-  state.scores[managerName][ri] = totalPoints;
+  state.scores[managerName][ri] = newTotal;
 
-  // Refresh UI
+  // Sum all bonus for display
+  const totalBonus = Object.values(r.bonus_pts[managerName]).reduce((s,p)=>s+parseInt(p)||0, 0);
+
+  // Refresh eval UI
   renderBonusEvaluation(ri);
-  alert(`✅ ${managerName}: +${pts}b za bonus otázku ${qi+1}\nCelkem bonus toto kolo: +${totalBonus}b\nCelkové skóre kola: ${totalPoints}b`);
+
+  console.log(`${managerName}: delta=${delta}, oldTotal=${currentPts}, newTotal=${newTotal}`);
+  alert(`✅ ${managerName}: otázka ${qi+1} → ${newPts}b\nZměna skóre: ${delta>=0?'+':''}${delta}b → celkem toto kolo: ${newTotal}b`);
 }
 
 function renderRoundsAdmin(){
