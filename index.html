@@ -2047,7 +2047,7 @@ async function saveManualScore(ri, managerName){
   if(!state.scores[managerName]) state.scores[managerName]={};
   state.scores[managerName][ri] = newScore;
 
-  // Visual feedback - just update the "aktuální" display, don't re-render
+  // Visual feedback
   input.style.borderColor='#6ddc8a';
   input.style.color='#6ddc8a';
   // Update the "aktuální" value displayed next to the input
@@ -2060,6 +2060,9 @@ async function saveManualScore(ri, managerName){
     input.style.borderColor='';
     input.style.color='var(--wc-white)';
   }, 1500);
+
+  // Always refresh leaderboard data in background so it's ready when user switches tab
+  renderLeaderboard();
 }
 
 function calculateRound(){
