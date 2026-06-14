@@ -807,7 +807,7 @@ select.wc-select:focus{border-color:var(--wc-bright)}
 <div id="page-scoring" class="page">
   <div class="card">
     <div class="card-title"><span class="ico">📊</span> Bodovací systém</div>
-    <div class="alert alert-success" style="margin-bottom:18px">👑 Kapitán získává <strong>2× body</strong> za kolo. Čistá konta = minimálně 20 min. na hřišti a soupeř nedal gól.</div>
+    <div class="alert alert-success" style="margin-bottom:18px">👑 Kapitán získává <strong>2× body</strong> za kolo. Čistá konta = celý zápas na hřišti a soupeř nedal gól.</div>
     <table class="sc-table">
       <thead><tr><th>Pozice</th><th>Gól</th><th>Asistence</th><th>Čisté konto</th><th>Žlutá karta</th><th>Červená karta</th></tr></thead>
       <tbody>
@@ -1908,6 +1908,13 @@ function renderPitch(){
   const f=FORM_DEFS[currentFormation];
   const rows={GK:[],OBR:[],ZAL:[],UTO:[]};
   selTeam.forEach(pid=>{const p=state.players.find(x=>x.id===pid);if(p)rows[p.pos].push(p);});
+
+  // Check if any player has stats (to decide whether to show points)
+  const hasStats = selTeam.some(pid => {
+    const st = state.playerStats[pid];
+    return st && (st.goals||st.assists||st.cs||st.yellow||st.red);
+  });
+
   ['UTO','ZAL','OBR','GK'].forEach(pos=>{
     const row=document.getElementById('pitch-'+pos);
     const max=pos==='GK'?1:f[pos];
@@ -1916,7 +1923,16 @@ function renderPitch(){
       const p=rows[pos][i];
       if(p){
         const isCap=captainId===p.id;
-        h+=`<div class="pitch-slot" title="${p.name} (${p.country}) — ${p.price}M" onclick="openModal('captainModal')">
+        const rawPts=calcPts(p.id);
+        const pts=isCap?rawPts*2:rawPts;
+        // Points badge — only show if stats exist
+        let ptsBadge='';
+        if(hasStats){
+          const col=pts>0?'#6ddc8a':pts<0?'#ff6b6b':'rgba(255,255,255,.35)';
+          const prefix=pts>0?'+':'';
+          ptsBadge=`<div style="font-family:var(--font-head);font-size:11px;font-weight:900;color:${col};text-shadow:0 1px 4px rgba(0,0,0,.8);margin-top:1px;letter-spacing:.03em">${prefix}${pts}b${isCap?' 👑':''}</div>`;
+        }
+        h+=`<div class="pitch-slot" title="${p.name} (${p.country}) — ${p.price}M${hasStats?' | '+pts+'b':''}" onclick="openModal('captainModal')">
           <div class="pitch-card${isCap?' captain-card':''}">
             ${shirtSVG(p.country, p.pos, isCap, p.price, p.name)}
             ${isCap?'<div class="cap-badge">C</div>':''}
@@ -1924,6 +1940,7 @@ function renderPitch(){
           </div>
           <div class="pitch-flag">${getKit(p.country).flag}</div>
           <div class="pitch-name">${p.name.split(' ').pop()}</div>
+          ${ptsBadge}
         </div>`;
       } else {
         h+=`<div class="pitch-slot">
