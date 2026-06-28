@@ -772,7 +772,7 @@ select.wc-select:focus{border-color:var(--wc-bright)}
         <option value="2">3 — Čtvrtfinále</option>
         <option value="3">4 — Semifinále + Finále</option>
       </select>
-      <div style="font-size:11px;color:var(--wc-mid);font-weight:600">Sloupce: Góly · Asistence · Čistá konta · Výhra GK · Žluté · Červené</div>
+      <div style="font-size:11px;color:var(--wc-mid);font-weight:600">Sloupce: Góly · Asistence · Čistá konta · Žluté · Červené</div>
     </div>
     <div class="results-header">
       <span>Hráč</span><span>Góly</span><span>Asist.</span><span>Č.Konta</span><span>Žl.K.</span><span>Čer.K.</span>
@@ -1030,7 +1030,7 @@ function deadlineLabel(){
   return `✏️ Zbývá: ${h}h ${m}m do uzávěrky`;
 }
 
-const SCORING={GK:{goal:8,assist:3,cs:6,win:3,yellow:-1,red:-3},OBR:{goal:6,assist:3,cs:4,win:0,yellow:-1,red:-3},ZAL:{goal:5,assist:3,cs:1,win:0,yellow:-1,red:-3},UTO:{goal:4,assist:3,cs:0,win:0,yellow:-1,red:-3}};
+const SCORING={GK:{goal:8,assist:3,cs:6,yellow:-1,red:-3},OBR:{goal:6,assist:3,cs:4,yellow:-1,red:-3},ZAL:{goal:5,assist:3,cs:1,yellow:-1,red:-3},UTO:{goal:4,assist:3,cs:0,yellow:-1,red:-3}};
 const BUDGET=100;
 const FORM_DEFS={'1-2-2':{OBR:2,ZAL:2,UTO:1},'1-3-1':{OBR:3,ZAL:1,UTO:1},'1-1-3':{OBR:1,ZAL:1,UTO:3},'1-2-1':{OBR:2,ZAL:1,UTO:2},'1-1-2':{OBR:1,ZAL:2,UTO:2},'1-1-3a':{OBR:1,ZAL:3,UTO:1}};
 const FORM_LABELS={'1-2-2':'2–2–1','1-3-1':'3–1–1','1-1-3':'1–1–3','1-2-1':'2–1–2','1-1-2':'1–2–2','1-1-3a':'1–3–1'};
@@ -2076,7 +2076,7 @@ function renderPlayersPage(){
 function calcPts(pid){
   const p=state.players.find(x=>x.id===pid);if(!p)return 0;
   const sc=SCORING[p.pos],st=state.playerStats[pid]||{};
-  return(st.goals||0)*sc.goal+(st.assists||0)*sc.assist+(st.cs||0)*sc.cs+(st.win||0)*(sc.win||0)+(st.yellow||0)*sc.yellow+(st.red||0)*sc.red;
+  return(st.goals||0)*sc.goal+(st.assists||0)*sc.assist+(st.cs||0)*sc.cs+(st.yellow||0)*sc.yellow+(st.red||0)*sc.red;
 }
 
 
@@ -2134,7 +2134,6 @@ async function renderResultsForm(){
         <input class="admin-input" id="st_${p.id}_goals"   type="number" min="0" max="20" value="${s.goals}"  placeholder="0" title="Góly">
         <input class="admin-input" id="st_${p.id}_assists" type="number" min="0" max="20" value="${s.assists}" placeholder="0" title="Asistence">
         <input class="admin-input" id="st_${p.id}_cs"      type="number" min="0" max="1"  value="${s.cs}"      placeholder="0" title="Čistá konta">
-        ${p.pos!=='GK' ? `<input class="admin-input" id="st_${p.id}_win" type="number" min="0" max="20" value="${s.win||0}" placeholder="0" title="Výhra GK (+3b)" style="border-color:rgba(109,220,138,.4);background:rgba(109,220,138,.07)">` : '<div class="admin-input" style="background:transparent;border:1px dashed rgba(255,255,255,.08);pointer-events:none"></div>'}
         <input class="admin-input" id="st_${p.id}_yellow"  type="number" min="0" max="2"  value="${s.yellow}"  placeholder="0" title="Žluté karty">
         <input class="admin-input" id="st_${p.id}_red"     type="number" min="0" max="1"  value="${s.red}"     placeholder="0" title="Červené karty">
       </div>`;
@@ -2162,7 +2161,6 @@ async function calculateRoundExec(){
       goals:   parseInt(gEl.value)||0,
       assists: parseInt(document.getElementById('st_'+p.id+'_assists')?.value)||0,
       cs:      parseInt(document.getElementById('st_'+p.id+'_cs')?.value)||0,
-      win:     parseInt(document.getElementById('st_'+p.id+'_win')?.value)||0,
       yellow:  parseInt(document.getElementById('st_'+p.id+'_yellow')?.value)||0,
       red:     parseInt(document.getElementById('st_'+p.id+'_red')?.value)||0,
     };
