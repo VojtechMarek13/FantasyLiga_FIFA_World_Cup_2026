@@ -2134,7 +2134,7 @@ async function renderResultsForm(){
         <input class="admin-input" id="st_${p.id}_goals"   type="number" min="0" max="20" value="${s.goals}"  placeholder="0" title="Góly">
         <input class="admin-input" id="st_${p.id}_assists" type="number" min="0" max="20" value="${s.assists}" placeholder="0" title="Asistence">
         <input class="admin-input" id="st_${p.id}_cs"      type="number" min="0" max="1"  value="${s.cs}"      placeholder="0" title="Čistá konta">
-        ${p.pos==='GK' ? `<input class="admin-input" id="st_${p.id}_win" type="number" min="0" max="20" value="${s.win||0}" placeholder="0" title="Výhra GK (+3b)" style="border-color:rgba(109,220,138,.4);background:rgba(109,220,138,.07)">` : '<div class="admin-input" style="background:transparent;border:1px dashed rgba(255,255,255,.08);pointer-events:none"></div>'}
+        ${p.pos!=='GK' ? `<input class="admin-input" id="st_${p.id}_win" type="number" min="0" max="20" value="${s.win||0}" placeholder="0" title="Výhra GK (+3b)" style="border-color:rgba(109,220,138,.4);background:rgba(109,220,138,.07)">` : '<div class="admin-input" style="background:transparent;border:1px dashed rgba(255,255,255,.08);pointer-events:none"></div>'}
         <input class="admin-input" id="st_${p.id}_yellow"  type="number" min="0" max="2"  value="${s.yellow}"  placeholder="0" title="Žluté karty">
         <input class="admin-input" id="st_${p.id}_red"     type="number" min="0" max="1"  value="${s.red}"     placeholder="0" title="Červené karty">
       </div>`;
